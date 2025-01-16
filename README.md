@@ -56,10 +56,10 @@ Esta aplicación permite a los usuarios:
 
 ## Frontend
  
-| **Marcia Milenka Andrade Llanos** | **Romina De Oro** |
+| **Marcia Milenka Andrade Llanos** | **Maricel Romina Romina Rodríguez** |
 | :---: | :---: |
-<img src="https://github.com/No-Country-simulation/equipo-s20-14-webapp/blob/davidlugodev-patch-1/Frontend/fotos-equipo/marcia.jpeg?raw=true" width="100"> | <img src="https://github.com/No-Country-simulation/equipo-s20-14-webapp/blob/davidlugodev-patch-1/Frontend/fotos-equipo/marcia.jpeg?raw=true" width="100">
-| <a href="https://www.linkedin.com/in/marcia-milenka-andrade-llanos/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> | <a href="https://www.linkedin.com/in/marcia-milenka-andrade-llanos/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> |
+<img src="https://github.com/No-Country-simulation/equipo-s20-14-webapp/blob/davidlugodev-patch-1/Frontend/fotos-equipo/marcia.jpeg?raw=true" width="100"> | <img src="https://github.com/No-Country-simulation/equipo-s20-14-webapp/blob/davidlugodev-patch-1/Frontend/fotos-equipo/romina.jpeg?raw=true" width="100">
+| <a href="https://www.linkedin.com/in/marcia-milenka-andrade-llanos/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> | <a href="https://www.linkedin.com/in/romina-rodríguez-865433292/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> |
 
 ![React-JavaScript](https://img.shields.io/badge/-ReactJs-61DAFB?logo=react&logoColor=black&style=for-the-badge)
 ![React](https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=for-the-badge&logo=JavaScript&logoColor=black)

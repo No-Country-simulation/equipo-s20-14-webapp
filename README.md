@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/b6f65e52-f1b4-4390-b531-d89acd53961a)# equipo-s20-14-webapp
+# equipo-s20-14-webapp
  job simulation (simulación laboral)
  
 ## Acerca del Proyecto

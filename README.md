@@ -1,4 +1,4 @@
-# equipo-s20-14-webapp
+![image](https://github.com/user-attachments/assets/b6f65e52-f1b4-4390-b531-d89acd53961a)# equipo-s20-14-webapp
  job simulation (simulación laboral)
  
 ## Acerca del Proyecto
@@ -44,10 +44,12 @@ Esta aplicación permite a los usuarios:
 
 ## Backend
 
-| <img src="https://res.cloudinary.com/dbz5bknul/image/upload/v1710547090/marco_virinni_oov5tk.jpg" width="150"> |  <img src="https://res.cloudinary.com/dbz5bknul/image/upload/v1710546649/david_k6lvnu.jpg" width="150"> |  <img src="https://res.cloudinary.com/dbz5bknul/image/upload/v1710545757/bryan_rwg5ar.gif" width="150"> |
-| **Luciano Pavarotti** | **David Alejandro Lugo Gámez** |
+| <img src="https://www.linkedin.com/in/luciano-molina-/overlay/photo/" width="150"> 
+| <img src="https://www.linkedin.com/in/davlgven/overlay/photo/" width="150">
+| **Luciano Elías Molina** | **David Alejandro Lugo Gámez** |
 | :---: | :---: | :---: | 
-| <a href="https://www.linkedin.com/in/marco-virinni/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> | <a href="https://www.linkedin.com/in/davlgven/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> | 
+| <a href="https://www.linkedin.com/in/luciano-molina-/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> 
+| <a href="https://www.linkedin.com/in/davlgven/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> | 
 
 ![Java](https://img.shields.io/badge/Java-437291?style=for-the-badge&logo=OpenJDK&logoColor=white)
 ![Spring](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white)

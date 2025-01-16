@@ -34,22 +34,25 @@ Esta aplicación permite a los usuarios:
 
 ## QA
 
-| <img src="https://res.cloudinary.com/dbz5bknul/image/upload/v1710546573/ivonne_u9ygcl.jpg" width="120"> |
+
+
+
+
 | **Juan Pablo Hernández Montero** |
 | :---: |
-| <a href="https://www.linkedin.com/in/ivonne-ballester-"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a>|
+<img src="https://github.com/No-Country-simulation/equipo-s20-14-webapp/blob/davidlugodev-patch-1/Frontend/fotos-equipo/david.jpeg?raw=true" width="100"> |
+| <a href="https://www.linkedin.com/in/davlgven/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> |
 
 ![Trello](https://img.shields.io/badge/Trello-0052CC?style=for-the-badge&logo=trello&logoColor=white)
 ![Jira](https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=Jira&logoColor=fff)
 
 ## Backend
 
-| <img src="https://www.linkedin.com/in/luciano-molina-/overlay/photo/" width="150"> 
-| <img src="https://www.linkedin.com/in/davlgven/overlay/photo/" width="150">|
+ 
 | **Luciano Elías Molina** | **David Alejandro Lugo Gámez** |
-| :---: | :---: | :---: | 
-| <a href="https://www.linkedin.com/in/luciano-molina-/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> 
-| <a href="https://www.linkedin.com/in/davlgven/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> | 
+| :---: | :---: |
+<img src="https://github.com/No-Country-simulation/equipo-s20-14-webapp/blob/davidlugodev-patch-1/Frontend/fotos-equipo/luciano.jpeg?raw=true" width="100"> | <img src="https://github.com/No-Country-simulation/equipo-s20-14-webapp/blob/davidlugodev-patch-1/Frontend/fotos-equipo/david.jpeg?raw=true" width="100">
+| <a href="https://www.linkedin.com/in/luciano-molina-/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> | <a href="https://www.linkedin.com/in/davlgven/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> |
 
 ![Java](https://img.shields.io/badge/Java-437291?style=for-the-badge&logo=OpenJDK&logoColor=white)
 ![Spring](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
@@ -58,11 +61,11 @@ Esta aplicación permite a los usuarios:
 ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
 
 ## Frontend
-
-| <img src="https://res.cloudinary.com/dbz5bknul/image/upload/v1710546632/nacho_q2olfi.jpg" width="150"> | <img src="https://res.cloudinary.com/dbz5bknul/image/upload/v1710546617/emanuel_h2pahl.jpg" width="150"> | <img src="https://res.cloudinary.com/dbz5bknul/image/upload/v1710546604/franco_lsmdck.jpg" width="150"> |
-| **Marcia Nita** | **Romina De Oro** |
+ 
+| **Marcia Milenka Andrade Llanos** | **Romina De Oro** |
 | :---: | :---: |
-| <a href="https://www.linkedin.com/in/ignaciofernandezdev/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> | <a href="https://www.linkedin.com/in/emanuel-rojas-guindan/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> |
+<img src="https://github.com/No-Country-simulation/equipo-s20-14-webapp/blob/davidlugodev-patch-1/Frontend/fotos-equipo/marcia.jpeg?raw=true" width="100"> | <img src="https://github.com/No-Country-simulation/equipo-s20-14-webapp/blob/davidlugodev-patch-1/Frontend/fotos-equipo/marcia.jpeg?raw=true" width="100">
+| <a href="https://www.linkedin.com/in/marcia-milenka-andrade-llanos/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> | <a href="https://www.linkedin.com/in/marcia-milenka-andrade-llanos/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> |
 
 ![React-JavaScript](https://img.shields.io/badge/-ReactJs-61DAFB?logo=react&logoColor=black&style=for-the-badge)
 ![React](https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=for-the-badge&logo=JavaScript&logoColor=black)

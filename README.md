@@ -1,7 +1,7 @@
 # equipo-s20-14-webapp
  job simulation (simulación laboral)
  
-## Acerca del Proyecto permitir
+## Acerca del Proyecto
 
 ## Clara
 

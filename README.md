@@ -4,13 +4,7 @@
 ## Acerca del Proyecto
 
 ## Clara
-
-Clara es una aplicación web que te asiste en la gestión de tus finanzas personales
-
-con manejo de gastos e ingresos de tipo fijo o esporádicos, te permitirá planificar un presupuesto 
-
-diferenciado por categorías, cumplir con tus obligaciones a tiempo y planificar tu ahorro
-
+Clara es una aplicación web que te asiste en la gestión de tus finanzas personales con manejo de gastos e ingresos de tipo fijo o esporádicos, te permitirá planificar un presupuesto diferenciado por categorías, cumplir con tus obligaciones a tiempo y planificar tu ahorro
 ## Enlace
 
 https://app.clara.com/
@@ -34,18 +28,13 @@ Esta aplicación permite a los usuarios:
 
 ## QA
 
-
-
-
-
 | **Juan Pablo Hernández Montero** |
 | :---: |
-<img src="https://github.com/No-Country-simulation/equipo-s20-14-webapp/blob/davidlugodev-patch-1/Frontend/fotos-equipo/david.jpeg?raw=true" width="100"> |
-| <a href="https://www.linkedin.com/in/davlgven/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> |
+<img src="https://github.com/No-Country-simulation/equipo-s20-14-webapp/blob/davidlugodev-patch-1/Frontend/fotos-equipo/jpablo.jpeg?raw=true" width="100"> |
+| <a href="https://www.linkedin.com/in/juanpablohm/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> |
 
-![Trello](https://img.shields.io/badge/Trello-0052CC?style=for-the-badge&logo=trello&logoColor=white)
 ![Jira](https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=Jira&logoColor=fff)
-
+![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
 ## Backend
 
  

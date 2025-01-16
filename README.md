@@ -45,7 +45,7 @@ Esta aplicación permite a los usuarios:
 ## Backend
 
 | <img src="https://www.linkedin.com/in/luciano-molina-/overlay/photo/" width="150"> 
-| <img src="https://www.linkedin.com/in/davlgven/overlay/photo/" width="150">
+| <img src="https://www.linkedin.com/in/davlgven/overlay/photo/" width="150">|
 | **Luciano Elías Molina** | **David Alejandro Lugo Gámez** |
 | :---: | :---: | :---: | 
 | <a href="https://www.linkedin.com/in/luciano-molina-/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> 

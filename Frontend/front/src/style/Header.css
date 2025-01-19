@@ -2,10 +2,11 @@
 
 /* Estilos generales para el header */
 .header {
+    font-family: 'Exo 2';
     position: sticky;/* Permite que el header permanezca en la parte superior */
     top: 0;
     z-index: 100;
-    background-color: #1d2c3f;
+    background-color: #2d394b;
     color: white;
     display: flex;
     justify-content: space-between;

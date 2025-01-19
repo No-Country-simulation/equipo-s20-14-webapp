@@ -1,5 +1,6 @@
 
 import Header from './components/Header';
+import HomePage from './components/HomePage';
 
 
 export const FinanzasApp = () => {
@@ -8,8 +9,7 @@ export const FinanzasApp = () => {
      
         <div>
             <Header/>
-
-            <div className="bg-acent_yellow text-2xl">FinanzasApp</div>
+            <HomePage/>
         </div>
 
     );

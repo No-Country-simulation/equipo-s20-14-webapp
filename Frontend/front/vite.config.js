@@ -10,4 +10,6 @@ export default defineConfig({
       plugins: [tailwindcss()],
     },
   },
+
+  assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.webp'], 
 })

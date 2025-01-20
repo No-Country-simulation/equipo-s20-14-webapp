@@ -1,0 +1,145 @@
+.audiowide-regular {
+    font-family: "Exo 2";
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+
+  
+.homepage {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    margin: 20px 0;
+    
+}
+.headerhome {
+    position: relative;
+    display: flex;
+    align-items: center;
+    font-size: 1.8rem;
+    background: #fab915;
+    color: #373b46;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.headerhome h1{
+    margin: 0 auto;
+}
+.carousel-section {
+    width: 100%;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin: 20px 0;
+    padding: 0 0 0 20px;
+    background: #373b46;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+}
+
+.carousel-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+}
+
+.carousel-item {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 80%;
+   
+    
+}
+
+.carousel-imagen {
+    width: 100%;
+    object-fit: cover;
+    height: 100%;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Añade una sombra ligera */
+    transition: transform 0.3s ease;
+
+}
+.carousel-imagen:hover {
+    transform: scale(1.05); /* Efecto de zoom al pasar el cursor */
+}
+
+.carousel-descripcion {
+    background: #373b46;
+    color: #ffffff;
+    font-size: 18px;
+    line-height: 1.5;
+    text-align: center;
+    margin-top: 10px;
+    padding: 0 20px;
+    word-wrap: break-word;
+    
+}
+.descripcion-container {
+    
+    color: #ffffff;
+    flex: 1;
+    text-align: left;
+    max-width: 300px;
+}
+.descripcion-titulo {
+    color: #ffffff;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.descripcion-texto {
+    font-size: 1rem;
+    color: #ffffff;
+    line-height: 1.6;
+}
+
+.btn-probar {
+    background: #fab915;
+    color: #373b46;
+    cursor: pointer;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin: 0 auto;
+    margin-top: 20px;
+   
+}
+.btn-probar:hover {
+    background: #f5cc63;
+    transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+    .carousel-section {
+        flex-direction: column; /* Cambia la orientación a columna */
+        gap: 10px;
+    }
+
+    .carousel-container, .carousel-description {
+        width: 100%; /* Asegura que ambos ocupen todo el ancho disponible */
+    }
+
+    .carousel-imagen {
+        width: 100%; /* Asegura que la imagen ocupe todo el contenedor */
+        height: auto; /* Mantiene la proporción */
+    }
+
+    .descripcion-container {
+        max-width: 100%; /* Hace que el contenedor de la descripción ocupe todo el ancho */
+    }
+}

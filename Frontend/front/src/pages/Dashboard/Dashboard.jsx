@@ -27,10 +27,8 @@ export const Dashboard = () => {
       <Header />
       <div className="flex ">
         <SidebarMenu sections={sections} />
-        <div className="">
-          <h1 className="text-2xl">Contenido del Dashboard</h1>
-          <Outlet />
-        </div>
+
+        <Outlet />
       </div>
     </div>
   );

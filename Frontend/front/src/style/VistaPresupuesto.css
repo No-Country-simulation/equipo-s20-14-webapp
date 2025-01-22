@@ -1,0 +1,102 @@
+.vista-container h1 {
+    
+    font-size: 20px;
+    text-align: center;
+    margin: 0 auto;
+    font-weight: bold;
+    color: #2C2F38;
+    background-color: rgb(243, 232, 83);
+}
+
+.vista-grid {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 70%;
+    max-width: 800px;
+    flex-direction: row-reverse;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+.grafico-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    max-width: 300px;
+    width: 100%;
+    height: 300px;
+    background-color: #fff;
+    box-sizing: border-box;
+    
+}
+
+.categorias{
+    flex: 1;
+    max-height: 300px; 
+    padding: 10px;
+    background-color: #f1eeee;
+}
+.categorias-container h3 {
+    margin-top: 10px;
+    font-size: 1.2rem;
+}
+
+.categorias-container ul {
+    padding-left: 20px;
+    list-style: none;
+}
+
+.categorias-container ul li {
+    margin-bottom: 5px;
+}
+
+.categorias h2 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2d394b;
+}
+
+.categoria-titulo {
+    cursor: pointer;
+    font-size: 18px;
+    color: #2d394b; /* Color de texto por defecto */
+    transition: color 0.3s ease, background-color 0.3s ease;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+/* Estilo al pasar el cursor */
+.categoria-titulo:hover {
+    color: #89c2b1; /* Cambia el color del texto */
+    
+}
+
+/* Estilo para la categoría activa */
+.categoria-activa {
+    color: #89c2b1;
+    font-weight: bold;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.calendario, .reporte{
+    cursor: pointer;
+    font-size: 18px;
+    color: #2d394b; /* Color de texto por defecto */
+    transition: color 0.3s ease, background-color 0.3s ease;
+    padding: 5px;
+    border-radius: 4px;
+}
+.calendario:hover{
+    color: #89c2b1;
+}
+.reporte:hover{
+    color: #89c2b1;
+}
+
+.reporte-activo {
+    color: #89c2b1;
+    font-weight: bold;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+

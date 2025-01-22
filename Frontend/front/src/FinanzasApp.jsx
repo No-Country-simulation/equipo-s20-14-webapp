@@ -6,10 +6,10 @@ import HomePage from './components/HomePage';
 export const FinanzasApp = () => {
     return (
 
-     
+
         <div>
-            <Header/>
-            <HomePage/>
+            <Header />
+            <HomePage />
         </div>
 
     );

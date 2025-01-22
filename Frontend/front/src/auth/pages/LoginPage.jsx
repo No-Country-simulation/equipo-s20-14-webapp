@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from "../assets/Webapp Finanzas/Page 1/logo.png";
+import logo from "../../assets/Webapp Finanzas/Page 1/logo.png";
 
 export const LoginPage = () => {
     return (
@@ -10,7 +10,7 @@ export const LoginPage = () => {
                 </div>
                 <div className="md:w-1/2 bg-login bg-cover bg-center w-screen">
                     <div className="bg-blueOverlay place-content-center py-10 px-5 md:px-10 h-screen">
-                        <div className="block md:hidden pb-10 place-content-center">
+                        <div className="block md:hidden md:pb-10 place-content-center">
                             <img className='mx-auto' src={logo} alt="logo" />
                         </div>
                         <form className="mx-10">
@@ -45,7 +45,7 @@ export const LoginPage = () => {
                                     <div className="w-full px-3 mb-3">
                                         <button
                                             type="submit"
-                                            className="block w-full mx-auto bg-acent_yellow hover:bg-dark_blue focus:bg-grayN-500 text-white px-3 py-3 font-semibold"
+                                            className="block w-full mx-auto bg-acent_yellow hover:bg-dark_blue focus:bg-grayN-500 text-white text-xl px-3 py-3 font-extrabold"
                                         >
                                             INICIAR SESION
                                         </button>
@@ -58,7 +58,7 @@ export const LoginPage = () => {
                                         </p>
                                     </div>
                                 </div>
-                                <div className="flex mt-12 text-center">
+                                <div className="flex md:mt-12 text-center">
                                     <div className="w-full px-3 mb-5">
                                         <p className="text-sm font-medium text-white">
                                             ¿Crear cuenta? <span className="text-lg font-bold">Registrarse</span>

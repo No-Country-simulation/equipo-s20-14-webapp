@@ -15,9 +15,7 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info().title("API Documentation: Clara").version("1.0"))
-                .servers(List.of(
-                        new Server().url("http://localhost:8080/"),
-                        new Server().url("http://clara-ukyz.onrender.com/")
-                ));
+                .addServersItem(new Server().url("https://clara-ukyz.onrender.com/"));
     }
+
 }

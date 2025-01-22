@@ -8,7 +8,7 @@ public record AuthResponseDto(
         @Schema(description = "ID del usuario", example = "1")
         Long id,
 
-        @Schema(description = "Nombre de usuario", example = "john_doe")
+        @Schema(description = "Nombre de usuario", example = "Florencia Galeassi")
         String username,
 
         @Schema(description = "Token de autenticación JWT", example = "eyJhbGciOiJIUzUxMiJ9...")

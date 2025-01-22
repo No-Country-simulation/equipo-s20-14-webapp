@@ -1,0 +1,85 @@
+/* Archivo: src/styles/Header.css */
+
+/* Estilos generales para el header */
+.header {
+    font-family: 'Exo 2';
+    position: sticky;/* Permite que el header permanezca en la parte superior */
+    top: 0;
+    z-index: 100;
+    background-color: #2d394b;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    height: 60px;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0,0, 0.1);
+    
+    
+}
+
+/* Cambia la apariencia del header cuando el usuario hace scroll */
+.header.scrolled {
+    background-color: rgba(29, 44, 63, 0.9); /* Fondo semi-transparente */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra más ligera */
+}
+
+/* Contenedor del logo (logo + texto) */
+.logo-container {
+   
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+   
+   
+    
+}
+
+/* Estilo del logo */
+.logo {
+    width: 100px;
+    
+}
+
+/* Lista de navegación */
+.nav-list {
+    list-style: none; /* Sin puntos en la lista */
+    display: flex; /* Alinea horizontalmente */
+    gap: 2rem; /* Espaciado entre enlaces */
+    margin: 0;
+    padding: 0;
+    
+}
+
+/* Enlace de navegación */
+.nav-list a{
+    text-decoration: none;
+    color: #d7d7d7;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+/* Efecto hover */
+.nav-list a:hover {
+    color:#89c2b1;
+}
+
+/* Botón de inicio de sesión */
+.login-button {
+    
+    font-weight: bold;
+    background-color:  #89c2b1; /* Color de fondo del botón */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 0.5rem 1rem; /* Espaciado interno */
+    font-size: 1rem; /* Tamaño del texto */
+    cursor: pointer; /* Cambia el cursor a mano al pasar */
+    transition: background-color 0.3s ease; /* Transición suave */
+}
+
+/* Efecto hover en el botón */
+.login-button:hover {
+    background-color: #A8BFB8; /* Intercambia colores en hover */
+}
+

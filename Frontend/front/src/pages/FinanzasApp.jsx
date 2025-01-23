@@ -1,11 +1,15 @@
 import Header from "../components/Header";
-import HomePage from "../components/HomePage";
+import Footer from "../components/Footer"
+import CarouselPage from '../components/Inicio/CarouselPage';
+
 
 export const FinanzasApp = () => {
   return (
     <div>
       <Header />
-      <HomePage />
+      <CarouselPage />
+      <Footer />
+
     </div>
   );
 };

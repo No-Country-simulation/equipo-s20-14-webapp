@@ -1,10 +1,10 @@
-import '../style/HomePage.css';
+import '../../style/CarouselPage.css';
 
 
 // Imágenes del carousel
-import img1 from '../assets/Webapp Finanzas/Page 1/imagen01.webp';
-import img2 from '../assets/Webapp Finanzas/Page 1/imagen04.webp';
-import img3 from '../assets/Webapp Finanzas/Page 1/imagen03.webp';
+import img1 from '../../assets/WebappFinanzas/imagen01.webp';
+import img2 from '../../assets/WebappFinanzas/imagen04.webp';
+import img3 from '../../assets/WebappFinanzas/imagen03.webp';
 import { useEffect, useState } from 'react';
 
 
@@ -16,7 +16,7 @@ const imagenes = [
 ];
 
 
-const HomePage = () => {
+const CarouselPage = () => {
     //Configuración del carousel automático
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -71,4 +71,4 @@ const HomePage = () => {
     )
 }
 
-export default HomePage;
+export default CarouselPage;

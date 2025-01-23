@@ -1,5 +1,5 @@
 import '../style/Header.css';
-import logo from '../assets/Webapp Finanzas/Page 1/logo.png';
+import logo from '../assets/WebappFinanzas/logo.png';
 import  { useState, useEffect } from "react";
 
 const Header = () =>{

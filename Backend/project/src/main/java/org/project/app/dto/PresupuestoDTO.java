@@ -9,7 +9,7 @@ public class PresupuestoDTO {
     private LocalDate fechaInicio;
     private int duracion; // duración en días
     private double monto;
-    private String categoriaNombre;
-    private Long usuarioId;
+    private Long categoriaId; // Cambiado a Long
+    private Long usuarioId; // Cambiado a Long
 }
 

@@ -2,8 +2,8 @@ package org.project.app.controllers;
 
 import org.project.app.model.Categoria;
 import org.project.app.model.Presupuesto;
-import org.project.app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,10 +41,12 @@ public class PresupuestoController {
 
     @PostMapping
     public ResponseEntity<PresupuestoDTO> crearPresupuesto(@RequestBody PresupuestoDTO presupuestoDTO) {
-        return userRepository.findById(presupuestoDTO.getUsuarioId())
+        Long usuarioId = presupuestoDTO.getUsuarioId();
+        return userRepository.findById(usuarioId)
             .map(usuario -> {
-                Categoria categoria = categoriaRepository.findById(presupuestoDTO.getCategoriaNombre())
-                        .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+                Long categoriaId = presupuestoDTO.getCategoriaId();
+                Categoria categoria = categoriaRepository.findById(categoriaId)
+                    .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
                 Presupuesto presupuesto = Presupuesto.builder()
                     .fechaInicio(presupuestoDTO.getFechaInicio())
                     .duracion(presupuestoDTO.getDuracion())
@@ -65,7 +67,7 @@ public class PresupuestoController {
         dto.setFechaInicio(presupuesto.getFechaInicio());
         dto.setDuracion(presupuesto.getDuracion());
         dto.setMonto(presupuesto.getMonto());
-        dto.setCategoriaNombre(presupuesto.getCategoria().getNombre());
+        dto.setCategoriaId(presupuesto.getCategoria().getId());
         dto.setUsuarioId(presupuesto.getUsuario().getId());
         return dto;
     }

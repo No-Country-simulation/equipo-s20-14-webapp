@@ -11,7 +11,9 @@ public record UpdatedUserDto(
         String username,
         @Schema(description = "Correo electrónico del usuario", example = "lucianoFront23@gmail.com")
         String email,
-        @Schema(description = "Contraseña del usuario", example = "123456789Back* (Encriptado)")
+        @Schema(description = "Contacto del usuario", example = "+54 3515846563")
+        String contact,
+        @Schema(description = "Contraseña del usuario", example = "123456780Pro+ (Encriptado)")
         String password
 ) implements Serializable {
 }

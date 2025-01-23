@@ -9,10 +9,7 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/" element={<FinanzasApp />} />
-
-        {/* Ruta para el Dashboard y sus rutas hijas */}
         <Route path="/dashboard" element={<Dashboard />}>
-          {/* Ruta dinámica para ingresos */}
           <Route path="ingresos/:tipo" element={<Ingresos />} />
         </Route>
       </Routes>

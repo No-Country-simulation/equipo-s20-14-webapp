@@ -9,6 +9,10 @@ export default {
       exo2: ['Exo 2', ...fontFamily.sans],
     },
     extend: {
+      backgroundImage: {
+        'login': "url('/img/login-background.jpg')",
+        blueOverlay: "linear-gradient(to bottom, rgba(44,47,56,0.8) 0%, rgba(44,47,56,0.85) 100%)"
+      },
       colors: {
         background_grey: "#f6f6f6",
         text_black: "#151515",

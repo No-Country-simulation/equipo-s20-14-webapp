@@ -9,6 +9,7 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
 import { Input } from '../../components/Form/Input';
 import { Button } from '../../components/Form/Button';
+import { Link } from 'react-router-dom';
 
 export const RegisterPage = () => {
     const { register, handleSubmit, setError, formState: { errors } } = useForm({
@@ -120,6 +121,14 @@ export const RegisterPage = () => {
                                 {errors.root && (
                                     <div className='text-red-600'>{errors.root.message}</div>
                                 )}
+
+                                <div className="flex md:mt-6 text-center">
+                                    <div className="w-full px-3 mb-5">
+                                        <p className="text-sm font-medium text-white">
+                                            ¿Ya tienes cuenta? <Link to='/login'><span className="text-lg font-bold">Ingresar</span></Link>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>

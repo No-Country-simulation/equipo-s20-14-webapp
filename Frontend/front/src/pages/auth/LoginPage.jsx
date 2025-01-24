@@ -5,6 +5,7 @@ import { FaUser } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { Input } from '../../components/Form/Input';
 import { Button } from '../../components/Form/Button';
+import { Link } from 'react-router-dom';
 
 export const LoginPage = () => {
     const { register, handleSubmit, setError } = useForm({
@@ -77,7 +78,7 @@ export const LoginPage = () => {
                                 <div className="flex md:mt-12 text-center">
                                     <div className="w-full px-3 mb-5">
                                         <p className="text-sm font-medium text-white">
-                                            ¿Crear cuenta? <span className="text-lg font-bold">Registrarse</span>
+                                            ¿Crear cuenta? <Link to='/register'><span className="text-lg font-bold">Registrarse</span></Link>
                                         </p>
                                     </div>
                                 </div>

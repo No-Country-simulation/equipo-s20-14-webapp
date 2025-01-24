@@ -6,8 +6,6 @@ import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.List;
-
 @Configuration
 public class OpenApiConfig {
 
@@ -16,6 +14,7 @@ public class OpenApiConfig {
         return new OpenAPI()
                 .info(new Info().title("API Documentation: Clara").version("1.0"))
                 .addServersItem(new Server().url("https://clara-ukyz.onrender.com/"));
+//                .addServersItem(new Server().url("http://localhost:8080/"));
     }
 
 }

@@ -1,7 +1,32 @@
 import React from 'react';
-import logo from "../../assets/Webapp Finanzas/Page 1/logo.png";
+import logo from "../../assets/WebappFinanzas/logo.png";
+import { useForm } from 'react-hook-form';
+import { FaUser } from "react-icons/fa";
+import { RiLockPasswordFill } from "react-icons/ri";
+import { Input } from '../../components/form/Input';
+import { Button } from '../../components/form/Button';
 
 export const LoginPage = () => {
+    const { register, handleSubmit, setError } = useForm({
+        defaultValues: {
+            loginUser: '',
+            loginPassword: '',
+        },
+    });
+
+    const onSubmit = data => {
+        try {
+
+            console.log(data);
+
+        } catch (error) {
+            console.log(error);
+
+            setError("root", {
+                message: `${error}`
+            })
+        }
+    }
     return (
         <div className="min-w-screen min-h-screen flex items-center justify-center">
             <div className="md:flex grid place-content-center h-screen w-screen">
@@ -13,42 +38,33 @@ export const LoginPage = () => {
                         <div className="block md:hidden md:pb-10 place-content-center">
                             <img className='mx-auto' src={logo} alt="logo" />
                         </div>
-                        <form className="mx-10">
+                        <form className="mx-10" onSubmit={handleSubmit(onSubmit)}>
                             <div className="max-w-96 mx-auto">
                                 <div className="flex">
                                     <div className="w-full px-3 mb-8">
-                                        <div className="flex">
-                                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                                            <input
-                                                type="text"
-                                                className="w-full -ml-10 pl-10 pr-3 py-2 border-2 border-gray-200 outline-none focus:border-grayN-600"
-                                                placeholder="Usuario o Email"
-                                                name="loginEmail"
-                                            />
-                                        </div>
+                                        <Input
+                                            registro={register("loginUser")}
+                                            tipo="text"
+                                            name="loginUser"
+                                            placeholder="Usuario o Email"
+                                            icon={<FaUser />}
+                                        />
                                     </div>
                                 </div>
                                 <div className="flex">
                                     <div className="w-full px-3 mb-16">
-                                        <div className="flex">
-                                            <div className="w-10 z-10 pl-1 text-center poin ter-events-none flex items-center justify-center"></div>
-                                            <input
-                                                type="password"
-                                                className="w-full -ml-10 pl-10 pr-3 py-2 border-2 border-gray-200 outline-none focus:border-grayN-600"
-                                                placeholder="Contraseña"
-                                                name="loginPassword"
-                                            />
-                                        </div>
+                                        <Input
+                                            registro={register("loginPassword")}
+                                            tipo="password"
+                                            name="loginPassword"
+                                            placeholder="Contraseña"
+                                            icon={<RiLockPasswordFill />}
+                                        />
                                     </div>
                                 </div>
                                 <div className="flex">
                                     <div className="w-full px-3 mb-3">
-                                        <button
-                                            type="submit"
-                                            className="block w-full mx-auto bg-acent_yellow hover:bg-dark_blue focus:bg-grayN-500 text-white text-xl px-3 py-3 font-extrabold"
-                                        >
-                                            INICIAR SESION
-                                        </button>
+                                        <Button btnText={'INICIAR SESION'} />
                                     </div>
                                 </div>
                                 <div className="flex">

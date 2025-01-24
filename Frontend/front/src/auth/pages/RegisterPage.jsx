@@ -1,7 +1,41 @@
 import React from 'react';
-import logo from "../../assets/Webapp Finanzas/Page 1/logo.png";
+import logo from "../../assets/WebappFinanzas/logo.png";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { userSchema } from '../../validations/userSchema';
+import { RiCellphoneFill } from "react-icons/ri";
+import { FaUser } from "react-icons/fa";
+import { RiLockPasswordFill } from "react-icons/ri";
+import { MdEmail } from "react-icons/md";
+import { Input } from '../../components/form/Input';
+import { Button } from '../../components/form/Button';
 
 export const RegisterPage = () => {
+    const { register, handleSubmit, setError, formState: { errors } } = useForm({
+        defaultValues: {
+            username: '',
+            contact: '',
+            email: '',
+            password: '',
+            confirmPassword: ''
+        },
+        resolver: zodResolver(userSchema)
+    });
+
+    const onSubmit = data => {
+        try {
+
+            console.log(data);
+
+        } catch (error) {
+            console.log(error);
+
+            setError("root", {
+                message: `${error}`
+            })
+        }
+    }
+
     return (
         <div className="min-w-screen min-h-screen flex items-center justify-center">
             <div className="md:flex grid place-content-center h-screen w-screen">
@@ -16,96 +50,79 @@ export const RegisterPage = () => {
                         <div className="block pb-6 md:pb-12 place-content-center">
                             <h2 className='text-center text-white font-medium text-4xl'>Crear Cuenta</h2>
                         </div>
-                        <form className="mx-10">
+                        <form className="mx-10" onSubmit={handleSubmit(onSubmit)}>
                             <div className="max-w-96 mx-auto">
                                 <div className="flex">
                                     <div className="w-full px-3 mb-8">
-                                        <div className="flex">
-                                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                                            <input
-                                                type="text"
-                                                className="w-full -ml-10 pl-10 pr-3 py-2 border-2 border-gray-200 outline-none focus:border-grayN-600"
-                                                placeholder="Usuario"
-                                                name="loginUsuario"
-                                            />
-                                        </div>
+                                        <Input
+                                            registro={register("username")}
+                                            tipo="text"
+                                            name="username"
+                                            placeholder="UserName"
+                                            errors={errors.username && errors.username.message}
+                                            icon={<FaUser />}
+                                        />
                                     </div>
                                 </div>
                                 <div className="flex">
                                     <div className="w-full px-3 mb-8">
-                                        <div className="flex">
-                                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                                            <input
-                                                type="text"
-                                                className="w-full -ml-10 pl-10 pr-3 py-2 border-2 border-gray-200 outline-none focus:border-grayN-600"
-                                                placeholder="Nombre"
-                                                name="loginNombre"
-                                            />
-                                        </div>
+                                        <Input
+                                            registro={register("email")}
+                                            tipo="text"
+                                            name="email"
+                                            placeholder="Email"
+                                            errors={errors.email && errors.email.message}
+                                            icon={<MdEmail />}
+                                        />
                                     </div>
                                 </div>
                                 <div className="flex">
                                     <div className="w-full px-3 mb-8">
-                                        <div className="flex">
-                                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                                            <input
-                                                type="text"
-                                                className="w-full -ml-10 pl-10 pr-3 py-2 border-2 border-gray-200 outline-none focus:border-grayN-600"
-                                                placeholder="Apellido"
-                                                name="loginApellido"
-                                            />
-                                        </div>
+                                        <Input
+                                            registro={register("contact")}
+                                            tipo="text"
+                                            name="contact"
+                                            placeholder="Contacto"
+                                            errors={errors.contact && errors.contact.message}
+                                            icon={<RiCellphoneFill />}
+                                        />
                                     </div>
                                 </div>
                                 <div className="flex">
                                     <div className="w-full px-3 mb-8">
-                                        <div className="flex">
-                                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"></div>
-                                            <input
-                                                type="text"
-                                                className="w-full -ml-10 pl-10 pr-3 py-2 border-2 border-gray-200 outline-none focus:border-grayN-600"
-                                                placeholder="Email"
-                                                name="loginEmail"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="flex">
-                                    <div className="w-full px-3 mb-8">
-                                        <div className="flex">
-                                            <div className="w-10 z-10 pl-1 text-center poin ter-events-none flex items-center justify-center"></div>
-                                            <input
-                                                type="password"
-                                                className="w-full -ml-10 pl-10 pr-3 py-2 border-2 border-gray-200 outline-none focus:border-grayN-600"
-                                                placeholder="Contraseña"
-                                                name="loginPassword"
-                                            />
-                                        </div>
+                                        <Input
+                                            registro={register("password")}
+                                            tipo="password"
+                                            name="password"
+                                            placeholder="Contraseña"
+                                            errors={errors.password && errors.password.message}
+                                            icon={<RiLockPasswordFill />}
+                                        />
                                     </div>
                                 </div>
                                 <div className="flex">
                                     <div className="w-full px-3 mb-16">
-                                        <div className="flex">
-                                            <div className="w-10 z-10 pl-1 text-center poin ter-events-none flex items-center justify-center"></div>
-                                            <input
-                                                type="password"
-                                                className="w-full -ml-10 pl-10 pr-3 py-2 border-2 border-gray-200 outline-none focus:border-grayN-600"
-                                                placeholder="Confirmar Contraseña"
-                                                name="loginPasswordConfirm"
-                                            />
-                                        </div>
+                                        <Input
+                                            registro={register("confirmPassword")}
+                                            tipo="password"
+                                            name="confirmPassword"
+                                            placeholder="Confirmar Contraseña"
+                                            errors={errors.confirmPassword && errors.confirmPassword.message}
+                                            icon={<RiLockPasswordFill />}
+                                        />
+                                        {errors.confirmPassword && (
+                                            <div className='text-red-600'>{errors.confirmPassword.message}</div>
+                                        )}
                                     </div>
                                 </div>
                                 <div className="flex">
                                     <div className="w-full px-3 mb-3">
-                                        <button
-                                            type="submit"
-                                            className="block w-full mx-auto bg-acent_yellow hover:bg-dark_blue focus:bg-grayN-500 text-white px-3 py-3 text-xl font-extrabold"
-                                        >
-                                            REGISTRARSE
-                                        </button>
+                                        <Button btnText={'REGISTRARSE'} />
                                     </div>
                                 </div>
+                                {errors.root && (
+                                    <div className='text-red-600'>{errors.root.message}</div>
+                                )}
                             </div>
                         </form>
                     </div>

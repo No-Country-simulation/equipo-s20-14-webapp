@@ -1,8 +1,8 @@
 import '../style/Header.css';
-import logo from '../assets/Webapp Finanzas/Page 1/logo.png';
-import  { useState, useEffect } from "react";
+import logo from '../assets/WebappFinanzas/logo.png';
+import { useState, useEffect } from "react";
 
-const Header = () =>{
+const Header = () => {
 
     // Estado para determinar si el usuario hizo scroll
     const [isScrolled, setIsScrolled] = useState(false);
@@ -27,13 +27,13 @@ const Header = () =>{
     return (
         <header className={`header ${isScrolled ? "scrolled" : ""}`}>
             <div className="logo-container">
-                <img src={logo} alt='Clara logo' className='logo'/>            
+                <img src={logo} alt='Clara logo' className='logo' />
             </div>
             <nav>
                 <ul className="nav-list">
                     <li><a href="#inicio">Inicio</a></li>
                     <li><a href="#nosotros">Nosotros</a></li>
-                    
+
                 </ul>
             </nav>
             <button className='login-button'>Iniciar sesión</button>

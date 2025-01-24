@@ -1,7 +1,6 @@
 package org.project.app.model;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
@@ -13,17 +12,13 @@ import java.util.List;
 @Getter
 @Setter
 public class Categoria {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nombre;
-
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = true)
     private User usuario; // null para categorías predefinidas
-
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Presupuesto> presupuestos;
 }

@@ -13,11 +13,16 @@ public class CategoriaService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
+    public List<Categoria> getCategoriasPredeterminadas() {
+
+        return categoriaRepository.findByUsuarioIsNull();
+    }
+
     public List<Categoria> getCategorias(User usuario) {
         return categoriaRepository.findByUsuarioOrUsuarioIsNull(usuario);
     }
 
-    public Categoria crearCategoriaPersonalizada(String nombre, User usuario) {
+    public Categoria crearCategoriaPersonal(String nombre, User usuario) {
         Categoria categoria = Categoria.builder()
             .nombre(nombre)
             .usuario(usuario)

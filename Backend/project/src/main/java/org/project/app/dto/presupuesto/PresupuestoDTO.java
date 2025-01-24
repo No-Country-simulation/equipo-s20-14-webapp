@@ -1,4 +1,4 @@
-package org.project.app.dto;
+package org.project.app.dto.presupuesto;
 
 import lombok.Data;
 import java.time.LocalDate;

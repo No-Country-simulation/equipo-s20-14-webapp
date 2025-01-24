@@ -1,4 +1,4 @@
-package org.project.app.dto;
+package org.project.app.dto.categoria;
 
 import lombok.Data;
 
@@ -6,5 +6,6 @@ import lombok.Data;
 public class CategoriaDTO {
     private Long id;
     private String nombre;
+    private Long usuario_Id;
 }
 

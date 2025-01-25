@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     public ExtendedBaseResponse<String> upDateImagesUser(UpDateImagesUserDto upDateImagesUser) {
         String newImageUrl = uploadSingleImage(upDateImagesUser.getImage());
         User user = userRepository.findById(upDateImagesUser.getUserId()).orElseThrow(() ->
-                new UserNotFoundException("This User Does Not Exist with that Id: " + upDateImagesUser.getUserId()));
+                new UserNotFoundException("Este usuario no existe con ese ID: " + upDateImagesUser.getUserId()));
 
         if (user.getUserImage() != null && !user.getUserImage().isEmpty()) {
             deleteSingleImage(user.getUserImage());
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
         user.setUserImage(newImageUrl);
         User savedUser = userRepository.save(user);
-        return ExtendedBaseResponse.of(BaseResponse.created("Image Updated Successfully"), savedUser.getUserImage());
+        return ExtendedBaseResponse.of(BaseResponse.created("Imagen actualizada correctamente"), savedUser.getUserImage());
     }
 
 
@@ -47,16 +47,16 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public ExtendedBaseResponse<UserDto> findUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(() ->
-                new UserNotFoundException("This User Does Not Exist with that Id: " + id));
+                new UserNotFoundException("Este usuario no existe con ese ID: " + id));
         UserDto userDto = userMapper.toDto(user);
-        return ExtendedBaseResponse.of(BaseResponse.created("User Found Successfully"), userDto);
+        return ExtendedBaseResponse.of(BaseResponse.created("Usuario encontrado exitosamente"), userDto);
     }
 
     @Override
     @Transactional
     public ExtendedBaseResponse<UpdatedUserDto> updateUser(UpdateUserDto updateUserDto) {
         User user = userRepository.findById(updateUserDto.userId())
-                .orElseThrow(() -> new UserNotFoundException("This User Does Not Exist with that Id: " + updateUserDto.userId()));
+                .orElseThrow(() -> new UserNotFoundException("Este usuario no existe con ese ID: " + updateUserDto.userId()));
         if (updateUserDto.username() != null && !updateUserDto.username().isBlank()) {
             user.setUsername(updateUserDto.username());
         }
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
         }
         userRepository.save(user);
         UpdatedUserDto updatedUserDto = userMapper.toUpdatedUser(user);
-        return ExtendedBaseResponse.of(BaseResponse.ok("User Updated"), updatedUserDto);
+        return ExtendedBaseResponse.of(BaseResponse.ok("Usuario actualizado"), updatedUserDto);
     }
 
 
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
         try {
             return imageService.uploadImage(image);
         } catch (IOException e) {
-            throw new RuntimeException("Error uploading image", e);
+            throw new RuntimeException("Error al subir la imagen", e);
         }
     }
 
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
         try {
             imageService.deleteImage(imageUrl);
         } catch (Exception e) {
-            throw new RuntimeException("Error deleting image", e);
+            throw new RuntimeException("Error al eliminar la imagen", e);
         }
     }
 

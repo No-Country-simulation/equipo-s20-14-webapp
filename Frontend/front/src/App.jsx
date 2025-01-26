@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import { LoginPage } from "./pages/auth/LoginPage";
 import { RegisterPage } from "./pages/auth/Register";
 
+
 export default function App() {
   return (
     <Router>
@@ -14,7 +15,8 @@ export default function App() {
         <Route path="/register/*" element={<RegisterPage />} />
         <Route path="/" element={<FinanzasApp />} />
         <Route path="/dashboard" element={<Dashboard />}>
-          <Route path="ingresos/:tipo" element={<Ingresos />} />
+        <Route path="ingresos/:tipo" element={<Ingresos />} />
+        
         </Route>
       </Routes>
       <ToastContainer position="bottom-right" autoClose={2000} />

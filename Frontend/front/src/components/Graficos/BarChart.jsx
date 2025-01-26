@@ -17,25 +17,22 @@ const coloresBarras = [
   ];
   
 
-var gastosSemanal=[
-    { descripcion: 'Domingo', monto: 20 },
-    { descripcion: 'Lunes', monto: 50 },
-    { descripcion: 'Martes', monto: 60 },
-    { descripcion: 'Miércoles', monto: 10 },
-    { descripcion: 'Jueves', monto: 30 },
-    { descripcion: 'Viernes', monto: 90 },
-    { descripcion: 'Sábados', monto: 25 },
+var ingresosMensuales=[
+    { descripcion: 'Ingreso/Mensual', monto: 20 },
+    { descripcion: 'Ingreso/Quincenal', monto: 50 },
+    { descripcion: 'Ingreso/Extra', monto: 60 },
+
 ];
-const labelsSemanal= gastosSemanal.map(item => item.descripcion);
-const dataSemanal = gastosSemanal.map(item => item.monto);
+const labelsMensual= ingresosMensuales.map(item => item.descripcion);
+const dataMensual = ingresosMensuales.map(item => item.monto);
 
 // Verificar que los datos estén correctamente formateados
 var chartData = {
-    labels: labelsSemanal,
+    labels: labelsMensual,
         datasets: [
             {
-                label: 'Gasto Semanal',
-                data: dataSemanal,
+                label: 'Ingresos',
+                data: dataMensual,
                 backgroundColor: coloresBarras,
                 borderColor: coloresBarras.map(color => color.replace('0.6', '1')),
                 borderWidth: 1,
@@ -51,7 +48,7 @@ var chartData = {
             },
             title: {
                 display: true,
-                text: 'Reporte Semanal de Gastos',
+                text: '',
             },
         },
     };

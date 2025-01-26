@@ -6,15 +6,13 @@ import { Chart as ChartJS,PointElement, ArcElement, CategoryScale, LinearScale, 
 // Registrar los componentes de Chart.js
 ChartJS.register(CategoryScale, PointElement,ArcElement,  LinearScale, BarElement, Title, Tooltip, Legend);
 
-
+// Datos iniciales (mock) para probar el gráfico
 var gastos=[
 
-    { descripcion: 'Transporte', monto: 20 },
-    { descripcion: 'Hogar', monto: 50 },
-    { descripcion: 'Tarjetas/Crédito', monto: 60 },
-    { descripcion: 'Educación', monto: 10 },
     { descripcion: 'Servicios', monto: 30 },
-    { descripcion: 'Ahorros', monto: 90 },
+    { descripcion: 'Transporte', monto: 20 },
+    { descripcion: 'Tarjetas/Crédito', monto: 60 },
+    { descripcion: 'Hogar', monto: 50 },
     { descripcion: 'Otros', monto: 25 },
 ];
 
@@ -37,7 +35,7 @@ const PieChart = () => {
         labels: labels,
         datasets: [
             {
-                label: 'Gasto Diario',
+                label: 'Gastos por Categoria',
                 data: data,
                 backgroundColor: coloresPie,
                 borderColor: coloresPie.map(color => color.replace('0.6', '1')),
@@ -53,7 +51,7 @@ const PieChart = () => {
             },
             title: {
                 display: true,
-                text: 'Reporte Diario de Gastos',
+                text: 'Reporte de Gastos Mensuales',
             },
         },
     };

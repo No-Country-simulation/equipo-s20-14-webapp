@@ -21,10 +21,12 @@ const sections = [
   },
   {
     title: "Reporte",
-    subItems:[
+    subItems: [
       { label: "Reporte General", path: "/dashboard/reporte-general" },
-    ]
-  }
+      { label: "Reporte Ingresos", path: "/dashboard/reporte-ingresos" },
+      { label: "Reporte Gastos", path: "/dashboard/reporte-gastos" },
+    ],
+  },
 ];
 
 export const Dashboard = () => {

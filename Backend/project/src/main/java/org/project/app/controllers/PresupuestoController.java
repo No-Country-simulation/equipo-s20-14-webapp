@@ -19,15 +19,15 @@ import org.project.app.dto.presupuesto.PresupuestoDTO;
 @RestController
 @RequestMapping("presupuestos")
 public class PresupuestoController {
-    private final PresupuestoRepository presupuestoRepository;
     private final CategoriaRepository categoriaRepository;
     private final UserRepository userRepository;
-    public PresupuestoController(PresupuestoRepository presupuestoRepository,
-                                 CategoriaRepository categoriaRepository,
-                                 UserRepository userRepository) {
-        this.presupuestoRepository = presupuestoRepository;
+    private final PresupuestoService presupuestoService;
+    public PresupuestoController(CategoriaRepository categoriaRepository,
+                                 UserRepository userRepository,
+                                 PresupuestoService presupuestoService) {
         this.categoriaRepository = categoriaRepository;
         this.userRepository = userRepository;
+        this.presupuestoService = presupuestoService;
     }
     @Operation(
             summary     = "Obtener los presupuestos del usuario",
@@ -38,7 +38,7 @@ public class PresupuestoController {
     public ResponseEntity<List<PresupuestoDTO>> getPresupuestos(@PathVariable Long usuarioId) {
         return  userRepository.findById(usuarioId).map(usuario -> {
             List<PresupuestoDTO> presupuestosDTO =
-                    listarPresupuestoDTO(presupuestoRepository.findByUsuario(usuario));
+                    listarPresupuestoDTO(presupuestoService.getByUsuario(usuario));
             return ResponseEntity.ok(presupuestosDTO);
         }).orElseGet(() -> {
             List<PresupuestoDTO> emptyPresupuestoDTO = new ArrayList<>();
@@ -46,13 +46,31 @@ public class PresupuestoController {
         });
     }
     @Operation(
+            summary     = "Obtener los presupuestos del usuario para una CATEGORIA",
+            description = "Devuelve las presupuestos del usuario para la categoria solicitada, " +
+                    "Contendrá una lista vacía si no existen los presupuestos."
+    )
+    @GetMapping("/{usuarioId}/{categoriaId}")
+    public ResponseEntity<List<PresupuestoDTO>> getPresupuestosPorCategoria(@PathVariable Long usuarioId,
+                                                                            @PathVariable Long categoriaId) {
+	return userRepository.findById(usuarioId).map(usuario ->{	    
+            Categoria categoria = categoriaRepository.findById(categoriaId)
+                    .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+            List<PresupuestoDTO> presupuestosDTO =
+            listarPresupuestoDTO(presupuestoService.getPresupuestosPorCategoria(usuario,categoria));
+            return ResponseEntity.ok(presupuestosDTO);
+        }).orElseGet(() -> {
+            List<PresupuestoDTO> emptyList = new ArrayList<>();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(emptyList);    
+	});
+	}
+    @Operation(
             summary     = "Crear una presupuesto de usuario",
             description = "Toma el DTO de Presupuesto, le extrae el usuario que lo está creando para" +
                     "armar un presupuesto nuevo y persistirlo. Retorna un DTO vacío en caso no existir el usuario."
     )
     @PostMapping("/crear")
     public ResponseEntity<PresupuestoDTO> crearPresupuesto(@RequestBody PresupuestoDTO presupuestoDTO) {
-        PresupuestoService ps = new PresupuestoService();
         //Obtiene Id del usuario que lo crea
         Long usuarioId = presupuestoDTO.getUsuarioId();
         //Intenta recuperar el User
@@ -62,8 +80,9 @@ public class PresupuestoController {
                     //Recuperar la categoria con el id
                     Categoria categoria = categoriaRepository.findById(categoriaId)
                             .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
-                    Presupuesto presupuestoNuevo = ps.crearPresupuestoPersonal(presupuestoDTO,usuario, categoria);
-                    return ResponseEntity.ok(armarPresupuestoDTO(presupuestoNuevo));
+                    Presupuesto presupuesto =
+                            presupuestoService.crearPresupuesto(presupuestoDTO,usuario, categoria);
+                    return ResponseEntity.ok(armarPresupuestoDTO(presupuesto));
                 }).orElseGet( () -> {
                     PresupuestoDTO emptypresupuestoDTO = new PresupuestoDTO();
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(emptypresupuestoDTO);

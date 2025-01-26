@@ -16,8 +16,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/categorias")
 public class CategoriaController {
     private final UserRepository userRepository;
-    public CategoriaController(UserRepository userRepository) {
+    private final CategoriaService categoriaService;
+    public CategoriaController(UserRepository userRepository,
+                               CategoriaService categoriaService) {
         this.userRepository = userRepository;
+        this.categoriaService = categoriaService;
     }
     @Operation(
             summary     = "Obtener categorías predeterminadas y las del usuario",
@@ -26,12 +29,13 @@ public class CategoriaController {
     )
     @GetMapping("/usuario/{usuarioId}")
     public ResponseEntity<List<CategoriaDTO>> getCategorias(@PathVariable Long usuarioId) {
-        CategoriaService cs = new CategoriaService();
         return userRepository.findById(usuarioId).map(usuario -> {
-            List<CategoriaDTO> categoriasDTO = listarCategoriaDTO(cs.getCategorias(usuario));
+            List<CategoriaDTO> categoriasDTO =
+                    listarCategoriaDTO(categoriaService.getCategorias(usuario));
             return ResponseEntity.ok(categoriasDTO);
         }).orElseGet(() -> {
-            List<CategoriaDTO> categoriasPredeterminadasDTO = listarCategoriaDTO(cs.getCategoriasPredeterminadas());
+            List<CategoriaDTO> categoriasPredeterminadasDTO =
+                    listarCategoriaDTO(categoriaService.getCategoriasPredeterminadas());
             return ResponseEntity.ok(categoriasPredeterminadasDTO);
         });
     }
@@ -42,12 +46,11 @@ public class CategoriaController {
     )
     @PostMapping("/crear")
     public ResponseEntity<CategoriaDTO> crearCategoriaPersonal(@RequestBody CategoriaDTO categoriaDTO) {
-        CategoriaService cs = new CategoriaService();
         //Obtiene Id del usuario que la está creando
         Long usuarioId = categoriaDTO.getUsuario_Id();
         return userRepository.findById(usuarioId).map(usuario -> {
             String nombreCategoria = categoriaDTO.getNombre();
-            Categoria categoria = cs.crearCategoriaPersonal(nombreCategoria, usuario);
+            Categoria categoria = categoriaService.crearCategoriaPersonal(nombreCategoria, usuario);
             return ResponseEntity.ok(armarCategoriaDTO(categoria));
         }).orElseGet(() -> {
         CategoriaDTO emptyCategoriaDTO = new CategoriaDTO();

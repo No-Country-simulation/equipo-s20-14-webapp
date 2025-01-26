@@ -23,7 +23,7 @@ public class Presupuesto {
     @JoinColumn(name = "usuario_id", nullable = false)
     private User usuario;
     @ManyToOne
-    @JoinColumn(name = "categoria_id", nullable = false)
+    @JoinColumn(name = "categoria_id", nullable = true)
     private Categoria categoria;
 }
 

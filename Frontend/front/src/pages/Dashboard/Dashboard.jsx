@@ -19,6 +19,12 @@ const sections = [
       { label: "Variables", path: "/egresos/variables" },
     ],
   },
+  {
+    title: "Reporte",
+    subItems:[
+      { label: "Reporte General", path: "/dashboard/reporte-general" },
+    ]
+  }
 ];
 
 export const Dashboard = () => {

@@ -5,9 +5,9 @@ import { Ingresos } from "./pages/Dashboard/Ingresos";
 import { ToastContainer } from "react-toastify";
 import { LoginPage } from "./pages/auth/LoginPage";
 import { RegisterPage } from "./pages/auth/Register";
-import ReporteGeneral from "./pages/Dashboard/Reportes/ReporteGeneral";
-import ReporteIngresos from "./pages/Dashboard/Reportes/ReporteIngresos";
-import ReporteGastos from "./pages/Dashboard/Reportes/ReporteGastos";
+import ReporteGeneral from "./pages/Dashboard/Reporte/ReporteGeneral";
+import ReporteIngresos from "./pages/Dashboard/Reporte/ReporteIngresos";
+import ReporteGastos from "./pages/Dashboard/Reporte/ReporteGastos";
 
 export default function App() {
   return (

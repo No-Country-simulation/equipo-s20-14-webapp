@@ -1,13 +1,13 @@
-import axios from 'axios'
+import axios from '../libs/axios'
 
 export const loginRequest = async (email, password) => {
-  return axios.post('https://clara-ukyz.onrender.com/auth/login', {
+  return axios.post('/auth/login', {
     email,
     password
   })
 }
 export const registerRequest = async (email, password, username, contact) => {
-  return axios.post('https://clara-ukyz.onrender.com/auth/register', {
+  return axios.post('/auth/register', {
     email,
     password,
     username,

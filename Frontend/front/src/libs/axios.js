@@ -1,16 +1,10 @@
 import axios from 'axios'
-import { useAuthStore } from '../store/auth'
+import { getEnvVariables } from '../helpers/getEnvVariables'
 
-const authApli = axios.create({
-  baseURL: "https://clara-ukyz.onrender.com",
-  withCredentials: true
+const { VITE_API_URL } = getEnvVariables();
+
+const claraApi = axios.create({
+  baseURL: VITE_API_URL
 })
 
-authApli.interceptors.request.use(config => {
-  const token = useAuthStore.getState().token
-  config.headers = {
-    Authorization: `Bearer ${token}`
-  }
-  return config
-})
-export default authApli
+export default claraApi

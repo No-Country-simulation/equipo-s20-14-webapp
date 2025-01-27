@@ -83,7 +83,6 @@ public class OperacionController {
         });
     }
 
-
     @Operation(
             summary     = "Obtener la suma TOTAL de INGRESOS del usuario",
             description = "Devuelve la suma de cada uno de los montos de ingresos de un usuario, " +
@@ -98,8 +97,8 @@ public class OperacionController {
 
     @Operation(
             summary     = "Obtener la suma del GASTO del usuario para una CATEGORIA",
-            description = "Devuelve la suma de cada uno de los montos de gastos de un usuario para la categoria solicitada, " +
-                    "Contendrá 0.0 si no existen las operaciones."
+            description = "Devuelve la suma de cada uno de los montos de gastos de un usuario " +
+                    "para la categoria solicitada. Contendrá 0.0 si no existen las operaciones."
     )
     @GetMapping("/total/gastos/categoria/{usuarioId}/{categoriaId}")
     public ResponseEntity<Double> getTotalGastosDeCategoria(@PathVariable Long usuarioId,

@@ -9,7 +9,9 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
 import { Input } from '../../components/Form/Input';
 import { Button } from '../../components/Form/Button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { registerRequest } from '../../api/auth';
+import { useAuthStore } from '../../store/auth';
 
 export const RegisterPage = () => {
     const { register, handleSubmit, setError, formState: { errors } } = useForm({
@@ -23,16 +25,23 @@ export const RegisterPage = () => {
         resolver: zodResolver(userSchema)
     });
 
-    const onSubmit = data => {
+    const setToken = useAuthStore(state => state.setToken);
+    const setProfile = useAuthStore(state => state.setProfile);
+    const navigate = useNavigate();
+
+    const onSubmit = async values => {
         try {
 
-            console.log(data);
+            const { data } = await registerRequest(values.email, values.password, values.username, values.contact)
+            setToken(data.token);
+            setProfile(data);
+            navigate('/dashboard')
 
         } catch (error) {
             console.log(error);
 
             setError("root", {
-                message: `${error}`
+                message: `${error.message}`
             })
         }
     }

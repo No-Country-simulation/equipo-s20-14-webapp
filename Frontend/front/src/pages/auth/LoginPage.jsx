@@ -11,7 +11,7 @@ import { useAuthStore } from '../../store/auth'
 import { loginRequest } from '../../api/auth';
 
 export const LoginPage = () => {
-    const { register, handleSubmit, setError } = useForm({
+    const { register, handleSubmit, setError, formState: { errors } } = useForm({
         defaultValues: {
             email: '',
             password: '',
@@ -27,18 +27,15 @@ export const LoginPage = () => {
         try {
 
             const { data } = await loginRequest(values.email, values.password)
-            console.log(data);
-
             setToken(data.data.token);
             setProfile(data.data);
             navigate('/dashboard')
-
 
         } catch (error) {
             console.log(error);
 
             setError("root", {
-                message: `${error}`
+                message: `${error.message}`
             })
         }
     }
@@ -82,6 +79,9 @@ export const LoginPage = () => {
                                         <Button btnText={'INICIAR SESION'} />
                                     </div>
                                 </div>
+                                {errors.root && (
+                                    <div className='text-red-600'>{errors.root.message}</div>
+                                )}
                                 <div className="flex">
                                     <div className="w-full px-3 mb-16">
                                         <p className="text-sm font-medium text-white">

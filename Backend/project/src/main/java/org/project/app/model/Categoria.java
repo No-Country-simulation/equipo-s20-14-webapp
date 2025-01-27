@@ -19,7 +19,9 @@ public class Categoria {
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = true)
     private User usuario; // null para categorías predefinidas
-    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<Presupuesto> presupuestos;
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<Operacion> operaciones;
 }
 

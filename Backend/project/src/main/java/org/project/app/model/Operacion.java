@@ -17,7 +17,7 @@ public class Operacion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String descripcion;
-    private LocalDate fecha;
+    private LocalDate fechaProgramada;
     private double monto;
     @Enumerated(EnumType.STRING)
     private TipoOperacion tipo;
@@ -25,8 +25,9 @@ public class Operacion {
     private Integer cicloDias;
     @Enumerated(EnumType.STRING)
     private Estado estado;
+    private LocalDate fechaEfectuada;
     @ManyToOne
-    @JoinColumn(name = "categoria_id", nullable = false)
+    @JoinColumn(name = "categoria_id", nullable = true)
     private Categoria categoria;
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
@@ -37,7 +38,7 @@ public class Operacion {
     }
     public enum Estado {
         EFECTUADA,
-        EN_PROCESO,
+        PROGRAMADA,
         VENCIDA
     }
 }

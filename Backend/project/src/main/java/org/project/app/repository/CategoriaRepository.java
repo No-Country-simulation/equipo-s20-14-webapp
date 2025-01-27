@@ -10,6 +10,5 @@ import java.util.List;
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
     List<Categoria> findByUsuarioOrUsuarioIsNull(User usuario);
     List<Categoria> findByUsuarioIsNull();
-    Categoria findByNombre(String nombre);
 }
 

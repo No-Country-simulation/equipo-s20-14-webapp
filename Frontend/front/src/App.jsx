@@ -7,6 +7,7 @@ import { LoginPage } from "./pages/auth/LoginPage";
 import { RegisterPage } from "./pages/auth/Register";
 import { useAuthStore } from './store/auth'
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { PublicRoute } from "./components/PublicRoute";
 
 
 export default function App() {
@@ -14,9 +15,11 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login/*" element={<LoginPage />} />
-        <Route path="/register/*" element={<RegisterPage />} />
-        <Route path="/" element={<FinanzasApp />} />
+        <Route element={<PublicRoute isAllowed={isAuth} />}>
+          <Route path="/login/*" element={<LoginPage />} />
+          <Route path="/register/*" element={<RegisterPage />} />
+          <Route path="/" element={<FinanzasApp />} />
+        </Route>
 
         <Route element={<ProtectedRoute isAllowed={isAuth} />}>
           <Route path="/dashboard" element={<Dashboard />}>

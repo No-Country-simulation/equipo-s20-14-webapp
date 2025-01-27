@@ -11,7 +11,7 @@ import { useAuthStore } from '../../store/auth'
 import { loginRequest } from '../../api/auth';
 
 export const LoginPage = () => {
-    const { register, handleSubmit, setError, formState: { errors } } = useForm({
+    const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm({
         defaultValues: {
             email: '',
             password: '',
@@ -21,7 +21,6 @@ export const LoginPage = () => {
     const setToken = useAuthStore(state => state.setToken);
     const setProfile = useAuthStore(state => state.setProfile);
     const navigate = useNavigate();
-
 
     const onSubmit = async values => {
         try {
@@ -76,7 +75,7 @@ export const LoginPage = () => {
                                 </div>
                                 <div className="flex">
                                     <div className="w-full px-3 mb-3">
-                                        <Button btnText={'INICIAR SESION'} />
+                                        <Button isSubmitting={isSubmitting} btnText={isSubmitting ? 'CARGANDO...' : 'INICIAR SESION'} />
                                     </div>
                                 </div>
                                 {errors.root && (

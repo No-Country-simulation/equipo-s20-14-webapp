@@ -5,25 +5,37 @@ import { FaUser } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { Input } from '../../components/Form/Input';
 import { Button } from '../../components/Form/Button';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../../store/auth'
+
+import { loginRequest } from '../../api/auth';
 
 export const LoginPage = () => {
-    const { register, handleSubmit, setError } = useForm({
+    const { register, handleSubmit, setError, formState: { errors } } = useForm({
         defaultValues: {
-            loginUser: '',
-            loginPassword: '',
+            email: '',
+            password: '',
         },
     });
 
-    const onSubmit = data => {
+    const setToken = useAuthStore(state => state.setToken);
+    const setProfile = useAuthStore(state => state.setProfile);
+    const navigate = useNavigate();
+
+
+    const onSubmit = async values => {
         try {
 
-            console.log(data);
+            const { data } = await loginRequest(values.email, values.password)
+            setToken(data.data.token);
+            setProfile(data.data);
+            navigate('/dashboard')
 
         } catch (error) {
             console.log(error);
 
             setError("root", {
-                message: `${error}`
+                message: `${error.message}`
             })
         }
     }
@@ -43,10 +55,10 @@ export const LoginPage = () => {
                                 <div className="flex">
                                     <div className="w-full px-3 mb-8">
                                         <Input
-                                            registro={register("loginUser")}
+                                            registro={register("email")}
                                             tipo="text"
-                                            name="loginUser"
-                                            placeholder="Usuario o Email"
+                                            name="email"
+                                            placeholder="Email"
                                             icon={<FaUser />}
                                         />
                                     </div>
@@ -54,9 +66,9 @@ export const LoginPage = () => {
                                 <div className="flex">
                                     <div className="w-full px-3 mb-16">
                                         <Input
-                                            registro={register("loginPassword")}
+                                            registro={register("password")}
                                             tipo="password"
-                                            name="loginPassword"
+                                            name="password"
                                             placeholder="Contraseña"
                                             icon={<RiLockPasswordFill />}
                                         />
@@ -67,6 +79,9 @@ export const LoginPage = () => {
                                         <Button btnText={'INICIAR SESION'} />
                                     </div>
                                 </div>
+                                {errors.root && (
+                                    <div className='text-red-600'>{errors.root.message}</div>
+                                )}
                                 <div className="flex">
                                     <div className="w-full px-3 mb-16">
                                         <p className="text-sm font-medium text-white">
@@ -77,7 +92,7 @@ export const LoginPage = () => {
                                 <div className="flex md:mt-12 text-center">
                                     <div className="w-full px-3 mb-5">
                                         <p className="text-sm font-medium text-white">
-                                            ¿Crear cuenta? <span className="text-lg font-bold">Registrarse</span>
+                                            ¿Crear cuenta? <Link to='/register'><span className="text-lg font-bold">Registrarse</span></Link>
                                         </p>
                                     </div>
                                 </div>

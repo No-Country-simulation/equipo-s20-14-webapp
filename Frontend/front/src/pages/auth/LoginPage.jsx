@@ -5,20 +5,34 @@ import { FaUser } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { Input } from '../../components/Form/Input';
 import { Button } from '../../components/Form/Button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../../store/auth'
+
+import { loginRequest } from '../../api/auth';
 
 export const LoginPage = () => {
     const { register, handleSubmit, setError } = useForm({
         defaultValues: {
-            loginUser: '',
-            loginPassword: '',
+            email: '',
+            password: '',
         },
     });
 
-    const onSubmit = data => {
+    const setToken = useAuthStore(state => state.setToken);
+    const setProfile = useAuthStore(state => state.setProfile);
+    const navigate = useNavigate();
+
+
+    const onSubmit = async values => {
         try {
 
+            const { data } = await loginRequest(values.email, values.password)
             console.log(data);
+
+            setToken(data.data.token);
+            setProfile(data.data);
+            navigate('/dashboard')
+
 
         } catch (error) {
             console.log(error);
@@ -44,10 +58,10 @@ export const LoginPage = () => {
                                 <div className="flex">
                                     <div className="w-full px-3 mb-8">
                                         <Input
-                                            registro={register("loginUser")}
+                                            registro={register("email")}
                                             tipo="text"
-                                            name="loginUser"
-                                            placeholder="Usuario o Email"
+                                            name="email"
+                                            placeholder="Email"
                                             icon={<FaUser />}
                                         />
                                     </div>
@@ -55,9 +69,9 @@ export const LoginPage = () => {
                                 <div className="flex">
                                     <div className="w-full px-3 mb-16">
                                         <Input
-                                            registro={register("loginPassword")}
+                                            registro={register("password")}
                                             tipo="password"
-                                            name="loginPassword"
+                                            name="password"
                                             placeholder="Contraseña"
                                             icon={<RiLockPasswordFill />}
                                         />

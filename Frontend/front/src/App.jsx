@@ -8,14 +8,23 @@ import { RegisterPage } from "./pages/auth/Register";
 import ReporteGeneral from "./pages/Dashboard/Reporte/ReporteGeneral";
 import ReporteIngresos from "./pages/Dashboard/Reporte/ReporteIngresos";
 import ReporteGastos from "./pages/Dashboard/Reporte/ReporteGastos";
+import { useAuthStore } from './store/auth'
+import { ProtectedRoute } from "./components/ProtectedRoute";
+
 
 export default function App() {
+  const isAuth = useAuthStore(state => state.isAuth)
   return (
     <Router>
       <Routes>
         <Route path="/login/*" element={<LoginPage />} />
         <Route path="/register/*" element={<RegisterPage />} />
         <Route path="/" element={<FinanzasApp />} />
+
+        <Route element={<ProtectedRoute isAllowed={isAuth} />}>
+          <Route path="/dashboard" element={<Dashboard />}>
+            <Route path="ingresos/:tipo" element={<Ingresos />} />
+          </Route>
         <Route path="/dashboard" element={<Dashboard />}>
         <Route path="ingresos/:tipo" element={<Ingresos />} />
 
@@ -24,6 +33,7 @@ export default function App() {
         <Route path="reporte-ingresos" element={<ReporteIngresos />} />
         <Route path="reporte-gastos" element={<ReporteGastos />} />
         </Route>
+</Route>
       </Routes>
       <ToastContainer position="bottom-right" autoClose={2000} />
     </Router>

@@ -32,6 +32,12 @@ public class SecurityConfiguration {
                         .hasAnyAuthority(Role.ADMIN.name(), Role.USER.name())
                         .requestMatchers("/notification/**")
                         .hasAnyAuthority(Role.ADMIN.name(), Role.USER.name())
+                        .requestMatchers("/presupuestos/**")
+                        .hasAnyAuthority(Role.ADMIN.name(), Role.USER.name())
+                        .requestMatchers("/operaciones/**")
+                        .hasAnyAuthority(Role.ADMIN.name(), Role.USER.name())
+                        .requestMatchers("/categorias/**")
+                        .hasAnyAuthority(Role.ADMIN.name(), Role.USER.name())                                       
                         .requestMatchers("/api-docs/**", "/swagger-ui/**", "/api-docs.yaml")  // Rutas de Swagger API Docs
                         .permitAll()
                         .requestMatchers("/swagger-ui-custom.html", "/swagger-ui/**", "/swagger-ui/")  // Ruta personalizada de Swagger UI

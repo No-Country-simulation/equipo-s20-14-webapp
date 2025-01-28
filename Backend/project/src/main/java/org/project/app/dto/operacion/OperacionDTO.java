@@ -7,9 +7,10 @@ import java.time.LocalDate;
 public class OperacionDTO {
     private Long id;
     private String descripcion;
-    private LocalDate fecha;
+    private LocalDate fechaEfectuada;
     private double monto;
     private Boolean esFijo;
+    private LocalDate fechaProgramada;
     private Integer cicloDias;
     private String tipo;  // Usamos String para la representación textual del enum
     private String estado; // Usamos String para la representación textual del enum

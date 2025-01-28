@@ -2,6 +2,8 @@ package org.project.app.service;
 
 import jakarta.transaction.Transactional;
 import org.project.app.dto.operacion.OperacionDTO;
+import org.project.app.dto.operacion.OperacionExtraDTO;
+import org.project.app.dto.operacion.OperacionFijaDTO;
 import org.project.app.model.Categoria;
 import org.project.app.model.Operacion;
 import org.project.app.model.User;
@@ -107,62 +109,70 @@ public class OperacionService {
         return armarOperacionDTO(operacion);
     }
 
-    public OperacionDTO efectuarIngreso(OperacionDTO dto,
+    public OperacionDTO efectuarIngreso(OperacionExtraDTO dto,
                                         User usuario) {
         Operacion operacion = Operacion.builder()//Armar la operacion
                 .descripcion(dto.getDescripcion())
-                .fechaEfectuada(dto.getFecha())
+                .fechaEfectuada(dto.getFechaEfectuada())
                 .monto(dto.getMonto())
+                //Datos predeterminados-------------
                 .tipo(Operacion.TipoOperacion.INGRESO)
                 .EsFijo(false)
                 .estado(Operacion.Estado.EFECTUADA)
+                //----------------------------------
                 .usuario(usuario)
                 .build();
         operacionRepository.save(operacion);
         return armarOperacionDTO(operacion);
     }
-    public OperacionDTO crearIngresoFijo(OperacionDTO dto,
+    public OperacionDTO crearIngresoFijo(OperacionFijaDTO dto,
                                       User usuario) {
         Operacion operacion = Operacion.builder()//Armar la operacion
                 .descripcion(dto.getDescripcion())
-                .fechaProgramada(dto.getFecha())
+                .fechaProgramada(dto.getFechaProgramada())
                 .monto(dto.getMonto())
+                //Datos predeterminados-------------
                 .tipo(Operacion.TipoOperacion.INGRESO)
                 .EsFijo(true)
-                .cicloDias(dto.getCicloDias())
                 .estado(Operacion.Estado.PROGRAMADA)
+                //----------------------------------
+                .cicloDias(dto.getCicloDias())
                 .usuario(usuario)
                 .build();
         operacionRepository.save(operacion);
         return armarOperacionDTO(operacion);
     }
-    public OperacionDTO efectuarGasto(OperacionDTO dto,
+    public OperacionDTO efectuarGasto(OperacionExtraDTO dto,
                                       User usuario,
                                       Categoria categoria) {
         Operacion operacion = Operacion.builder()//Armar la operacion
                 .descripcion(dto.getDescripcion())
-                .fechaEfectuada(dto.getFecha())
+                .fechaEfectuada(dto.getFechaEfectuada())
                 .monto(dto.getMonto())
+                //Datos predeterminados-------------
                 .tipo(Operacion.TipoOperacion.GASTO)
                 .EsFijo(false)
                 .estado(Operacion.Estado.EFECTUADA)
+                //----------------------------------
                 .usuario(usuario)
                 .categoria(categoria)
                 .build();
         operacionRepository.save(operacion);
         return armarOperacionDTO(operacion);
     }
-    public OperacionDTO crearGastoFijo(OperacionDTO dto,
+    public OperacionDTO crearGastoFijo(OperacionFijaDTO dto,
                                        User usuario,
                                        Categoria categoria) {
         Operacion operacion = Operacion.builder()//Armar la operacion
                 .descripcion(dto.getDescripcion())
-                .fechaProgramada(dto.getFecha())
+                .fechaProgramada(dto.getFechaProgramada())
                 .monto(dto.getMonto())
+                //Datos predeterminados-------------
                 .tipo(Operacion.TipoOperacion.GASTO)
                 .EsFijo(true)
-                .cicloDias(dto.getCicloDias())
                 .estado(Operacion.Estado.PROGRAMADA)
+                //----------------------------------
+                .cicloDias(dto.getCicloDias())
                 .usuario(usuario)
                 .categoria(categoria)
                 .build();
@@ -173,12 +183,20 @@ public class OperacionService {
         OperacionDTO dto = new OperacionDTO();
         dto.setId(operacion.getId());
         dto.setDescripcion(operacion.getDescripcion());
-        dto.setFecha(operacion.getFechaProgramada());
+        if(operacion.getFechaProgramada() != null) {
+            dto.setFechaProgramada(operacion.getFechaProgramada());
+        }
         dto.setMonto(operacion.getMonto());
         dto.setTipo(operacion.getTipo().name());
-        dto.setCicloDias(operacion.getCicloDias());
+        if(operacion.getCicloDias() != null){
+            dto.setCicloDias(operacion.getCicloDias());}
+        if(operacion.getFechaEfectuada() != null){
+            dto.setFechaEfectuada(operacion.getFechaEfectuada());
+        }
         dto.setEstado(operacion.getEstado().name());
-        dto.setCategoriaId(operacion.getCategoria().getId());
+        if(operacion.getCategoria().getId() != null){
+            dto.setCategoriaId(operacion.getCategoria().getId());
+        }
         dto.setUsuarioId(operacion.getUsuario().getId());
         return dto;
     }

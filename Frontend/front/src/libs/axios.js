@@ -3,8 +3,8 @@ import { getEnvVariables } from '../helpers/getEnvVariables'
 
 const { VITE_API_URL } = getEnvVariables();
 
-const claraApi = axios.create({
+const authApi = axios.create({
   baseURL: VITE_API_URL
 })
 
-export default claraApi
+export default authApi

@@ -1,6 +1,7 @@
 package org.project.app.service;
 
 import jakarta.transaction.Transactional;
+import org.project.app.dto.presupuesto.CrearPresupuestoDTO;
 import org.project.app.dto.presupuesto.PresupuestoDTO;
 import org.project.app.model.Categoria;
 import org.project.app.model.Presupuesto;
@@ -66,9 +67,9 @@ public class PresupuestoService {
     }
     
 
-    public PresupuestoDTO crearPresupuesto(PresupuestoDTO dto,
-                                        User usuario,
-                                        Categoria categoria) {
+    public PresupuestoDTO crearPresupuesto(CrearPresupuestoDTO dto,
+                                           User usuario,
+                                           Categoria categoria) {
         Presupuesto presupuesto = Presupuesto.builder()//Armar el presupuesto
                 .fechaInicio(dto.getFechaInicio())
                 .duracion(dto.getDuracion())

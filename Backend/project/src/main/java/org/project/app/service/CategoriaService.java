@@ -2,8 +2,6 @@ package org.project.app.service;
 
 import org.project.app.dto.categoria.CategoriaDetalleDTO;
 import org.project.app.dto.categoria.CategoriaListaDTO;
-import org.project.app.service.OperacionService;
-import org.project.app.service.PresupuestoService;
 import org.project.app.model.Categoria;
 import org.project.app.model.User;
 import org.springframework.stereotype.Service;

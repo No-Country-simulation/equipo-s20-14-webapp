@@ -9,7 +9,11 @@ public class CategoriaDetalleDTO {
     private double presupuesto;
     private double gasto;
     private double disponible = presupuesto - gasto;
-    public CategoriaDetalleDTO(String nombre, double totalPresupuesto, double totalGasto) {
+
+    public CategoriaDetalleDTO(String nombre, double presupuesto, double gasto) {
+        this.nombre = nombre;
+        this.presupuesto = presupuesto;
+        this.gasto = gasto;
     }
 
     public CategoriaDetalleDTO() {

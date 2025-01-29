@@ -24,7 +24,7 @@ public record UpdateUserDto(
         )
         @Email(message = "El correo electrónico debe ser valido, utilizando ´@´")
         String email,
-        @Schema(description = "Contacto del usuario", example = "+54 3515846563")
+        @Schema(description = "Contacto del usuario", example = "3515846563")
         @Pattern(
                 regexp = "^(\\+\\d{1,3}\\s?)?\\d{9,15}$",
                 message = "El contacto debe ser un número de teléfono válido en formato internacional"

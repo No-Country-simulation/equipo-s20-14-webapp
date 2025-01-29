@@ -2,6 +2,7 @@ package org.project.app.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.project.app.dto.presupuesto.CrearPresupuestoDTO;
 import org.project.app.model.Categoria;
 import org.project.app.service.PresupuestoService;
 import org.springframework.http.HttpStatus;
@@ -84,15 +85,15 @@ public class PresupuestoController {
                     "armar un presupuesto nuevo y persistirlo. Retorna un DTO vacío en caso no existir el usuario."
     )
     @PostMapping("/crear")
-    public ResponseEntity<PresupuestoDTO> crearPresupuesto(@RequestBody PresupuestoDTO presupuestoDTO) {
-        Long usuarioId = presupuestoDTO.getUsuarioId();
+    public ResponseEntity<PresupuestoDTO> crearPresupuesto(@RequestBody CrearPresupuestoDTO crearPresupuestoDTO) {
+        Long usuarioId = crearPresupuestoDTO.getUsuarioId();
         return userRepository.findById(usuarioId)
                 .map(usuario -> {
-                    Long categoriaId = presupuestoDTO.getCategoriaId();
+                    Long categoriaId = crearPresupuestoDTO.getCategoriaId();
                     Categoria categoria = categoriaRepository.findById(categoriaId)
                             .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
                     PresupuestoDTO presupuestoCreado =
-                            presupuestoService.crearPresupuesto(presupuestoDTO,usuario, categoria);
+                            presupuestoService.crearPresupuesto(crearPresupuestoDTO,usuario, categoria);
                     return ResponseEntity.ok(presupuestoCreado);
                 }).orElseGet( () -> {
                     PresupuestoDTO emptypresupuestoDTO = new PresupuestoDTO();

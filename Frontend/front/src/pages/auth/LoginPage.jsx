@@ -5,9 +5,8 @@ import { FaUser } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { Input } from '../../components/Form/Input';
 import { Button } from '../../components/Form/Button';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuthStore } from '../../store/auth'
-
 import { loginRequest } from '../../api/auth';
 
 export const LoginPage = () => {
@@ -20,7 +19,6 @@ export const LoginPage = () => {
 
     const setToken = useAuthStore(state => state.setToken);
     const setProfile = useAuthStore(state => state.setProfile);
-    const navigate = useNavigate();
 
     const onSubmit = async values => {
         try {
@@ -28,13 +26,12 @@ export const LoginPage = () => {
             const { data } = await loginRequest(values.email, values.password)
             setToken(data.data.token);
             setProfile(data.data);
-            navigate('/dashboard')
 
         } catch (error) {
             console.log(error);
 
             setError("root", {
-                message: `${error.message}`
+                message: `${error.response.data.message}`
             })
         }
     }
@@ -79,7 +76,7 @@ export const LoginPage = () => {
                                     </div>
                                 </div>
                                 {errors.root && (
-                                    <div className='text-red-600'>{errors.root.message}</div>
+                                    <div className='text-red-600 pl-3 pb-4'>{errors.root.message}</div>
                                 )}
                                 <div className="flex">
                                     <div className="w-full px-3 mb-16">

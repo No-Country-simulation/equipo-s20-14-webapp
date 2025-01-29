@@ -2,7 +2,7 @@ package org.project.app.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.project.app.dto.categoria.CategoriaDTO;
+import org.project.app.dto.categoria.CrearCategoriaDTO;
 import org.project.app.dto.categoria.CategoriaDetalleDTO;
 import org.project.app.dto.categoria.CategoriaListaDTO;
 import org.project.app.model.Categoria;
@@ -69,13 +69,13 @@ public class CategoriaController {
                     "finalmente persistir el nombre de la nueva categoria junto al usuario."
     )
     @PostMapping("/crear")
-    public ResponseEntity<String> crearCategoriaPersonal(@RequestBody CategoriaDTO categoriaDTO) {
+    public ResponseEntity<String> crearCategoriaPersonal(@RequestBody CrearCategoriaDTO crearCategoriaDTO) {
         //Obtiene Id del usuario que la está creando
-        Long usuarioId = categoriaDTO.getUsuario_Id();
+        Long usuarioId = crearCategoriaDTO.getUsuario_Id();
         return userRepository.findById(usuarioId).map(usuario -> {
-            String nombre = categoriaDTO.getNombre();
+            String nombre = crearCategoriaDTO.getNombre();
             Categoria categoria = categoriaService.crearCategoriaPersonal(nombre, usuario);
-            return ResponseEntity.ok(categoria.getNombre());
+            return ResponseEntity.ok(crearCategoriaDTO.getNombre());
         }).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(""));
     }
 

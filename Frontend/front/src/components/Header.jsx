@@ -45,7 +45,7 @@ const Header = () => {
             <button className='login-button'
                 onClick={() => {
                     logout()
-                    navigate('/')
+                    navigate('/login')
                 }}
             >{(isAuth) ? 'Cerrar sesión' : 'Iniciar sesión'}</button>
         </header>

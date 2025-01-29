@@ -1,15 +1,19 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import CarouselPage from "../components/Inicio/CarouselPage";
-import ReporteIngresos from "./Dashboard/Reporte/ReporteIngresos";
+import VistaGeneral from "../components/Inicio/VistaGeneral";
+import CarouselPage from "../components/Inicio/CarouselPage"
 
-export const FinanzasApp = () => {
-  return (
-    <div>
-      <Header />
-      <CarouselPage />
-      <ReporteIngresos />
-      <Footer />
+const FinanazasApp =()=> {
+
+return (
+  <div>
+    <Header /> 
+    <CarouselPage />
+    <VistaGeneral/>
+
+    <Footer />
     </div>
   );
 };
+
+export default FinanazasApp;

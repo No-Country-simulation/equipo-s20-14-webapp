@@ -36,6 +36,28 @@ const ReporteGeneral = () => {
   const totalGastos = gastos.reduce((sum, item) => sum + item.monto, 0);
   const balance = totalIngresos - totalGastos;
 
+  const dataIngresos = {
+    labels: ingresos.map(item => item.categoria),
+    datasets: [
+      {
+        data: ingresos.map(item => item.monto),
+        backgroundColor: coloresPie.slice(0, ingresos.length),
+        hoverBackgroundColor: coloresPie.slice(0, ingresos.length).map(color => color.replace("0.6", "1")),
+      },
+    ],
+  };
+
+  const dataGastos = {
+    labels: gastos.map(item => item.categoria),
+    datasets: [
+      {
+        data: gastos.map(item => item.monto),
+        backgroundColor: coloresPie.slice(0, gastos.length),
+        hoverBackgroundColor: coloresPie.slice(0, gastos.length).map(color => color.replace("0.6", "1")),
+      },
+    ],
+  };
+  
   const data = {
     labels: ["Ingresos", "Gastos"],
     datasets: [
@@ -56,8 +78,11 @@ const ReporteGeneral = () => {
       title: {
         display: true,
         text: "Reporte General",
+        tooltip: { callbacks: { label: context => `${context.label}: $${context.raw}` } },
       },
     },
+    aria: { label: "Gráfico de torta mostrando ingresos y gastos." },
+
   };
 
   return (
@@ -66,15 +91,31 @@ const ReporteGeneral = () => {
 
       {/* Resumen del Balance */}
       <div className="balance-resumen">
+        
+
         <p><strong>Total de Ingresos:</strong> ${totalIngresos}</p>
         <p><strong>Total de Gastos:</strong> ${totalGastos}</p>
-        <p><strong>Balance:</strong> ${balance}</p>
+        <p style={{ color: balance >= 0 ? "green" : "red" }}>
+        <strong>Balance:</strong> ${balance}
+        </p>
       </div>
 
       {/* Gráfico de Tortas */}
       <div className="pie">
-        <h3 className="distribucion">Distribución</h3>
+        <h3 className="distribucion">Distribución Genaral</h3>
         <Pie data={data} options={options} />
+      </div>
+
+       {/* Gráfico de Ingresos */}
+       <div className="pie">
+        <h3 className="distribucion">Ingresos por Categoría</h3>
+        <Pie data={dataIngresos} />
+      </div>
+
+      {/* Gráfico de Gastos */}
+      <div className="pie">
+        <h3 className="distribucion">Gastos por Categoría</h3>
+        <Pie data={dataGastos} />
       </div>
 
     </div>

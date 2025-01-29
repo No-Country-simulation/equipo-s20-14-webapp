@@ -1,4 +1,4 @@
-import React from "react";
+import PropTypes from "prop-types";
 import { Link, useLocation } from "react-router-dom";
 
 export const SidebarMenu = ({ sections }) => {
@@ -11,7 +11,7 @@ export const SidebarMenu = ({ sections }) => {
   };
 
   return (
-    <div className="w-64 h-screen bg-gray-100 border-r border-gray-300 p-4">
+    <div className="w-64 h-screen bg-gray-115 border-r border-gray-300 p-4">
       <ul className="space-y-4">
         {sections.map((section, index) => (
           <li key={index}>
@@ -41,4 +41,20 @@ export const SidebarMenu = ({ sections }) => {
       </ul>
     </div>
   );
+
 };
+
+  // ✅ Validación de PropTypes
+  SidebarMenu.propTypes = {
+    sections: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        subItems: PropTypes.arrayOf(
+          PropTypes.shape({
+            label: PropTypes.string.isRequired,
+            path: PropTypes.string.isRequired,
+          })
+        ).isRequired,
+      })
+    ).isRequired,
+  }

@@ -15,7 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-          .allowedOrigins("https://clara-webapp.vercel.app", "http://localhost:5173") // Can be restricted to specific origins in a production environment
+          .allowedOrigins("https://clara-webapp.vercel.app", "http://localhost:5173", "https://equipo-s20-14-webapp.onrender.com") // Can be restricted to specific origins in a production environment
           .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
           .allowedHeaders("Authorization", "Content-Type", "Origin") // Needed for PUT, POST, DELETE and OPTIONS
           .exposedHeaders("Authorization") // If you are using a custom header

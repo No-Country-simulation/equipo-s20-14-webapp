@@ -2,7 +2,7 @@ package org.project.app.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.project.app.dto.categoria.CategoriaDTO;
+import org.project.app.dto.categoria.CrearCategoriaDTO;
 import org.project.app.dto.categoria.CategoriaDetalleDTO;
 import org.project.app.dto.categoria.CategoriaListaDTO;
 import org.project.app.model.Categoria;

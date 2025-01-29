@@ -5,10 +5,9 @@ import { FaUser } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { Input } from '../../components/Form/Input';
 import { Button } from '../../components/Form/Button';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuthStore } from '../../store/auth'
 import { loginRequest } from '../../api/auth';
-import { categoryRequest } from "../../api/category";
 
 export const LoginPage = () => {
     const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm({
@@ -27,10 +26,6 @@ export const LoginPage = () => {
             const { data } = await loginRequest(values.email, values.password)
             setToken(data.data.token);
             setProfile(data.data);
-
-            const idUsuario = useAuthStore.getState().profile.id;
-            const resp = await categoryRequest(idUsuario)
-            console.log(resp);
 
         } catch (error) {
             console.log(error);

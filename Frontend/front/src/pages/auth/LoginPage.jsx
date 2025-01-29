@@ -20,7 +20,6 @@ export const LoginPage = () => {
 
     const setToken = useAuthStore(state => state.setToken);
     const setProfile = useAuthStore(state => state.setProfile);
-    const navigate = useNavigate();
 
     const onSubmit = async values => {
         try {
@@ -33,13 +32,11 @@ export const LoginPage = () => {
             const resp = await categoryRequest(idUsuario)
             console.log(resp);
 
-            navigate('/dashboard')
-
         } catch (error) {
             console.log(error);
 
             setError("root", {
-                message: `${error.message}`
+                message: `${error.response.data.message}`
             })
         }
     }
@@ -84,7 +81,7 @@ export const LoginPage = () => {
                                     </div>
                                 </div>
                                 {errors.root && (
-                                    <div className='text-red-600'>{errors.root.message}</div>
+                                    <div className='text-red-600 pl-3 pb-4'>{errors.root.message}</div>
                                 )}
                                 <div className="flex">
                                     <div className="w-full px-3 mb-16">

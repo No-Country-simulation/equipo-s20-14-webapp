@@ -13,6 +13,7 @@ claraApi.interceptors.request.use(config => {
 
   const token = useAuthStore.getState().token
   config.headers = {
+    Accept: '*/*',
     Authorization: `Bearer ${token}`
   }
 

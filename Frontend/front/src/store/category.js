@@ -8,6 +8,6 @@ export const useCategoryStore = create(persist(
       categorias
     }))
   }), {
-  name: 'category'
+  name: 'categories'
 }
 ))

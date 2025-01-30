@@ -2,9 +2,7 @@ package org.project.app.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.project.app.dto.operacion.OperacionExtraDTO;
-import org.project.app.dto.operacion.OperacionFijaDTO;
-import org.project.app.dto.operacion.OperacionDTO;
+import org.project.app.dto.operacion.*;
 import org.project.app.model.Categoria;
 import org.project.app.service.OperacionService;
 import org.springframework.http.HttpStatus;
@@ -118,13 +116,13 @@ public class OperacionController {
                     "armar una operacion nueva y persistirla. Retorna un DTO vacío en caso no existir el usuario."
     )
     @PostMapping("/crear/gasto")
-    public ResponseEntity<OperacionDTO> efectuarGasto(@RequestBody OperacionExtraDTO operacionExtraDTO) {
-        Long usuarioId = operacionExtraDTO.getUsuarioId();
+    public ResponseEntity<OperacionDTO> efectuarGasto(@RequestBody OperacionGastoExtraDTO operacionGastoExtraDTO) {
+        Long usuarioId = operacionGastoExtraDTO.getUsuarioId();
         return userRepository.findById(usuarioId).map(usuario -> {
-            Long categoriaId = operacionExtraDTO.getCategoriaId();
+            Long categoriaId = operacionGastoExtraDTO.getCategoriaId();
             Categoria categoria = categoriaRepository.findById(categoriaId)
                     .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
-            OperacionDTO gastoEfectuado = operacionService.efectuarGasto(operacionExtraDTO,usuario,categoria);
+            OperacionDTO gastoEfectuado = operacionService.efectuarGasto(operacionGastoExtraDTO,usuario,categoria);
             return ResponseEntity.ok(gastoEfectuado);
         }).orElseGet( () -> {
             OperacionDTO emptyoperacionDTO = new OperacionDTO();
@@ -138,13 +136,13 @@ public class OperacionController {
                     "armar una operacion nueva y persistirla. Retorna un DTO vacío en caso no existir el usuario."
     )
     @PostMapping("/crear/gastofijo")
-    public ResponseEntity<OperacionDTO> crearGastoFijo(@RequestBody OperacionFijaDTO operacionFijaDTO) {
-        Long usuarioId = operacionFijaDTO.getUsuarioId();
+    public ResponseEntity<OperacionDTO> crearGastoFijo(@RequestBody OperacionGastoFijoDTO operacionGastoFijoDTO) {
+        Long usuarioId = operacionGastoFijoDTO.getUsuarioId();
         return userRepository.findById(usuarioId).map(usuario -> {
-            Long categoriaId = operacionFijaDTO.getCategoriaId();
+            Long categoriaId = operacionGastoFijoDTO.getCategoriaId();
             Categoria categoria = categoriaRepository.findById(categoriaId)
                     .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
-            OperacionDTO gastoFijo = operacionService.crearGastoFijo(operacionFijaDTO,usuario,categoria);
+            OperacionDTO gastoFijo = operacionService.crearGastoFijo(operacionGastoFijoDTO,usuario,categoria);
             return ResponseEntity.ok(gastoFijo);
         }).orElseGet( () -> {
             OperacionDTO emptyOperacionDTO = new OperacionDTO();
@@ -216,11 +214,11 @@ public class OperacionController {
             description = "Toma el DTO de Operacion, le extrae el usuario que lo está creando para" +
                     "armar una operacion nueva y persistirla. Retorna un DTO vacío en caso no existir el usuario."
     )
-    @PostMapping("/ingreso")
-    public ResponseEntity<OperacionDTO> efectuarIngreso(@RequestBody OperacionExtraDTO operacionExtraDTO) {
-        Long usuarioId = operacionExtraDTO.getUsuarioId();
+    @PostMapping("/crear/ingreso")
+    public ResponseEntity<OperacionDTO> efectuarIngreso(@RequestBody OperacionIngresoExtraDTO operacionIngresoExtra) {
+        Long usuarioId = operacionIngresoExtra.getUsuarioId();
         return userRepository.findById(usuarioId).map(usuario -> {
-            OperacionDTO ingresoEfectuado = operacionService.efectuarIngreso(operacionExtraDTO,usuario);
+            OperacionDTO ingresoEfectuado = operacionService.efectuarIngreso(operacionIngresoExtra,usuario);
             return ResponseEntity.ok(ingresoEfectuado);
         }).orElseGet( () -> {
             OperacionDTO emptyoperacionDTO = new OperacionDTO();
@@ -233,11 +231,11 @@ public class OperacionController {
             description = "Toma el DTO de Operacion, le extrae el usuario que lo está creando para" +
                     "armar una operacion nueva y persistirla. Retorna un DTO vacío en caso no existir el usuario."
     )
-    @PostMapping("/ingresofijo")
-    public ResponseEntity<OperacionDTO> crearIngresoFijo(@RequestBody OperacionFijaDTO operacionFijaDTO) {
-        Long usuarioId = operacionFijaDTO.getUsuarioId();
+    @PostMapping("/crear/ingresofijo")
+    public ResponseEntity<OperacionDTO> crearIngresoFijo(@RequestBody OperacionIngresoFijoDTO operacionIngresoFijoDTO) {
+        Long usuarioId = operacionIngresoFijoDTO.getUsuarioId();
         return userRepository.findById(usuarioId).map(usuario -> {
-            OperacionDTO ingresoFijo = operacionService.crearIngresoFijo(operacionFijaDTO,usuario);
+            OperacionDTO ingresoFijo = operacionService.crearIngresoFijo(operacionIngresoFijoDTO,usuario);
             return ResponseEntity.ok(ingresoFijo);
         }).orElseGet( () -> {
             OperacionDTO emptyoperacionDTO = new OperacionDTO();

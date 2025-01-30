@@ -19,6 +19,8 @@ const IncomeList = () => {
 
   if (loading) return <p>Cargando ingresos...</p>;
 
+  if (incomes.length === 0) return <p>No hay ingresos registrados.</p>;
+
   return (
     <div>
       <h2>Lista de Ingresos</h2>

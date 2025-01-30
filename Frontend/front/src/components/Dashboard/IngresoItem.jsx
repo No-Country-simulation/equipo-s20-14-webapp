@@ -59,7 +59,7 @@ const IngresoItem = ({ tipo }) => {
         Agregar Ingreso
       </button>
 
-      <table className="min-w-full mt-6 border-collapse">
+      <table className="min-w-full my-6 border-collapse">
         <thead>
           <tr>
             <th className="border-b py-2 px-4 text-left">Ingresos</th>

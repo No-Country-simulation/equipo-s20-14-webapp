@@ -10,11 +10,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOriginPatterns("*")  // Mejor que allowedOrigins para mayor flexibilidad
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Añadir OPTIONS para preflight
-                .allowedHeaders("*")         // Permitir todos los headers
-                .exposedHeaders("*")         // Exponer los headers necesarios al front
+                .allowedOriginPatterns("*")  // Permitir cualquier origen
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
+                .allowedHeaders("*")
+                .exposedHeaders("Authorization", "Content-Type") // Headers importantes
                 .allowCredentials(false)
-                .maxAge(3600);               // Cachear preflight por 1 hora
+                .maxAge(3600);
     }
 }

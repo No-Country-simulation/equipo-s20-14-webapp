@@ -2,6 +2,8 @@ import React from "react";
 import Header from "../../components/Header";
 import { SidebarMenu } from "../../components/Dashboard/SidebarMenu";
 import { Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { useAuthStore } from "../../store/auth";
 
 const sections = [
   {
@@ -30,6 +32,31 @@ const sections = [
 ];
 
 export const Dashboard = () => {
+
+  const idUsuario = useAuthStore.getState().profile.id;
+  const token = useAuthStore.getState().token
+
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      const response = await fetch(`https://equipo-s20-14-webapp.onrender.com/categorias/lista/${idUsuario}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+        mode: "cors"
+    });
+
+    if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    console.log(data);
+    }
+    fetchCategorias();
+  }, [])
+  
   return (
     <div>
       <Header />

@@ -13,11 +13,10 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-          .allowedOrigins("*") // Can be restricted to specific origins in a production environment
+          .allowedOrigins("*")
           .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-          .allowedHeaders("Authorization", "Content-Type", "Origin") // Needed for PUT, POST, DELETE and OPTIONS
-          .exposedHeaders("*") // If you are using a custom header
-          .allowCredentials(false) // Enable if you are using cookie-based authentication
-          .maxAge(3600); // Maximum time in cache for pre-flight response
+          .allowedHeaders("*")
+          .allowCredentials(false)
+          .maxAge(3600);
     }
 }

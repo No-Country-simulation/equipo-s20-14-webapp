@@ -2,7 +2,6 @@ package org.project.app.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -17,7 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
           .allowedOrigins("*") // Can be restricted to specific origins in a production environment
           .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
           .allowedHeaders("Authorization", "Content-Type", "Origin") // Needed for PUT, POST, DELETE and OPTIONS
-          .exposedHeaders("Authorization") // If you are using a custom header
+          .exposedHeaders("*") // If you are using a custom header
           .allowCredentials(false) // Enable if you are using cookie-based authentication
           .maxAge(3600); // Maximum time in cache for pre-flight response
     }

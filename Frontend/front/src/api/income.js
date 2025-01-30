@@ -1,4 +1,4 @@
-import claraApi from "./claraApi";
+import claraApi from "../libs/claraApi";
 
 export const fetchIncomes = async (usuarioId) => {
   return await claraApi.get(`/operaciones/lista/ingresos/${usuarioId}`);

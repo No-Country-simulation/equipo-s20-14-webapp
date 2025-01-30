@@ -1,9 +1,11 @@
 import { toast } from "react-toastify";
 import { createIncome, fetchIncomes } from "../api/income";
 
-export const getIncomes = async () => {
+export const getIncomes = async (usuarioId) => {
   try {
-    const { data } = await fetchIncomes();
+    const { data } = await fetchIncomes(usuarioId);
+    console.log(data);
+
     return data;
   } catch (error) {
     console.error("Error al obtener ingresos:", error);

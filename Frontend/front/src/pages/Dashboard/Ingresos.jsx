@@ -12,7 +12,7 @@ export const Ingresos = () => {
         Ingresos - <span className="capitalize">{tipo}</span>
       </h1>
       <IngresoItem tipo={tipo} />
-      <IncomeList />
+      {/*   <IncomeList /> */}
     </div>
   );
 };

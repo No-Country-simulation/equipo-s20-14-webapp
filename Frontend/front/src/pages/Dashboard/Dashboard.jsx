@@ -1,14 +1,13 @@
 import React from "react";
-import Header from "../../components/Header";
-import { SidebarMenu } from "../../components/Dashboard/SidebarMenu";
 import { Outlet } from "react-router-dom";
+import { SidebarMenu } from "../../components/Dashboard/SidebarMenu";
+import Header from "../../components/Header";
 
 const sections = [
   {
     title: "Ingresos",
     subItems: [
       { label: "Mensual", path: "/dashboard/ingresos/mensual" },
-      { label: "Quincenal", path: "/dashboard/ingresos/quincenal" },
       { label: "Extra", path: "/dashboard/ingresos/extra" },
     ],
   },
@@ -35,7 +34,6 @@ export const Dashboard = () => {
       <Header />
       <div className="flex ">
         <SidebarMenu sections={sections} />
-
         <Outlet />
       </div>
     </div>

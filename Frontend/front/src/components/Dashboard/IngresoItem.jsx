@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { useAuthStore } from "../../store/auth";
 
 const IngresoItem = ({ tipo }) => {
   const [monto, setMonto] = useState("");
   const [ingresos, setIngresos] = useState([]);
+  const profile = useAuthStore((state) => state.profile);
 
   useEffect(() => {
     setIngresos([]);
@@ -24,8 +26,21 @@ const IngresoItem = ({ tipo }) => {
     toast.warn("Eliminado correctamente.");
   };
 
-  const handleSaveIngreso = () => {
-    toast.success("Ingresos guardados correctamente.");
+  const handleSaveIngreso = async () => {
+    if (!profile || !profile.id) {
+      toast.error("Error: Usuario no identificado.");
+      return;
+    }
+
+    const ingresoData = {
+      descripcion: `Ingreso ${tipo}`,
+      fechaEfectuada: new Date().toISOString().split("T")[0],
+      monto: parseFloat(monto),
+      categoriaId: 1,
+      usuarioId: profile.id,
+    };
+
+    console.log(ingresoData);
   };
 
   return (
@@ -44,7 +59,7 @@ const IngresoItem = ({ tipo }) => {
         Agregar Ingreso
       </button>
 
-      <table className="min-w-full mt-6 border-collapse">
+      <table className="min-w-full my-6 border-collapse">
         <thead>
           <tr>
             <th className="border-b py-2 px-4 text-left">Ingresos</th>

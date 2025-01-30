@@ -4,6 +4,7 @@ import { SidebarMenu } from "../../components/Dashboard/SidebarMenu";
 import { Outlet } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuthStore } from "../../store/auth";
+import { categoryRequest } from "../../api/category";
 
 const sections = [
   {
@@ -32,31 +33,39 @@ const sections = [
 ];
 
 export const Dashboard = () => {
-
   const idUsuario = useAuthStore.getState().profile.id;
-  const token = useAuthStore.getState().token
+  const token = useAuthStore.getState().token;
+
+  const setCategorias = useAuthStore((state) => state.setCategorias);
 
   useEffect(() => {
     const fetchCategorias = async () => {
-      const response = await fetch(`https://equipo-s20-14-webapp.onrender.com/categorias/lista/${idUsuario}`, {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-        },
-        mode: "cors"
-    });
+      // const response = await fetch(
+      //   `https://equipo-s20-14-webapp.onrender.com/categorias/lista/${idUsuario}`,
+      //   {
+      //     method: "GET",
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //       "Content-Type": "application/json",
+      //     },
+      //   }
+      // );
 
-    if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
-    }
+      // if (!response.ok) {
+      //   throw new Error(`Error: ${response.statusText}`);
+      // }
 
-    const data = await response.json();
-    console.log(data);
-    }
+      try {
+        const { data } = await categoryRequest(idUsuario);
+        console.log(data);
+        // setCategorias(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     fetchCategorias();
-  }, [])
-  
+  }, []);
+
   return (
     <div>
       <Header />

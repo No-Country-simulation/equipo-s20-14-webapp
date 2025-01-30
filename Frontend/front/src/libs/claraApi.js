@@ -5,15 +5,13 @@ import { useAuthStore } from '../store/auth'
 const { VITE_API_URL } = getEnvVariables();
 
 const claraApi = axios.create({
-  baseURL: VITE_API_URL,
-  withCredentials: true
+  baseURL: VITE_API_URL
 });
 
 claraApi.interceptors.request.use(config => {
 
   const token = useAuthStore.getState().token
   config.headers = {
-    Accept: '*/*',
     Authorization: `Bearer ${token}`
   }
 

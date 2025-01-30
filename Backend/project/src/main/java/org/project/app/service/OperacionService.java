@@ -1,9 +1,7 @@
 package org.project.app.service;
 
 import jakarta.transaction.Transactional;
-import org.project.app.dto.operacion.OperacionDTO;
-import org.project.app.dto.operacion.OperacionExtraDTO;
-import org.project.app.dto.operacion.OperacionFijaDTO;
+import org.project.app.dto.operacion.*;
 import org.project.app.model.Categoria;
 import org.project.app.model.Operacion;
 import org.project.app.model.User;
@@ -109,7 +107,7 @@ public class OperacionService {
         return armarOperacionDTO(operacion);
     }
 
-    public OperacionDTO efectuarIngreso(OperacionExtraDTO dto,
+    public OperacionDTO efectuarIngreso(OperacionIngresoExtraDTO dto,
                                         User usuario) {
         Operacion operacion = Operacion.builder()//Armar la operacion
                 .descripcion(dto.getDescripcion())
@@ -117,7 +115,7 @@ public class OperacionService {
                 .monto(dto.getMonto())
                 //Datos predeterminados-------------
                 .tipo(Operacion.TipoOperacion.INGRESO)
-                .EsFijo(false)
+                .EsFijo(Boolean.FALSE)
                 .estado(Operacion.Estado.EFECTUADA)
                 //----------------------------------
                 .usuario(usuario)
@@ -125,15 +123,15 @@ public class OperacionService {
         operacionRepository.save(operacion);
         return armarOperacionDTO(operacion);
     }
-    public OperacionDTO crearIngresoFijo(OperacionFijaDTO dto,
-                                      User usuario) {
+    public OperacionDTO crearIngresoFijo(OperacionIngresoFijoDTO dto,
+                                         User usuario) {
         Operacion operacion = Operacion.builder()//Armar la operacion
                 .descripcion(dto.getDescripcion())
                 .fechaProgramada(dto.getFechaProgramada())
                 .monto(dto.getMonto())
                 //Datos predeterminados-------------
                 .tipo(Operacion.TipoOperacion.INGRESO)
-                .EsFijo(true)
+                .EsFijo(Boolean.TRUE)
                 .estado(Operacion.Estado.PROGRAMADA)
                 //----------------------------------
                 .cicloDias(dto.getCicloDias())
@@ -142,7 +140,7 @@ public class OperacionService {
         operacionRepository.save(operacion);
         return armarOperacionDTO(operacion);
     }
-    public OperacionDTO efectuarGasto(OperacionExtraDTO dto,
+    public OperacionDTO efectuarGasto(OperacionGastoExtraDTO dto,
                                       User usuario,
                                       Categoria categoria) {
         Operacion operacion = Operacion.builder()//Armar la operacion
@@ -151,7 +149,7 @@ public class OperacionService {
                 .monto(dto.getMonto())
                 //Datos predeterminados-------------
                 .tipo(Operacion.TipoOperacion.GASTO)
-                .EsFijo(false)
+                .EsFijo(Boolean.FALSE)
                 .estado(Operacion.Estado.EFECTUADA)
                 //----------------------------------
                 .usuario(usuario)
@@ -160,7 +158,7 @@ public class OperacionService {
         operacionRepository.save(operacion);
         return armarOperacionDTO(operacion);
     }
-    public OperacionDTO crearGastoFijo(OperacionFijaDTO dto,
+    public OperacionDTO crearGastoFijo(OperacionGastoFijoDTO dto,
                                        User usuario,
                                        Categoria categoria) {
         Operacion operacion = Operacion.builder()//Armar la operacion
@@ -169,7 +167,7 @@ public class OperacionService {
                 .monto(dto.getMonto())
                 //Datos predeterminados-------------
                 .tipo(Operacion.TipoOperacion.GASTO)
-                .EsFijo(true)
+                .EsFijo(Boolean.TRUE)
                 .estado(Operacion.Estado.PROGRAMADA)
                 //----------------------------------
                 .cicloDias(dto.getCicloDias())

@@ -1,6 +1,5 @@
 package org.project.app.security;
 
-
 import lombok.RequiredArgsConstructor;
 import org.project.app.jwt.JwtAuthenticationFilter;
 import org.project.app.model.Role;
@@ -24,28 +23,22 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests( auth -> auth
-                        .requestMatchers("/auth/**")
-                        .permitAll()
-                        .requestMatchers("/user/**")
+                .cors(cors -> cors.configure(http)) // Habilitar CORS en Spring Security
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/auth/**",
+                                "/api-docs/**",
+                                "/swagger-ui/**",
+                                "/api-docs.yaml",
+                                "/swagger-ui-custom.html"
+                        ).permitAll()
+                        .requestMatchers("/user/**", "/notification/**", "/presupuestos/**",
+                                "/operaciones/**", "/categorias/**")
                         .hasAnyAuthority(Role.ADMIN.name(), Role.USER.name())
-                        .requestMatchers("/notification/**")
-                        .hasAnyAuthority(Role.ADMIN.name(), Role.USER.name())
-                        .requestMatchers("/presupuestos/**")
-                        .hasAnyAuthority(Role.ADMIN.name(), Role.USER.name())
-                        .requestMatchers("/operaciones/**")
-                        .hasAnyAuthority(Role.ADMIN.name(), Role.USER.name())
-                        .requestMatchers("/categorias/**")
-                        .hasAnyAuthority(Role.ADMIN.name(), Role.USER.name())                                       
-                        .requestMatchers("/api-docs/**", "/swagger-ui/**", "/api-docs.yaml")  // Rutas de Swagger API Docs
-                        .permitAll()
-                        .requestMatchers("/swagger-ui-custom.html", "/swagger-ui/**", "/swagger-ui/")  // Ruta personalizada de Swagger UI
-                        .permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-
 }

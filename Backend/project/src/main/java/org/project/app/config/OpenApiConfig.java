@@ -14,7 +14,7 @@ public class OpenApiConfig {
         return new OpenAPI()
                 .info(new Info().title("API Documentation: Clara").version("1.0"))
                 .addServersItem(new Server().url("https://equipo-s20-14-webapp.onrender.com/"));
-//                .addServersItem(new Server().url("http://localhost:8080/"));
+    //            .addServersItem(new Server().url("http://localhost:8080/"));
     }
 
 }

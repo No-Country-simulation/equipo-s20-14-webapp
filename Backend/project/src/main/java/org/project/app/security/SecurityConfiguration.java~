@@ -35,6 +35,8 @@ public class SecurityConfiguration {
                         ).permitAll()
                         .requestMatchers("/user/**", "/notification/**", "/presupuestos/**", "/categorias/**")
                         .hasAnyAuthority(Role.ADMIN.name(), Role.USER.name())
+                        .requestMatchers("/operaciones/**")
+                        .permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

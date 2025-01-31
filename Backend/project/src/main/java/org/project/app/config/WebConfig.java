@@ -2,24 +2,19 @@ package org.project.app.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-/**
- * Class to solve CORS problems
- * */
-
 @Configuration
-@EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-          .allowedOrigins("https://clara-webapp.vercel.app", "http://localhost:5173", "https://equipo-s20-14-webapp.onrender.com") // Can be restricted to specific origins in a production environment
-          .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-          .allowedHeaders("Authorization", "Content-Type", "Origin") // Needed for PUT, POST, DELETE and OPTIONS
-          .exposedHeaders("Authorization") // If you are using a custom header
-          .allowCredentials(true) // Enable if you are using cookie-based authentication
-          .maxAge(3600); // Maximum time in cache for pre-flight response
+                .allowedOriginPatterns("*")  // Permitir cualquier origen
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
+                .allowedHeaders("*")
+                .exposedHeaders("Authorization", "Content-Type") // Headers importantes
+                .allowCredentials(true)
+                .maxAge(3600);
     }
 }

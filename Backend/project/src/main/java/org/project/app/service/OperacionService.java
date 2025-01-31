@@ -1,9 +1,7 @@
 package org.project.app.service;
 
 import jakarta.transaction.Transactional;
-import org.project.app.dto.operacion.OperacionDTO;
-import org.project.app.dto.operacion.OperacionExtraDTO;
-import org.project.app.dto.operacion.OperacionFijaDTO;
+import org.project.app.dto.operacion.*;
 import org.project.app.model.Categoria;
 import org.project.app.model.Operacion;
 import org.project.app.model.User;
@@ -26,14 +24,14 @@ public class OperacionService {
         this.operacionRepository = operacionRepository;
         this.categoriaRepository = categoriaRepository;
     }
-    public List<OperacionDTO> getOperaciones(User usuario)
+    public List<Operacion> getOperaciones(User usuario)
     {
-        return listarOperacionDTO(operacionRepository.findByUsuario(usuario));
+        return operacionRepository.findByUsuario(usuario);
     }
-    public List<OperacionDTO> getOperacionesDeIngreso(User usuario)
+    public List<Operacion> getOperacionesDeIngreso(User usuario)
     {
-        return listarOperacionDTO(operacionRepository.findByUsuarioAndTipo(usuario,
-                Operacion.TipoOperacion.INGRESO));
+        return operacionRepository.findByUsuarioAndTipo(usuario,
+                Operacion.TipoOperacion.INGRESO);
     }
     public double getTotalOperacionesDeIngreso(User usuario)
     {
@@ -41,9 +39,9 @@ public class OperacionService {
                 Operacion.TipoOperacion.INGRESO);
         return this.sumarMontos(operaciones);
     }
-    public List<OperacionDTO> getOperacionesDeGasto(User usuario) {
-        return listarOperacionDTO(operacionRepository.findByUsuarioAndTipo(usuario,
-                Operacion.TipoOperacion.GASTO));
+    public List<Operacion> getOperacionesDeGasto(User usuario) {
+        return operacionRepository.findByUsuarioAndTipo(usuario,
+                Operacion.TipoOperacion.GASTO);
     }
     public double getTotalOperacionesDeGasto(User usuario) {
         List<Operacion> operaciones = operacionRepository.findByUsuarioAndTipo(usuario,
@@ -51,10 +49,10 @@ public class OperacionService {
         return this.sumarMontos(operaciones);
     }
 
-    public List<OperacionDTO> getGastosDeCategoria(User usuario, Categoria categoria) {
-        return listarOperacionDTO(operacionRepository.
+    public List<Operacion> getGastosDeCategoria(User usuario, Categoria categoria) {
+        return operacionRepository.
                 findByUsuarioAndTipoAndCategoria(usuario,
-                Operacion.TipoOperacion.GASTO, categoria));
+                Operacion.TipoOperacion.GASTO, categoria);
     }
 
     public double getTotalGastosPorCategoria(User usuario, Categoria categoria) {
@@ -88,28 +86,26 @@ public class OperacionService {
         }
     }
     @Transactional
-    public OperacionDTO confirmarOperacion(Long operacionId, LocalDate fechaEfectuada) {
+    public Operacion confirmarOperacion(Long operacionId, LocalDate fechaEfectuada) {
         Operacion operacion = operacionRepository.findById(operacionId)
                 .orElseThrow(() -> new RuntimeException("Operación no encontrada"));
         operacion.setEstado(Operacion.Estado.EFECTUADA);
         operacion.setFechaProgramada(operacion.getFechaProgramada().plusDays(operacion.getCicloDias()));
         operacion.setFechaEfectuada(fechaEfectuada);
-        operacionRepository.save(operacion);
-        return armarOperacionDTO(operacion);
+        return operacionRepository.save(operacion);
     }
     @Transactional
-    public OperacionDTO cambiarCategoriaOperacion(Long operacionId, Long categoriaId) {
+    public Operacion cambiarCategoriaOperacion(Long operacionId, Long categoriaId) {
         Operacion operacion = operacionRepository.findById(operacionId)
                 .orElseThrow(() -> new RuntimeException("Operación no encontrada"));
 
         Categoria categoria = categoriaRepository.findById(categoriaId)
                 .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
         operacion.setCategoria(categoria);
-        operacionRepository.save(operacion);
-        return armarOperacionDTO(operacion);
+        return operacionRepository.save(operacion);
     }
 
-    public OperacionDTO efectuarIngreso(OperacionExtraDTO dto,
+    public Operacion efectuarIngreso(OperacionIngresoExtraDTO dto,
                                         User usuario) {
         Operacion operacion = Operacion.builder()//Armar la operacion
                 .descripcion(dto.getDescripcion())
@@ -117,32 +113,30 @@ public class OperacionService {
                 .monto(dto.getMonto())
                 //Datos predeterminados-------------
                 .tipo(Operacion.TipoOperacion.INGRESO)
-                .EsFijo(false)
+                .EsFijo(Boolean.FALSE)
                 .estado(Operacion.Estado.EFECTUADA)
                 //----------------------------------
                 .usuario(usuario)
                 .build();
-        operacionRepository.save(operacion);
-        return armarOperacionDTO(operacion);
+        return operacionRepository.save(operacion);
     }
-    public OperacionDTO crearIngresoFijo(OperacionFijaDTO dto,
-                                      User usuario) {
+    public Operacion crearIngresoFijo(OperacionIngresoFijoDTO dto,
+                                         User usuario) {
         Operacion operacion = Operacion.builder()//Armar la operacion
                 .descripcion(dto.getDescripcion())
                 .fechaProgramada(dto.getFechaProgramada())
                 .monto(dto.getMonto())
                 //Datos predeterminados-------------
                 .tipo(Operacion.TipoOperacion.INGRESO)
-                .EsFijo(true)
+                .EsFijo(Boolean.TRUE)
                 .estado(Operacion.Estado.PROGRAMADA)
                 //----------------------------------
                 .cicloDias(dto.getCicloDias())
                 .usuario(usuario)
                 .build();
-        operacionRepository.save(operacion);
-        return armarOperacionDTO(operacion);
+        return operacionRepository.save(operacion);
     }
-    public OperacionDTO efectuarGasto(OperacionExtraDTO dto,
+    public Operacion efectuarGasto(OperacionGastoExtraDTO dto,
                                       User usuario,
                                       Categoria categoria) {
         Operacion operacion = Operacion.builder()//Armar la operacion
@@ -151,16 +145,15 @@ public class OperacionService {
                 .monto(dto.getMonto())
                 //Datos predeterminados-------------
                 .tipo(Operacion.TipoOperacion.GASTO)
-                .EsFijo(false)
+                .EsFijo(Boolean.FALSE)
                 .estado(Operacion.Estado.EFECTUADA)
                 //----------------------------------
                 .usuario(usuario)
                 .categoria(categoria)
                 .build();
-        operacionRepository.save(operacion);
-        return armarOperacionDTO(operacion);
+        return operacionRepository.save(operacion);
     }
-    public OperacionDTO crearGastoFijo(OperacionFijaDTO dto,
+    public Operacion crearGastoFijo(OperacionGastoFijoDTO dto,
                                        User usuario,
                                        Categoria categoria) {
         Operacion operacion = Operacion.builder()//Armar la operacion
@@ -169,15 +162,14 @@ public class OperacionService {
                 .monto(dto.getMonto())
                 //Datos predeterminados-------------
                 .tipo(Operacion.TipoOperacion.GASTO)
-                .EsFijo(true)
+                .EsFijo(Boolean.TRUE)
                 .estado(Operacion.Estado.PROGRAMADA)
                 //----------------------------------
                 .cicloDias(dto.getCicloDias())
                 .usuario(usuario)
                 .categoria(categoria)
                 .build();
-        operacionRepository.save(operacion);
-        return armarOperacionDTO(operacion);
+       return operacionRepository.save(operacion);
     }
     private OperacionDTO armarOperacionDTO(Operacion operacion) {
         OperacionDTO dto = new OperacionDTO();
@@ -200,6 +192,7 @@ public class OperacionService {
         dto.setUsuarioId(operacion.getUsuario().getId());
         return dto;
     }
+
     private List<OperacionDTO> listarOperacionDTO(List<Operacion> operaciones){
         return operaciones.stream().map(this::armarOperacionDTO).
                 collect(Collectors.toList());

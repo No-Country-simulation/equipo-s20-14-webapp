@@ -1,5 +1,8 @@
+import React from "react";
+import { Outlet } from "react-router-dom";
 
 import { SidebarMenu } from "../../components/Dashboard/SidebarMenu";
+import Header from "../../components/Header";
 import { Outlet } from "react-router-dom";
 
 
@@ -31,12 +34,14 @@ const sections = [
 
 export const Dashboard = () => {
   return (
-    
-    <div className="flex">
-      <SidebarMenu sections={sections} />
-
-      <Outlet />
+    <div>
+      <Header />
+      <div className="flex ">
+        <SidebarMenu sections={sections} />
+        <Outlet />
+      </div>
     </div>
+    
     
   );
 };

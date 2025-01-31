@@ -1,17 +1,19 @@
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import { VistaServicios } from "../components/Vistas/VistaServicios";
+import Header from '../components/Header';
+import VistaOtros from '../components/Vistas/VistaOtros';
+
+
+
 
 const FinanazasApp =()=> {
 
-return (
-  <div>
-    <Header /> 
-    <VistaServicios />
-
-    <Footer />
-    </div>
-  );
+  return(
+    <>
+    <Header />
+    <VistaOtros />
+    </>
+  )
 };
+ 
+
 
 export default FinanazasApp;

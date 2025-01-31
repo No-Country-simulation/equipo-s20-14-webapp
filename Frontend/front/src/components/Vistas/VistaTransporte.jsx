@@ -5,11 +5,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
 
 
-const VistaServicios = () =>{
+const VistaTransporte = () =>{
   
   //Definimos el estado para los campos del formulario
   const [formulario, setFormulario] = useState({ descripcion: "", fecha: "", monto: "" });
-  const [servicios, setServicios] = useState([]);//Lista de servicios
+  const [transporte, setTransporte] = useState([]);//Lista de servicios
   const [editIndex, setEditIndex] = useState(null);// Para saber si estamos editando
 
   
@@ -31,21 +31,21 @@ const VistaServicios = () =>{
       };
     
       //Creamos un nuevo servicio con los datos ingresados
-    const nuevoServicio = { descripcion, fecha, monto: parseFloat(monto) || 0 };
-    if (nuevoServicio.monto <= 0) {
+    const nuevoGasto = { descripcion, fecha, monto: parseFloat(monto) || 0 };
+    if (nuevoGasto.monto <= 0) {
       alert("El monto debe ser mayor a 0");
       return;
     };
 
     if (editIndex !== null){
     // Si estamos editando, actualizamos en lugar de agregar
-      const serviciosActualizados = [...servicios];
-      serviciosActualizados[editIndex] = nuevoServicio;
-      setServicios(serviciosActualizados);
+      const serviciosActualizados = [...transporte];
+      serviciosActualizados[editIndex] = nuevoGasto;
+      setTransporte(serviciosActualizados);
       setEditIndex(null);//resetear modo edición
     }else {
-       //Actualizamos la lista de servicios con el nuevo
-        setServicios([...servicios, nuevoServicio]);
+       //Actualizamos la lista de gastos con el nuevo
+        setTransporte([...transporte, nuevoGasto]);
     };
 
     //Limpiamos los campos después de agregar el servicio
@@ -57,25 +57,25 @@ const VistaServicios = () =>{
     
     // Eliminar servicio
     const handleDelete = (index) => {
-      setServicios(servicios.filter((_, i) => i !== index));
+      setTransporte(transporte.filter((_, i) => i !== index));
         
     };
 
     // Cargar los datos en el formulario para editar
     const handleEdit = (index) => {
-      setFormulario(servicios[index]);
+      setFormulario(transporte[index]);
       setEditIndex(index);
     };
 
     // Función para guardar la lista de servicios en el backend
-  const guardarServicios = async () => {
+  const guardarTransporte = async () => {
     try {
-      const response = await axios.post("http://localhost:5000/servicios", servicios);
-      console.log("Servicios guardados correctamente:", response.data);
-      alert("Servicios guardados correctamente");
+      const response = await axios.post("/operaciones/confirmar/{operacionId}", transporte);
+      console.log("Gastos guardados correctamente:", response.data);
+      alert("Gastos guardados correctamente");
     } catch (error) {
-      console.error("Error al guardar los servicios", error);
-      alert("Hubo un error al guardar los servicios");
+      console.error("Error al guardar los gastos", error);
+      alert("Hubo un error al guardar los gastos");
     }
   };
     /*const fetchServicios = async () => {
@@ -96,7 +96,7 @@ const VistaServicios = () =>{
         <Paper elevation={3} style={{ padding: "20px", marginTop: "20px" }}>
 
           <Typography variant="h5" gutterBottom>
-            {editIndex !== null ? "Editar Servicio" : "Registrar Servicio"}
+            {editIndex !== null ? "Editar Gasto" : "Registrar Gasto de Transporte"}
           </Typography>
 
 
@@ -136,7 +136,7 @@ const VistaServicios = () =>{
             />
           <Button type="submit" variant="contained" color="primary" fullWidth>
             
-            {editIndex !== null ? "Actualizar Servicios" : "Agregar Servicio"}
+            {editIndex !== null ? "Actualizar Gasto" : "Agregar Gasto"}
           </Button>
         </form>
       </Paper>
@@ -145,7 +145,7 @@ const VistaServicios = () =>{
         Servicios Registrados
       </Typography>
       <List>
-        {servicios.map((servicio, index) => (
+        {transporte.map((transporte, index) => (
           <ListItem key={index} 
           secondaryAction={
           <>
@@ -159,8 +159,8 @@ const VistaServicios = () =>{
           }
           >
             <ListItemText
-              primary={`${servicio.descripcion}`}
-              secondary={`Fecha: ${servicio.fecha} | Monto: $${servicio.monto.toFixed(2)}`}
+              primary={`${transporte.descripcion}`}
+              secondary={`Fecha: ${transporte.fecha} | Monto: $${transporte.monto.toFixed(2)}`}
             />
           </ListItem>
 
@@ -172,13 +172,13 @@ const VistaServicios = () =>{
         variant="contained" 
         color="secondary" 
         fullWidth 
-        onClick={guardarServicios}
+        onClick={guardarTransporte}
         style={{ marginTop: "20px" }}
-        disabled={servicios.length === 0}
+        disabled={transporte.length === 0}
       >
-        Guardar Servicios
+        Guardar gastos
       </Button>
-      {servicios.length ===  0 && (
+      {transporte.length ===  0 && (
         <Typography variant="body2" color="textSecondary">
         No hay servicios registrados aún.
         </Typography>
@@ -188,4 +188,4 @@ const VistaServicios = () =>{
   );
 };  
 
-export default VistaServicios;
+export default VistaTransporte;

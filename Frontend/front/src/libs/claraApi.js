@@ -1,23 +1,22 @@
-import axios from 'axios'
-import { getEnvVariables } from '../helpers/getEnvVariables'
-import { useAuthStore } from '../store/auth'
+import axios from "axios";
+import { getEnvVariables } from "../helpers/getEnvVariables";
+import { useAuthStore } from "../store/auth";
 
 const { VITE_API_URL } = getEnvVariables();
 
 const claraApi = axios.create({
   baseURL: VITE_API_URL,
-  withCredentials: true
+  withCredentials: true,
 });
 
-claraApi.interceptors.request.use(config => {
-
-  const token = useAuthStore.getState().token
+claraApi.interceptors.request.use((config) => {
+  const token = useAuthStore.getState().token;
   config.headers = {
-    Accept: '*/*',
-    Authorization: `Bearer ${token}`
-  }
+    Accept: "*/*",
+    Authorization: `Bearer ${token}`,
+  };
 
-  return config
+  return config;
 });
 
-export default claraApi
+export default claraApi;

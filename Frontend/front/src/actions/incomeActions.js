@@ -4,7 +4,7 @@ import { createIncome, fetchIncomes } from "../api/income";
 export const getIncomes = async (usuarioId) => {
   try {
     const { data } = await fetchIncomes(usuarioId);
-    console.log(data);
+    // console.log(data);
 
     return data;
   } catch (error) {

@@ -1,7 +1,8 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { SidebarGastos } from "./SidebarGastos";
 
-export const SidebarMenu = ({ sections }) => {
+export const SidebarMenu = ({ sections, categorias }) => {
   const location = useLocation();
 
   const isSectionActive = (path) => {
@@ -12,6 +13,7 @@ export const SidebarMenu = ({ sections }) => {
 
   return (
     <div className="w-64 h-screen bg-gray-100 border-r border-gray-300 p-4">
+    <SidebarGastos categorias={categorias} />
       <ul className="space-y-4">
         {sections.map((section, index) => (
           <li key={index}>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { addIncome } from "../../actions/incomeActions";
 import { useAuthStore } from "../../store/auth";
+import { createExtraIncome } from "../../api/income";
 
 const IngresoItem = ({ tipo }) => {
   const [monto, setMonto] = useState("");
@@ -42,7 +43,7 @@ const IngresoItem = ({ tipo }) => {
       usuarioId: profile.id,
     };
 
-    const data = await addIncome(ingresoData);
+    const data = await createExtraIncome(ingresoData);
 
     console.log(data);
   };

@@ -1,126 +1,164 @@
-import '../../../style/ReporteGeneral.css';
-import { Pie } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-ChartJS.register(ArcElement, Tooltip, Legend);
+import { Card, CardContent } from "../../../components/ui/card";
+import { Pie, Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+} from "chart.js";
+import { Dashboard } from "../Dashboard";
+import { useEffect, useState } from "react";
+import { getGastosRequest, getIngresosRequest } from "../../../api/financialApi";
 
 
-const coloresPie = [
-    'rgba(255, 99, 132, 0.6)', // Rojo
-    'rgba(54, 162, 235, 0.6)', // Azul
-    'rgba(255, 206, 86, 0.6)', // Amarillo
-    'rgba(75, 192, 192, 0.6)', // Verde
-    'rgba(153, 102, 255, 0.6)', // Morado
-    'rgba(255, 159, 64, 0.6)', // Naranja
-    'rgba(199, 199, 199, 0.6)', // Gris
-];
+ChartJS.register(
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  BarElement
+);
 
-// Datos de ejemplo para los ingresos y gastos
-const ingresos = [
-  {categoria: "Mensual", monto: 100 },
-  {categoria: "Quincenal", monto: 90 },
-  {categoria: "Extra", monto: 40 }
-];
+const VistaGeneral = () => {
+  const [gastos, setGastos] = useState([]);
+  const [ingresos, setIngresos] = useState([]);
 
-const gastos = [
-  { categoria: " Servicios", monto: 60},
-  { categoria: "Transporte", monto: 80},
-  { categoria: "Tarjetas/Crédito", monto: 150},
-  { categoria: "Hogar", monto: 300},
-  { categoria: "Otros", monto: 500},
-];
-
-const ReporteGeneral = () => {
-  
-
-  const totalIngresos = ingresos.reduce((sum, item) => sum + item.monto, 0);
-  const totalGastos = gastos.reduce((sum, item) => sum + item.monto, 0);
-  const balance = totalIngresos - totalGastos;
-
-  const dataIngresos = {
-    labels: ingresos.map(item => item.categoria),
+  // Datos para el gráfico de torta (gastos por categoría)
+  const pieData = {
+    labels: ["Servicios", "Movilidad", "Tarjetas de crédito", "Otros"],
     datasets: [
       {
+        label: "Gastos",
+        data: gastos.map(item => item.categoria), // Reemplazar con datos dinámicos del backend
+        backgroundColor: ["#f87171", "#60a5fa", "#facc15", "#4ade80"],
+        borderColor: ["#ffffff"],
+        borderWidth: 2,
+      },
+    ],
+  };
+
+  // Datos para el gráfico de barras (ingresos y gastos mensuales)
+  const barData = {
+    labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo"],
+    datasets: [
+      {
+        label: "Ingresos",
         data: ingresos.map(item => item.monto),
-        backgroundColor: coloresPie.slice(0, ingresos.length),
-        hoverBackgroundColor: coloresPie.slice(0, ingresos.length).map(color => color.replace("0.6", "1")),
+        backgroundColor: "#4ade80",
       },
-    ],
-  };
-
-  const dataGastos = {
-    labels: gastos.map(item => item.categoria),
-    datasets: [
       {
+        label: "Gastos",
         data: gastos.map(item => item.monto),
-        backgroundColor: coloresPie.slice(0, gastos.length),
-        hoverBackgroundColor: coloresPie.slice(0, gastos.length).map(color => color.replace("0.6", "1")),
+        backgroundColor: "#f87171",
       },
     ],
   };
+
+  useEffect(() => {
+    
+    //Obtener los gastos
+    const usuarioId = '123';
+    getGastosRequest(usuarioId)//Para cada gasto una petición, mapeo de todos los gastos
+    .then((gastosData) => {
+      if (Array.isArray(gastosData)) {
+        setGastos(gastosData);
+      } else {
+        console.error("Datos de gastos no son un array");
+      }
+      
+    })//asumiendo que el backend devuelve un array de objetos con datos de ingresos
+    .catch((error) => console.error(error));
+
+    // Obtener los ingresos
+    
+    getIngresosRequest(usuarioId)
+      .then((ingresosData) => {
+        if (Array.isArray(ingresosData)) {
+          setIngresos(ingresosData);
+        } else {
+          console.error("Datos de ingresos no son un array");
+        }
+    })  // Asumiendo que el backend devuelve un array de objetos con datos de ingresos
+      .catch((error) => console.error(error))
+    
+  },[]);
+
   
-  const data = {
-    labels: ["Ingresos", "Gastos"],
-    datasets: [
-      {
-        data: [totalIngresos, totalGastos],
-        backgroundColor: coloresPie.slice(0, 2),
-        hoverBackgroundColor:coloresPie.slice(0, 2).map(color => color.replace("0.6", "1")),
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top",
-      },
-      title: {
-        display: true,
-        text: "Reporte General",
-        tooltip: { callbacks: { label: context => `${context.label}: $${context.raw}` } },
-      },
-    },
-    aria: { label: "Gráfico de torta mostrando ingresos y gastos." },
-
-  };
 
   return (
-    <div className="contenedor">
-      <h2 className="titulo">Reporte General</h2>
-
-      {/* Resumen del Balance */}
-      <div className="balance-resumen">
-        
-
-        <p><strong>Total de Ingresos:</strong> ${totalIngresos}</p>
-        <p><strong>Total de Gastos:</strong> ${totalGastos}</p>
-        <p style={{ color: balance >= 0 ? "green" : "red" }}>
-        <strong>Balance:</strong> ${balance}
-        </p>
+    <div className="flex min-h-screen">
+      <div>
+      <Dashboard className="w-1/5 bg-gray-800" />
       </div>
+      <div className=" p-6 space-y-8 bg-white rounded-lg shadow-md flex-grow">
+        <h2 className="text-xl font-semibold mb-4">Resumen Financiero</h2>
 
-      {/* Gráfico de Tortas */}
-      <div className="pie">
-        <h3 className="distribucion">Distribución Genaral</h3>
-        <Pie data={data} options={options} />
-      </div>
+        {/* Resumen Financiero */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-auto max-h-[400px] overflow-auto w-3/4 ">
+          <Card className="bg-green-100">
+            <CardContent>
+              <h3 className="text-lg font-semibold">Ingresos Totales</h3>
+              <p className="text-2xl font-bold">${ingresos.length > 0 ? ingresos.reduce((acc, ingreso) =>  acc + ingreso.monto, 0) : 0}</p>
+            </CardContent>
+          </Card>
+          <Card className="bg-red-100">
+            <CardContent>
+              <h3 className="text-lg font-semibold">Gastos Totales</h3>
+              <p className="text-2xl font-bold">${gastos.length > 0 ? gastos.reduce((acc, gasto) => acc + gasto.monto, 0) : 0}</p>
+            </CardContent>
+          </Card>
+          
+          {/*Saldo*/}
+          <Card className="bg-blue-100">
+            <CardContent>
+              <h3 className="text-lg font-semibold">Saldo</h3>
+              <p className="text-2xl font-bold">
+                ${ingresos.length > 0 || gastos.length > 0 ? ingresos.reduce((acc, ingreso) => acc + ingreso.monto, 0) - gastos.reduce((acc, gasto) => acc + gasto.monto, 0) : 0}
+              </p>
+            </CardContent>
+          </Card>
+        </div>
 
-       {/* Gráfico de Ingresos */}
-       <div className="pie">
-        <h3 className="distribucion">Ingresos por Categoría</h3>
-        <Pie data={dataIngresos} />
-      </div>
+        {/* Gráfico de Tortas */}
+        <div className="bg-white p-6 rounded-2xl shadow-md w-3/4 mx-auto">
+          <h3 className="text-lg font-semibold mb-4">Distribución de Gastos</h3>
+          <Pie data={pieData} />
+        </div>
 
-      {/* Gráfico de Gastos */}
-      <div className="pie">
-        <h3 className="distribucion">Gastos por Categoría</h3>
-        <Pie data={dataGastos} />
+        {/* Gráfico de Barras */}
+        <div className="bg-white p-6 rounded-2xl shadow-md w-3/4 mx-auto">
+          <h3 className="text-lg font-semibold mb-4">
+            Ingresos vs Gastos Mensuales
+          </h3>
+          <Bar data={barData} />
+        </div>
+
+        {/* Últimas Operaciones */}
+        <div className="bg-white p-6 rounded-2xl shadow-md">
+          <h3 className="text-lg font-semibold mb-4">Últimas Operaciones</h3>
+          <ul className="space-y-2">
+            <li className="flex justify-between border-b pb-2">
+              <span className="font-medium">Compra en supermercado</span>
+              <span className="text-red-500">- $100</span>
+            </li>
+            <li className="flex justify-between border-b pb-2">
+              <span className="font-medium">Pago de sueldo</span>
+              <span className="text-green-500">+ $500</span>
+            </li>
+            <li className="flex justify-between border-b pb-2">
+              <span className="font-medium">Carga de combustible</span>
+              <span className="text-red-500">- $50</span>
+            </li>
+          </ul>
+        </div>
       </div>
 
     </div>
   );
 };
-export default ReporteGeneral;
 
-
+export default VistaGeneral;

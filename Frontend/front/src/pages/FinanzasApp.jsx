@@ -1,15 +1,13 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import VistaGeneral from "../components/Inicio/VistaGeneral";
-import CarouselPage from "../components/Inicio/CarouselPage"
+import { VistaServicios } from "../components/Vistas/VistaServicios";
 
 const FinanazasApp =()=> {
 
 return (
   <div>
     <Header /> 
-    <CarouselPage />
-    <VistaGeneral/>
+    <VistaServicios />
 
     <Footer />
     </div>

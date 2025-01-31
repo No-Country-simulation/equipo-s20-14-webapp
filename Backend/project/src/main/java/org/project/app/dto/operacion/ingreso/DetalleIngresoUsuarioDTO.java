@@ -1,12 +1,12 @@
-package org.project.app.dto.operacion;
+package org.project.app.dto.operacion.ingreso;
 
 import lombok.Data;
+
 import java.time.LocalDate;
 
 @Data
-public class OperacionDTO {
-    private Long id;
-    private String tipo;
+public class DetalleIngresoUsuarioDTO {
+    private Long operacionId;
     private Boolean esFijo;
     private Integer cicloDias;
     private double monto;
@@ -14,13 +14,14 @@ public class OperacionDTO {
     private LocalDate fechaEfectuada;
     private String estado;
     private LocalDate fechaProgramada;
-    private Long categoriaId;
 
-    public OperacionDTO(Long id, String tipo, Boolean esFijo, Integer cicloDias,
-                        double monto, String descripcion, LocalDate fechaEfectuada,
-                        String estado, LocalDate fechaProgramada, Long categoriaId) {
-        this.id = id;
-        this.tipo = tipo;
+    public DetalleIngresoUsuarioDTO() {
+    }
+
+    public DetalleIngresoUsuarioDTO(Long operacionId, Boolean esFijo, Integer cicloDias,
+                                    double monto, String descripcion,
+                                    LocalDate fechaEfectuada, String estado, LocalDate fechaProgramada) {
+        this.operacionId = operacionId;
         this.esFijo = esFijo;
         this.cicloDias = cicloDias;
         this.monto = monto;
@@ -28,7 +29,6 @@ public class OperacionDTO {
         this.fechaEfectuada = fechaEfectuada;
         this.estado = estado;
         this.fechaProgramada = fechaProgramada;
-        this.categoriaId = categoriaId;
     }
 }
 

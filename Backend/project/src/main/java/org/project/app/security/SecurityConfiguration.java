@@ -33,9 +33,10 @@ public class SecurityConfiguration {
                                 "/api-docs.yaml",
                                 "/swagger-ui-custom.html"
                         ).permitAll()
-                        .requestMatchers("/user/**", "/notification/**", "/presupuestos/**",
-                                "/operaciones/**", "/categorias/**")
+                        .requestMatchers("/user/**", "/notification/**", "/presupuestos/**", "/categorias/**")
                         .hasAnyAuthority(Role.ADMIN.name(), Role.USER.name())
+                        .requestMatchers("/operaciones/**")
+                        .permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

@@ -17,10 +17,7 @@ const sections = [
   },
   {
     title: "Gastos",
-    subItems: [
-      { label: "Fijos", path: "/egresos/fijos" },
-      { label: "Variables", path: "/egresos/variables" },
-    ],
+    subItems: [],
   },
   {
     title: "Reporte",
@@ -43,8 +40,8 @@ export const Dashboard = () => {
     const getCategorias = async () => {
       const data = await loadCategories(idUsuario);
       if (data) setCategorias(data);
-      sections.splice(1,0,categorias);
-      console.log(sections);
+      // sections.splice(1,0,categorias);
+      // console.log(sections);
       
     };
     getCategorias();

@@ -9,16 +9,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.project.app.dto.ExtendedBaseResponse;
-import org.project.app.dto.user.UpDateImagesUserDto;
-import org.project.app.dto.user.UpdateUserDto;
-import org.project.app.dto.user.UpdatedUserDto;
-import org.project.app.dto.user.UserDto;
+import org.project.app.dto.user.*;
 import org.project.app.service.UserService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Usuarios", description = "Gestionar todos los End-Points de usuarios.")
+@Tag(name = "Users", description = "Gestionar todos los End-Points de usuarios.")
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
@@ -105,5 +102,33 @@ public class UserController {
     @PutMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ExtendedBaseResponse<UpdatedUserDto> updateUser(@Valid @RequestBody UpdateUserDto updateUserDto) {
         return userService.updateUser(updateUserDto);
+    }
+
+    @Operation(
+            summary = "Obtener balance del usuario",
+            description = "Obtiene el balance total, ingresos y gastos de un usuario específico"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Balance obtenido exitosamente",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = BalanceUserDto.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Usuario no encontrado",
+                    content = @Content
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Error al calcular el balance",
+                    content = @Content
+            )
+    })
+    @GetMapping("/{id}/balance")
+    public ResponseEntity<ExtendedBaseResponse<BalanceUserDto>> getBalance(@PathVariable Long id) {
+        ExtendedBaseResponse<BalanceUserDto> response = userService.getBalance(id);
+        return ResponseEntity.ok(response);
     }
 }

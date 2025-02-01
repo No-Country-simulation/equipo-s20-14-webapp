@@ -7,7 +7,9 @@ import org.project.app.dto.ExtendedBaseResponse;
 import org.project.app.dto.user.*;
 import org.project.app.exception.userExc.UserNotFoundException;
 import org.project.app.mapper.UserMapper;
+import org.project.app.model.Transaction;
 import org.project.app.model.User;
+import org.project.app.repository.TransactionRepository;
 import org.project.app.repository.UserRepository;
 import org.project.app.service.UserService;
 import org.project.app.service.api.ImageService;
@@ -17,6 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +31,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final TransactionRepository transactionRepository;
     @Override
     @Transactional
     public ExtendedBaseResponse<String> upDateImagesUser(UpDateImagesUserDto upDateImagesUser) {
@@ -74,7 +80,38 @@ public class UserServiceImpl implements UserService {
         return ExtendedBaseResponse.of(BaseResponse.ok("Usuario actualizado"), updatedUserDto);
     }
 
+    @Override
+    @Transactional
+    public ExtendedBaseResponse<BalanceUserDto> getBalance(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new UserNotFoundException("Usuario no encontrado con ID: " + id);
+        }
 
+        List<Transaction> transactions = transactionRepository.findByUserId(id);
+
+        return ExtendedBaseResponse.of(
+                BaseResponse.ok("Balance obtenido exitosamente"),
+                calculateBalance(transactions)
+        );
+    }
+
+    private BalanceUserDto calculateBalance(List<Transaction> transactions) {
+        Map<Boolean, Double> amountsByType = transactions.stream()
+                .collect(Collectors.partitioningBy(
+                        Transaction::getIsSpent,
+                        Collectors.summingDouble(Transaction::getAmount)
+                ));
+
+        Double totalExpenses = amountsByType.get(true);
+        Double totalIncomes = amountsByType.getOrDefault(false, 0.0);
+        Double balance = totalIncomes - (totalExpenses != null ? totalExpenses : 0.0);
+
+        return new BalanceUserDto(
+                balance,
+                totalExpenses != null ? totalExpenses : 0.0,
+                totalIncomes
+        );
+    }
 
     private String uploadSingleImage(MultipartFile image) {
         try {

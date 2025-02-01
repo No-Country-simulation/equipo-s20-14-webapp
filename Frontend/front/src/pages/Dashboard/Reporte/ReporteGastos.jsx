@@ -57,22 +57,22 @@ const ReporteGastos = () =>{
 
   return (
 
+    <div className="contenedor">
+      <h2 className="titulo">Reporte Total de Gastos</h2>
 
-        <div className="contenedor">
-        <h2 className="titulo">Reporte Total de Gastos</h2>
-
-        {/* Resumen del Balance */}
-        <div className="balance-resumen">
-          <h3>Gastos</h3>
+      {/* Resumen del Balance */}
+      <div className="balance-resumen">
+        <h3>Gastos</h3>
             
-          {gastos.map((gasto, index) => (
-                <p key={index}>
-                    <strong>Gasto {gasto.categoria}:</strong> ${gasto.monto}
-                </p>
-            ))}
-            <p><strong>Total de Gastos:</strong>${totalGastos}</p>
+        {gastos.map((gasto, index) => (
+            <p key={index}>
+              <strong>Gasto {gasto.categoria}:</strong> ${gasto.monto}
+            </p>
+          )
+        )}
+        <p><strong>Total de Gastos:</strong>${totalGastos}</p>
             
-        </div>
+      </div>
 
         {/* Gráfico de Tortas */}
         <div className="pie">

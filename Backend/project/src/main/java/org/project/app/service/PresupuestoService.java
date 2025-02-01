@@ -1,7 +1,6 @@
 package org.project.app.service;
 
 import jakarta.transaction.Transactional;
-import org.project.app.dto.presupuesto.CrearPresupuestoDTO;
 import org.project.app.dto.presupuesto.PresupuestoDTO;
 import org.project.app.model.Categoria;
 import org.project.app.model.Presupuesto;
@@ -9,7 +8,6 @@ import org.project.app.model.User;
 import org.project.app.repository.CategoriaRepository;
 import org.project.app.repository.PresupuestoRepository;
 import org.springframework.stereotype.Service;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,17 +52,20 @@ public class PresupuestoService {
         return armarPresupuestoDTO(presupuesto);
     }
 
-    public PresupuestoDTO crearPresupuesto(CrearPresupuestoDTO dto,
+    public PresupuestoDTO crearPresupuesto(double monto,
                                            User usuario,
                                            Categoria categoria) {
 
         Presupuesto presupuesto = Presupuesto.builder()//Armar el presupuesto
-                .monto(dto.getMonto())
+                .monto(monto)
                 .usuario(usuario)
                 .categoria(categoria)
                 .build();
         Presupuesto presupuestoCreado = presupuestoRepository.save(presupuesto);
-        return armarPresupuestoDTO(presupuestoCreado);
+        return new PresupuestoDTO(presupuestoCreado.getId(),
+                presupuestoCreado.getMonto(),
+                presupuestoCreado.getUsuario().getId(),
+                presupuestoCreado.getCategoria().getId());
     }
 
     private PresupuestoDTO armarPresupuestoDTO(Presupuesto presupuesto) {

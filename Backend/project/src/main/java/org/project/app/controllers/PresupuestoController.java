@@ -92,12 +92,13 @@ public class PresupuestoController {
                     Long categoriaId = crearPresupuestoDTO.getCategoriaId();
                     Categoria categoria = categoriaRepository.findById(categoriaId)
                             .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+                    double monto = crearPresupuestoDTO.getMonto();
                     PresupuestoDTO presupuestoCreado =
-                            presupuestoService.crearPresupuesto(crearPresupuestoDTO,usuario, categoria);
+                            presupuestoService.crearPresupuesto(monto,usuario, categoria);
                     return ResponseEntity.ok(presupuestoCreado);
                 }).orElseGet( () -> {
-                    PresupuestoDTO emptypresupuestoDTO = new PresupuestoDTO();
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(emptypresupuestoDTO);
+                    PresupuestoDTO empty = new PresupuestoDTO();
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(empty);
                 });
     }
         

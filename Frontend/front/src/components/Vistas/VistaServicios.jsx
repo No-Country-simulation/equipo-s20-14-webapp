@@ -37,24 +37,31 @@ const VistaServicios = () =>{
       return;
     };
 
-    if (editIndex !== null){
-    // Si estamos editando, actualizamos en lugar de agregar
-      const serviciosActualizados = [...servicios];
-      serviciosActualizados[editIndex] = nuevoServicio;
-      setServicios(serviciosActualizados);
-      setEditIndex(null);//resetear modo edición
-    }else {
-       //Actualizamos la lista de servicios con el nuevo
-        setServicios([...servicios, nuevoServicio]);
-    };
+    try {
+      const response = await axios.post("/operaciones/crar/gastos", nuevoServicio);
+      const gastoGuardado = response.data;
 
-    //Limpiamos los campos después de agregar el servicio
-    setFormulario({ descripcion:"", fecha:"", monto:""});
-      
-  };
-      
-  
+      if (editIndex !== null){
+      // Si estamos editando, actualizamos en lugar de agregar
+        const serviciosActualizados = [...servicios];
+        serviciosActualizados[editIndex] = gastoGuardado;
+        setServicios(serviciosActualizados);
+        setEditIndex(null);//resetear modo edición
+      }else {
+        //Actualizamos la lista de servicios con el nuevo
+          setServicios([...servicios, gastoGuardado]);
+      };
     
+      //Limpiamos los campos después de agregar el servicio
+      setFormulario({ descripcion:"", fecha:"", monto:""});
+      alert("Gasto guardado exitosamente");
+        
+    } catch (error) {
+      console.error("Error al guardar gasto", error);
+      alert("Hubo un error al guardar el gasto")
+    };
+  }; 
+      
     // Eliminar servicio
     const handleDelete = (index) => {
       setServicios(servicios.filter((_, i) => i !== index));
@@ -70,7 +77,7 @@ const VistaServicios = () =>{
     // Función para guardar la lista de servicios en el backend
   const guardarServicios = async () => {
     try {
-      const response = await axios.post("http://localhost:5000/servicios", servicios);
+      const response = await axios.post("http://localhost:5000/servicios", {servicios});
       console.log("Servicios guardados correctamente:", response.data);
       alert("Servicios guardados correctamente");
     } catch (error) {

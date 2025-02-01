@@ -36,8 +36,9 @@ public class CategoriaService {
     public CategoriaDetalleDTO getCategoriaDetalle(User usuario, Categoria categoria){
         double totalGasto = operacionService.getTotalGastosPorCategoria(usuario, categoria);
         double totalPresupuesto = presupuestoService.getTotalPresupuestosPorCategoria(usuario, categoria);
+        double disponible = totalPresupuesto - totalGasto;
         return new CategoriaDetalleDTO(categoria.getNombre(),
-                totalPresupuesto,totalGasto);
+                totalPresupuesto,totalGasto,disponible);
     }
     public Categoria crearCategoriaPersonal(String nombre, User usuario) {
         Categoria categoria = Categoria.builder()

@@ -2,10 +2,7 @@ package org.project.app.service;
 
 
 import org.project.app.dto.ExtendedBaseResponse;
-import org.project.app.dto.user.UpDateImagesUserDto;
-import org.project.app.dto.user.UpdateUserDto;
-import org.project.app.dto.user.UpdatedUserDto;
-import org.project.app.dto.user.UserDto;
+import org.project.app.dto.user.*;
 
 public interface UserService {
 
@@ -14,5 +11,7 @@ public interface UserService {
     ExtendedBaseResponse<UserDto> findUserById(Long id);
 
     ExtendedBaseResponse<UpdatedUserDto> updateUser(UpdateUserDto updateUserDto);
+
+    ExtendedBaseResponse<BalanceUserDto> getBalance(Long id);
 
 }

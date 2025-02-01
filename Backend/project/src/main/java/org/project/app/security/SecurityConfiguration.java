@@ -33,7 +33,7 @@ public class SecurityConfiguration {
                                 "/api-docs.yaml",
                                 "/swagger-ui-custom.html"
                         ).permitAll()
-                        .requestMatchers("/user/**", "/notification/**", "/operaciones/**","/presupuestos/**", "/categorias/**")
+                        .requestMatchers("/user/**", "/notification/**", "/operaciones/**","/presupuestos/**", "/categorias/**", "/category/**")
                         .hasAnyAuthority(Role.ADMIN.name(), Role.USER.name())
                         .anyRequest().authenticated()
                 )

@@ -2,6 +2,8 @@ package org.project.app.service;
 
 import jakarta.transaction.Transactional;
 import org.project.app.dto.operacion.*;
+import org.project.app.dto.operacion.gasto.*;
+import org.project.app.dto.operacion.ingreso.*;
 import org.project.app.model.Categoria;
 import org.project.app.model.Operacion;
 import org.project.app.model.User;
@@ -24,24 +26,28 @@ public class OperacionService {
         this.operacionRepository = operacionRepository;
         this.categoriaRepository = categoriaRepository;
     }
-    public List<Operacion> getOperaciones(User usuario)
+ /*   public List<OperacionDTO> getOperacionesDeUsuario(User usuario)
     {
-        return operacionRepository.findByUsuario(usuario);
-    }
-    public List<Operacion> getOperacionesDeIngreso(User usuario)
+        List<Operacion> operacionesDeUsuario = operacionRepository.findByUsuario(usuario);
+        return listarOperacionDTO(operacionesDeUsuario);
+
+    }*/
+    public List<DetalleIngresoUsuarioDTO> getOperacionesDeIngreso(User usuario)
     {
-        return operacionRepository.findByUsuarioAndTipo(usuario,
+        List<Operacion> ingresosDeUsuario = operacionRepository.findByUsuarioAndTipo(usuario,
                 Operacion.TipoOperacion.INGRESO);
+        return(listarDetalleIngresosUsuarioDTO(ingresosDeUsuario));
     }
     public double getTotalOperacionesDeIngreso(User usuario)
     {
-        List<Operacion> operaciones = operacionRepository.findByUsuarioAndTipo(usuario,
+        List<Operacion> ingresosDeUsuario = operacionRepository.findByUsuarioAndTipo(usuario,
                 Operacion.TipoOperacion.INGRESO);
-        return this.sumarMontos(operaciones);
+        return this.sumarMontos(ingresosDeUsuario);
     }
-    public List<Operacion> getOperacionesDeGasto(User usuario) {
-        return operacionRepository.findByUsuarioAndTipo(usuario,
+    public List<DetalleGastoUsuarioDTO> getOperacionesDeGasto(User usuario) {
+        List<Operacion> gastosDeUsuario = operacionRepository.findByUsuarioAndTipo(usuario,
                 Operacion.TipoOperacion.GASTO);
+        return listarDetalleGastosUsuarioDTO(gastosDeUsuario);
     }
     public double getTotalOperacionesDeGasto(User usuario) {
         List<Operacion> operaciones = operacionRepository.findByUsuarioAndTipo(usuario,
@@ -49,10 +55,12 @@ public class OperacionService {
         return this.sumarMontos(operaciones);
     }
 
-    public List<Operacion> getGastosDeCategoria(User usuario, Categoria categoria) {
-        return operacionRepository.
+    public List<DetalleGastoCategoriaDTO> getGastosDeCategoria(User usuario, Categoria categoria) {
+
+        List<Operacion> gastosDeCategoria = operacionRepository.
                 findByUsuarioAndTipoAndCategoria(usuario,
                 Operacion.TipoOperacion.GASTO, categoria);
+        return listarDetalleGastosCategoriaDTO(gastosDeCategoria);
     }
 
     public double getTotalGastosPorCategoria(User usuario, Categoria categoria) {
@@ -105,8 +113,8 @@ public class OperacionService {
         return operacionRepository.save(operacion);
     }
 
-    public Operacion efectuarIngreso(OperacionIngresoExtraDTO dto,
-                                        User usuario) {
+    public DetalleIngresoExtraDTO efectuarIngreso(OperacionIngresoExtraDTO dto,
+                                                  User usuario) {
         Operacion operacion = Operacion.builder()//Armar la operacion
                 .descripcion(dto.getDescripcion())
                 .fechaEfectuada(dto.getFechaEfectuada())
@@ -118,10 +126,16 @@ public class OperacionService {
                 //----------------------------------
                 .usuario(usuario)
                 .build();
-        return operacionRepository.save(operacion);
+        Operacion ingresoEfectuado = operacionRepository.save(operacion);
+        return new DetalleIngresoExtraDTO(
+                ingresoEfectuado.getId(),
+                ingresoEfectuado.getFechaEfectuada(),
+                ingresoEfectuado.getMonto(),
+                ingresoEfectuado.getDescripcion(),
+                ingresoEfectuado.getEstado().name());
     }
-    public Operacion crearIngresoFijo(OperacionIngresoFijoDTO dto,
-                                         User usuario) {
+    public DetalleIngresoFijoDTO crearIngresoFijo(OperacionIngresoFijoDTO dto,
+                                                  User usuario) {
         Operacion operacion = Operacion.builder()//Armar la operacion
                 .descripcion(dto.getDescripcion())
                 .fechaProgramada(dto.getFechaProgramada())
@@ -134,11 +148,18 @@ public class OperacionService {
                 .cicloDias(dto.getCicloDias())
                 .usuario(usuario)
                 .build();
-        return operacionRepository.save(operacion);
+        Operacion ingresoProgramado = operacionRepository.save(operacion);
+        return new DetalleIngresoFijoDTO(
+                ingresoProgramado.getId(),
+                ingresoProgramado.getEstado().name(),
+                ingresoProgramado.getMonto(),
+                ingresoProgramado.getDescripcion(),
+                ingresoProgramado.getFechaProgramada(),
+                ingresoProgramado.getCicloDias());
     }
-    public Operacion efectuarGasto(OperacionGastoExtraDTO dto,
-                                      User usuario,
-                                      Categoria categoria) {
+    public DetalleGastoExtraDTO efectuarGasto(OperacionGastoExtraDTO dto,
+                                              User usuario,
+                                              Categoria categoria) {
         Operacion operacion = Operacion.builder()//Armar la operacion
                 .descripcion(dto.getDescripcion())
                 .fechaEfectuada(dto.getFechaEfectuada())
@@ -151,11 +172,18 @@ public class OperacionService {
                 .usuario(usuario)
                 .categoria(categoria)
                 .build();
-        return operacionRepository.save(operacion);
+        Operacion gastoEfectuado = operacionRepository.save(operacion);
+        return new DetalleGastoExtraDTO(
+                gastoEfectuado.getId(),
+                gastoEfectuado.getFechaEfectuada(),
+                gastoEfectuado.getMonto(),
+                gastoEfectuado.getDescripcion(),
+                gastoEfectuado.getEstado().name(),
+                categoria.getId());
     }
-    public Operacion crearGastoFijo(OperacionGastoFijoDTO dto,
-                                       User usuario,
-                                       Categoria categoria) {
+    public DetalleGastoFijoDTO crearGastoFijo(OperacionGastoFijoDTO dto,
+                                              User usuario,
+                                              Categoria categoria) {
         Operacion operacion = Operacion.builder()//Armar la operacion
                 .descripcion(dto.getDescripcion())
                 .fechaProgramada(dto.getFechaProgramada())
@@ -169,34 +197,75 @@ public class OperacionService {
                 .usuario(usuario)
                 .categoria(categoria)
                 .build();
-       return operacionRepository.save(operacion);
+        Operacion gastoProgramado = operacionRepository.save(operacion);
+        return new DetalleGastoFijoDTO(gastoProgramado.getId(),
+                gastoProgramado.getEstado().name(),
+                gastoProgramado.getMonto(),
+                gastoProgramado.getDescripcion(),
+                gastoProgramado.getFechaProgramada(),
+                gastoProgramado.getCicloDias(),
+                categoria.getId());
     }
-    private OperacionDTO armarOperacionDTO(Operacion operacion) {
-        OperacionDTO dto = new OperacionDTO();
-        dto.setId(operacion.getId());
-        dto.setDescripcion(operacion.getDescripcion());
-        if(operacion.getFechaProgramada() != null) {
-            dto.setFechaProgramada(operacion.getFechaProgramada());
-        }
-        dto.setMonto(operacion.getMonto());
-        dto.setTipo(operacion.getTipo().name());
-        if(operacion.getCicloDias() != null){
-            dto.setCicloDias(operacion.getCicloDias());}
-        if(operacion.getFechaEfectuada() != null){
-            dto.setFechaEfectuada(operacion.getFechaEfectuada());
-        }
-        dto.setEstado(operacion.getEstado().name());
-        if(operacion.getCategoria().getId() != null){
-            dto.setCategoriaId(operacion.getCategoria().getId());
-        }
-        dto.setUsuarioId(operacion.getUsuario().getId());
-        return dto;
+    private DetalleGastoCategoriaDTO armarDetalleGastosCategoriaDTO(Operacion operacion) {
+        return new DetalleGastoCategoriaDTO(operacion.getId(),
+                operacion.getEsFijo(),
+                operacion.getCicloDias(),
+                operacion.getMonto(),
+                operacion.getDescripcion(),
+                operacion.getFechaEfectuada(),
+                operacion.getEstado().name(),
+                operacion.getFechaProgramada());
     }
-
+    private List<DetalleGastoCategoriaDTO> listarDetalleGastosCategoriaDTO(List<Operacion> operaciones){
+        return operaciones.stream().map(this::armarDetalleGastosCategoriaDTO).
+                collect(Collectors.toList());
+    }
+    private DetalleGastoUsuarioDTO armarDetalleGastosUsuarioDTO(Operacion operacion) {
+        return new DetalleGastoUsuarioDTO(operacion.getId(),
+                operacion.getEsFijo(),
+                operacion.getCicloDias(),
+                operacion.getMonto(),
+                operacion.getDescripcion(),
+                operacion.getFechaEfectuada(),
+                operacion.getEstado().name(),
+                operacion.getFechaProgramada(),
+                operacion.getCategoria().getId());
+    }
+    private List<DetalleGastoUsuarioDTO> listarDetalleGastosUsuarioDTO(List<Operacion> operaciones){
+        return operaciones.stream().map(this::armarDetalleGastosUsuarioDTO).
+                collect(Collectors.toList());
+    }
+    private List<DetalleIngresoUsuarioDTO> listarDetalleIngresosUsuarioDTO(List<Operacion> operaciones){
+        return operaciones.stream().map(this::armarDetalleIngresosUsuarioDTO).
+                collect(Collectors.toList());
+    }
+    private DetalleIngresoUsuarioDTO armarDetalleIngresosUsuarioDTO(Operacion operacion) {
+        return new DetalleIngresoUsuarioDTO(operacion.getId(),
+                operacion.getEsFijo(),
+                operacion.getCicloDias(),
+                operacion.getMonto(),
+                operacion.getDescripcion(),
+                operacion.getFechaEfectuada(),
+                operacion.getEstado().name(),
+                operacion.getFechaProgramada());
+    }
+/*
     private List<OperacionDTO> listarOperacionDTO(List<Operacion> operaciones){
         return operaciones.stream().map(this::armarOperacionDTO).
                 collect(Collectors.toList());
     }
-
+    private OperacionDTO armarOperacionDTO(Operacion operacion) {
+        return new OperacionDTO(operacion.getId(),
+                operacion.getTipo().name(),
+                operacion.getEsFijo(),
+                operacion.getCicloDias(),
+                operacion.getMonto(),
+                operacion.getDescripcion(),
+                operacion.getFechaEfectuada(),
+                operacion.getEstado().name(),
+                operacion.getFechaProgramada(),
+                operacion.getCategoria().getId());
+    }
+*/
 }
 

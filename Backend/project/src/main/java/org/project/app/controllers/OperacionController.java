@@ -2,14 +2,14 @@ package org.project.app.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.project.app.dto.operacion.*;
+import org.project.app.dto.operacion.gasto.*;
+import org.project.app.dto.operacion.ingreso.*;
 import org.project.app.model.Categoria;
 import org.project.app.model.Operacion;
 import org.project.app.service.OperacionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,22 +31,6 @@ public class OperacionController {
         this.operacionService = operacionService;
     }
 
-    @Operation(
-            summary     = "Obtener las TODAS las operaciones del usuario",
-            description = "Devuelve las operaciones creadas por el usuario, " +
-                    "Contendrá una lista vacía si no existen las operaciones."
-    )
-    @GetMapping("/lista/{usuarioId}")
-    public ResponseEntity<List<Operacion>> getOperaciones(@PathVariable Long usuarioId) {
-        return userRepository.findById(usuarioId).map(usuario -> {
-            List<Operacion> operaciones = operacionService.getOperaciones(usuario);
-            return ResponseEntity.ok(operaciones);
-        }).orElseGet(() -> {
-            List<Operacion> emptyList = new ArrayList<>();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(emptyList);
-        });
-    }
-
 //:::::::::::::::::::::::::::::::::::::::::GASTOS::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
     @Operation(
@@ -55,12 +39,12 @@ public class OperacionController {
                     "Contendrá una lista vacía si no existen las operaciones."
     )
     @GetMapping("/lista/gastos/{usuarioId}")
-    public ResponseEntity<List<Operacion>> getOperacionesDeGasto(@PathVariable Long usuarioId) {
+    public ResponseEntity<List<DetalleGastoUsuarioDTO>> getOperacionesDeGasto(@PathVariable Long usuarioId) {
         return userRepository.findById(usuarioId).map(usuario ->{
-            List<Operacion> operaciones = operacionService.getOperacionesDeGasto(usuario);
-            return ResponseEntity.ok(operaciones);
+            List<DetalleGastoUsuarioDTO> detallesDeGastoDeUsuario = operacionService.getOperacionesDeGasto(usuario);
+            return ResponseEntity.ok(detallesDeGastoDeUsuario);
         }).orElseGet(() -> {
-            List<Operacion> emptyList = new ArrayList<>();
+            List<DetalleGastoUsuarioDTO> emptyList = new ArrayList<>();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(emptyList);
         });
     }
@@ -71,15 +55,15 @@ public class OperacionController {
                     "Contendrá una lista vacía si no existen las operaciones."
     )
     @GetMapping("/lista/gastos/{usuarioId}/categoria/{categoriaId}")
-    public ResponseEntity<List<Operacion>> getGastosDeCategoria(@PathVariable Long usuarioId,
-                                                                   @PathVariable Long categoriaId) {
+    public ResponseEntity<List<DetalleGastoCategoriaDTO>> getGastosDeCategoria(@PathVariable Long usuarioId,
+                                                                               @PathVariable Long categoriaId) {
         return userRepository.findById(usuarioId).map(usuario ->{
             Categoria categoria = categoriaRepository.findById(categoriaId)
                     .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
-            List<Operacion> operaciones = operacionService.getGastosDeCategoria(usuario,categoria);
-            return ResponseEntity.ok(operaciones);
+            List<DetalleGastoCategoriaDTO> detallesDeGastoDeCategoria = operacionService.getGastosDeCategoria(usuario,categoria);
+            return ResponseEntity.ok(detallesDeGastoDeCategoria);
         }).orElseGet(() -> {
-            List<Operacion> emptyList = new ArrayList<>();
+            List<DetalleGastoCategoriaDTO> emptyList = new ArrayList<>();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(emptyList);
         });
     }
@@ -117,17 +101,18 @@ public class OperacionController {
                     "armar una operacion nueva y persistirla. Retornauna Operacion vacía en caso no existir el usuario."
     )
     @PostMapping("/crear/gasto")
-    public ResponseEntity<Operacion> efectuarGasto(@RequestBody OperacionGastoExtraDTO operacionGastoExtraDTO) {
+    public ResponseEntity<DetalleGastoExtraDTO> efectuarGasto(@RequestBody OperacionGastoExtraDTO operacionGastoExtraDTO) {
         Long usuarioId = operacionGastoExtraDTO.getUsuarioId();
         return userRepository.findById(usuarioId).map(usuario -> {
             Long categoriaId = operacionGastoExtraDTO.getCategoriaId();
             Categoria categoria = categoriaRepository.findById(categoriaId)
                     .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
-            Operacion gastoEfectuado = operacionService.efectuarGasto(operacionGastoExtraDTO,usuario,categoria);
+            DetalleGastoExtraDTO
+                    gastoEfectuado = operacionService.efectuarGasto(operacionGastoExtraDTO,usuario,categoria);
             return ResponseEntity.ok(gastoEfectuado);
         }).orElseGet( () -> {
-            Operacion emptyoperacion = new Operacion();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(emptyoperacion);
+            DetalleGastoExtraDTO empty = new DetalleGastoExtraDTO();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(empty);
         });
     }
 
@@ -137,17 +122,18 @@ public class OperacionController {
                     "armar una operacion nueva y persistirla. Retornauna Operacion vacía en caso no existir el usuario."
     )
     @PostMapping("/crear/gastofijo")
-    public ResponseEntity<Operacion> crearGastoFijo(@RequestBody OperacionGastoFijoDTO operacionGastoFijoDTO) {
+    public ResponseEntity<DetalleGastoFijoDTO> crearGastoFijo(@RequestBody OperacionGastoFijoDTO operacionGastoFijoDTO) {
         Long usuarioId = operacionGastoFijoDTO.getUsuarioId();
         return userRepository.findById(usuarioId).map(usuario -> {
             Long categoriaId = operacionGastoFijoDTO.getCategoriaId();
             Categoria categoria = categoriaRepository.findById(categoriaId)
                     .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
-            Operacion gastoFijo = operacionService.crearGastoFijo(operacionGastoFijoDTO,usuario,categoria);
-            return ResponseEntity.ok(gastoFijo);
+            DetalleGastoFijoDTO detalleDeGastoFijo =
+                    operacionService.crearGastoFijo(operacionGastoFijoDTO,usuario,categoria);
+            return ResponseEntity.ok(detalleDeGastoFijo);
         }).orElseGet( () -> {
-            Operacion emptyOperacion = new Operacion();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(emptyOperacion);
+            DetalleGastoFijoDTO empty = new DetalleGastoFijoDTO();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(empty);
         });
     }
 
@@ -189,12 +175,12 @@ public class OperacionController {
                     "Contendrá una lista vacía si no existen las operaciones."
     )
     @GetMapping("/lista/ingresos/{usuarioId}")
-    public ResponseEntity<List<Operacion>> getOperacionesDeIngreso(@PathVariable Long usuarioId) {
+    public ResponseEntity<List<DetalleIngresoUsuarioDTO>> getOperacionesDeIngreso(@PathVariable Long usuarioId) {
         return userRepository.findById(usuarioId).map(usuario ->{
-            List<Operacion> operaciones = operacionService.getOperacionesDeIngreso(usuario);
-            return ResponseEntity.ok(operaciones);
+            List<DetalleIngresoUsuarioDTO> detallesDeIngresosDeUsuario = operacionService.getOperacionesDeIngreso(usuario);
+            return ResponseEntity.ok(detallesDeIngresosDeUsuario);
         }).orElseGet(() -> {
-            List<Operacion> emptyList = new ArrayList<>();
+            List<DetalleIngresoUsuarioDTO> emptyList = new ArrayList<>();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(emptyList);
         });
     }
@@ -216,14 +202,14 @@ public class OperacionController {
                     "armar una operacion nueva y persistirla. Retornauna Operacion vacía en caso no existir el usuario."
     )
     @PostMapping("/crear/ingreso")
-    public ResponseEntity<Operacion> efectuarIngreso(@RequestBody OperacionIngresoExtraDTO operacionIngresoExtra) {
+    public ResponseEntity<DetalleIngresoExtraDTO> efectuarIngreso(@RequestBody OperacionIngresoExtraDTO operacionIngresoExtra) {
         Long usuarioId = operacionIngresoExtra.getUsuarioId();
         return userRepository.findById(usuarioId).map(usuario -> {
-            Operacion ingresoEfectuado = operacionService.efectuarIngreso(operacionIngresoExtra,usuario);
+            DetalleIngresoExtraDTO ingresoEfectuado = operacionService.efectuarIngreso(operacionIngresoExtra,usuario);
             return ResponseEntity.ok(ingresoEfectuado);
         }).orElseGet( () -> {
-            Operacion emptyoperacion = new Operacion();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(emptyoperacion);
+            DetalleIngresoExtraDTO empty = new DetalleIngresoExtraDTO();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(empty);
         });
     }
 
@@ -233,14 +219,14 @@ public class OperacionController {
                     "armar una operacion nueva y persistirla. Retornauna Operacion vacía en caso no existir el usuario."
     )
     @PostMapping("/crear/ingresofijo")
-    public ResponseEntity<Operacion> crearIngresoFijo(@RequestBody OperacionIngresoFijoDTO operacionIngresoFijoDTO) {
+    public ResponseEntity<DetalleIngresoFijoDTO> crearIngresoFijo(@RequestBody OperacionIngresoFijoDTO operacionIngresoFijoDTO) {
         Long usuarioId = operacionIngresoFijoDTO.getUsuarioId();
         return userRepository.findById(usuarioId).map(usuario -> {
-            Operacion ingresoFijo = operacionService.crearIngresoFijo(operacionIngresoFijoDTO,usuario);
-            return ResponseEntity.ok(ingresoFijo);
+            DetalleIngresoFijoDTO detalleDeIngresoFijo = operacionService.crearIngresoFijo(operacionIngresoFijoDTO,usuario);
+            return ResponseEntity.ok(detalleDeIngresoFijo);
         }).orElseGet( () -> {
-            Operacion emptyoperacion = new Operacion();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(emptyoperacion);
+            DetalleIngresoFijoDTO empty = new DetalleIngresoFijoDTO();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(empty);
         });
     }
 }

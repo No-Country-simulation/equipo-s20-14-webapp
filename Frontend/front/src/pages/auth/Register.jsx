@@ -9,7 +9,7 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
 import { Input } from '../../components/Form/Input';
 import { Button } from '../../components/Form/Button';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { registerRequest } from '../../api/auth';
 import { useAuthStore } from '../../store/auth';
 
@@ -27,21 +27,19 @@ export const RegisterPage = () => {
 
   const setToken = useAuthStore(state => state.setToken);
   const setProfile = useAuthStore(state => state.setProfile);
-  const navigate = useNavigate();
 
   const onSubmit = async values => {
     try {
 
       const { data } = await registerRequest(values.email, values.password, values.username, values.contact)
-      setToken(data.token);
-      setProfile(data);
-      navigate('/dashboard')
+      setToken(data.data.token);
+      setProfile(data.data);
 
     } catch (error) {
       console.log(error);
 
       setError("root", {
-        message: `${error.message}`
+        message: `${error.response.data.message}`
       })
     }
   }

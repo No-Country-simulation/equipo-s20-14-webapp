@@ -1,0 +1,62 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  
+}
+
+.subtitulo {
+    color: #373b46;
+    padding: 20px 0;
+    font-weight: bold;
+}
+
+.resumen-general {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    width: 50%;
+    font-size: 1.2rem;
+}
+  
+.tabla-gastos {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+    
+.tabla-gastos table {
+    width: 60%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+  
+.tabla-gastos th,
+.tabla-gastos td {
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+  
+.tabla-gastos th {
+    background-color: #f4f4f4;
+}
+
+.tabla-gastos td {
+    text-align: center;
+}
+  
+  
+  
+.grafico-bar {
+    flex: 1;
+    display: flex;
+    justify-content: center; /* Centra el gráfico horizontalmente */
+    align-items: center; /* Centra el gráfico verticalmente */
+    background-color: #f9f9f9; /* Fondo claro para la columna del gráfico */
+    padding: 2rem;
+
+}

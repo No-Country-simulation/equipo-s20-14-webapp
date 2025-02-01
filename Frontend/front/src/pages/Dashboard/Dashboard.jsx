@@ -1,7 +1,13 @@
-import React from "react";
+
+import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
+
 import { SidebarMenu } from "../../components/Dashboard/SidebarMenu";
 import Header from "../../components/Header";
+
+import { loadCategories } from "../../actions/categories";
+import { useCategoryStore } from "../../store/category";
+import { useAuthStore } from "../../store/auth";
 
 const sections = [
   {
@@ -13,10 +19,7 @@ const sections = [
   },
   {
     title: "Gastos",
-    subItems: [
-      { label: "Fijos", path: "/egresos/fijos" },
-      { label: "Variables", path: "/egresos/variables" },
-    ],
+    subItems: [],
   },
   {
     title: "Reporte",
@@ -29,13 +32,30 @@ const sections = [
 ];
 
 export const Dashboard = () => {
+  const idUsuario = useAuthStore.getState().profile.id;
+  const setCategorias = useCategoryStore((state) => state.setCategorias);
+  const categorias = useCategoryStore.getState().categorias;
+  console.log(sections);
+  
+
+  useEffect(() => {
+    const getCategorias = async () => {
+      const data = await loadCategories(idUsuario);
+      if (data) setCategorias(data);
+      
+    };
+    getCategorias();
+  }, []);
+
   return (
     <div>
       <Header />
       <div className="flex ">
-        <SidebarMenu sections={sections} />
+        <SidebarMenu sections={sections} categorias={categorias} />
         <Outlet />
       </div>
     </div>
+    
+    
   );
 };

@@ -53,7 +53,7 @@ public class PresupuestoService {
         presupuestoRepository.save(presupuesto);
         return armarPresupuestoDTO(presupuesto);
     }
-    public void chequearActualizarVencimiento(Long presupuestoId) {
+    /*public void chequearActualizarVencimiento(Long presupuestoId) {
         Presupuesto presupuesto = presupuestoRepository.findById(presupuestoId)
                 .orElseThrow(() -> new RuntimeException("Presupuesto no encontrado"));
 
@@ -64,17 +64,17 @@ public class PresupuestoService {
             presupuesto.setEstado(Presupuesto.Estado.VENCIDO);
             presupuestoRepository.save(presupuesto);
         }
-    }
+    }*/
     
 
     public PresupuestoDTO crearPresupuesto(CrearPresupuestoDTO dto,
                                            User usuario,
                                            Categoria categoria) {
         Presupuesto presupuesto = Presupuesto.builder()//Armar el presupuesto
-                .fechaInicio(dto.getFechaInicio())
-                .duracion(dto.getDuracion())
+                //.fechaInicio(dto.getFechaInicio())
+                //.duracion(dto.getDuracion())
                 .monto(dto.getMonto())
-                .fechaCreacion(LocalDate.now())
+                //.fechaCreacion(LocalDate.now())
                 .usuario(usuario)
                 .categoria(categoria)
                 .build();
@@ -85,8 +85,8 @@ public class PresupuestoService {
     private PresupuestoDTO armarPresupuestoDTO(Presupuesto presupuesto) {
         PresupuestoDTO dto = new PresupuestoDTO();
         dto.setId(presupuesto.getId());
-        dto.setFechaInicio(presupuesto.getFechaInicio());
-        dto.setDuracion(presupuesto.getDuracion());
+        /*dto.setFechaInicio(presupuesto.getFechaInicio());
+        dto.setDuracion(presupuesto.getDuracion());*/
         dto.setMonto(presupuesto.getMonto());
         dto.setCategoriaId(presupuesto.getCategoria().getId());
         dto.setUsuarioId(presupuesto.getUsuario().getId());

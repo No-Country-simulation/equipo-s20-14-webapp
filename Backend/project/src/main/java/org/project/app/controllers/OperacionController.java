@@ -32,7 +32,7 @@ public class OperacionController {
         this.categoriaRepository = categoriaRepository;
         this.operacionService = operacionService;
     }
-
+/*
     @Operation(
             summary     = "Obtener las TODAS las operaciones del usuario",
             description = "Devuelve las operaciones creadas por el usuario, " +
@@ -48,7 +48,7 @@ public class OperacionController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(emptyList);
         });
     }
-
+*/
 //:::::::::::::::::::::::::::::::::::::::::GASTOS::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
     @Operation(

@@ -1,7 +1,6 @@
 package org.project.app.service;
 
 import jakarta.transaction.Transactional;
-import org.project.app.dto.operacion.*;
 import org.project.app.dto.operacion.gasto.*;
 import org.project.app.dto.operacion.ingreso.*;
 import org.project.app.model.Categoria;

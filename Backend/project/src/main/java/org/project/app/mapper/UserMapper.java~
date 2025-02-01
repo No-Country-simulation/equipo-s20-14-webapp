@@ -32,6 +32,11 @@ public interface UserMapper {
     @Mapping(target = "token", ignore = true)
     AuthResponseDto toAuthResponse(User user);
 
+    @Mapping(source = "totalexpenses", target = "totalExpenses")
+    @Mapping(source = "totalincomes", target = "totalIncomes")
+    @Mapping(source = "totalbalance", target = "balance")
+    BalanceUserDto toBalanceUser(User user);
+
     default String mapUsername(User user) {return user.getName();}
 
 }

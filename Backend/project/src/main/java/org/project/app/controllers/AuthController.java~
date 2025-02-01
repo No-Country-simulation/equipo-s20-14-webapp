@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Controlador para gestionar todos los puntos finales relacionados con la autenticación de usuarios.
  */
-@Tag(name = "Authentication", description = "Gestionar todos los puntos finales relacionados con la autenticación de usuarios.")
+@Tag(name = "Autenticación", description = "Gestionar todos los puntos finales relacionados con la autenticación de usuarios.")
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor

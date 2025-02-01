@@ -63,9 +63,7 @@ public class PresupuestoService {
                 .build();
         Presupuesto presupuestoCreado = presupuestoRepository.save(presupuesto);
         return new PresupuestoDTO(presupuestoCreado.getId(),
-                presupuestoCreado.getMonto(),
-                presupuestoCreado.getUsuario().getId(),
-                presupuestoCreado.getCategoria().getId());
+                                  presupuestoCreado.getMonto());
     }
 
     private PresupuestoDTO armarPresupuestoDTO(Presupuesto presupuesto) {

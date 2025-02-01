@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import  FinanzasApp  from "../src/pages/FinanzasApp";
+import { FinanzasApp } from "./pages/FinanzasApp";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { Ingresos } from "./pages/Dashboard/Ingresos";
 import { ToastContainer } from "react-toastify";

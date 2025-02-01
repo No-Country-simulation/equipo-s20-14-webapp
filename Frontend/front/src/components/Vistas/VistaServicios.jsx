@@ -21,7 +21,7 @@ const VistaServicios = () =>{
   } ;
 
   //Enviar formulario
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault(); //Evita que la página se recargue
 
     const { descripcion, fecha, monto }= formulario;

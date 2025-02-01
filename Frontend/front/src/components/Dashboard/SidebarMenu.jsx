@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 import { Link, useLocation } from "react-router-dom";
+import { SidebarGastos } from "./SidebarGastos";
 
-export const SidebarMenu = ({ sections }) => {
+export const SidebarMenu = ({ sections, categorias }) => {
   const location = useLocation();
 
   const isSectionActive = (path) => {
@@ -23,18 +24,22 @@ export const SidebarMenu = ({ sections }) => {
               {section.title}
             </h3>
             <ul className="space-y-2">
-              {section.subItems.map((item, index) => (
-                <li key={index}>
-                  <Link
-                    to={item.path}
-                    className={`block  font-semibold px-3 py-2 rounded-md hover:bg-gray-200 ${isSectionActive(
-                      item.path
-                    )}`}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+              {section.title === "Gastos" ? (
+                <SidebarGastos categorias={categorias} />
+              ) : (
+                section.subItems.map((item, index) => (
+                  <li key={index}>
+                    <Link
+                      to={item.path}
+                      className={`block  font-semibold px-3 py-2 rounded-md hover:bg-gray-200 ${isSectionActive(
+                        item.path
+                      )}`}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))
+              )}
             </ul>
           </li>
         ))}

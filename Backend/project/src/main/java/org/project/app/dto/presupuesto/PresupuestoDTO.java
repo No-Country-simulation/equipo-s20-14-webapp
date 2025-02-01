@@ -13,6 +13,11 @@ public class PresupuestoDTO {
     public PresupuestoDTO() {
     }
 
+    public PresupuestoDTO(Long id, double monto) {
+        this.id = id;
+        this.monto = monto;
+    }
+
     public PresupuestoDTO(Long id, double monto, Long categoriaId, Long usuarioId) {
         this.id = id;
         this.monto = monto;

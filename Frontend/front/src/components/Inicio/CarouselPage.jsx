@@ -53,7 +53,7 @@ const CarouselPage = () => {
                     <button className='btn-probar'
                         aria-label='Probar la aplicación Clara'
                         onClick={() => {
-                            navigate('/login')
+                            navigate('/register')
                         }}>
                         Probar</button>
                 </div>

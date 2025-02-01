@@ -53,44 +53,25 @@ public class PresupuestoService {
         presupuestoRepository.save(presupuesto);
         return armarPresupuestoDTO(presupuesto);
     }
-    /*public void chequearActualizarVencimiento(Long presupuestoId) {
-        Presupuesto presupuesto = presupuestoRepository.findById(presupuestoId)
-                .orElseThrow(() -> new RuntimeException("Presupuesto no encontrado"));
-
-        LocalDate fechaVencimiento = presupuesto.getFechaInicio().plusDays(presupuesto.getDuracion());
-        LocalDate fechaHoy = LocalDate.now();
-
-        if (presupuesto.getEstado() == Presupuesto.Estado.VIGENTE && fechaHoy.isAfter(fechaVencimiento)) {
-            presupuesto.setEstado(Presupuesto.Estado.VENCIDO);
-            presupuestoRepository.save(presupuesto);
-        }
-    }*/
-    
 
     public PresupuestoDTO crearPresupuesto(CrearPresupuestoDTO dto,
                                            User usuario,
                                            Categoria categoria) {
+
         Presupuesto presupuesto = Presupuesto.builder()//Armar el presupuesto
-                //.fechaInicio(dto.getFechaInicio())
-                //.duracion(dto.getDuracion())
                 .monto(dto.getMonto())
-                //.fechaCreacion(LocalDate.now())
                 .usuario(usuario)
                 .categoria(categoria)
                 .build();
-        presupuestoRepository.save(presupuesto);
-        return armarPresupuestoDTO(presupuesto);
+        Presupuesto presupuestoCreado = presupuestoRepository.save(presupuesto);
+        return armarPresupuestoDTO(presupuestoCreado);
     }
 
     private PresupuestoDTO armarPresupuestoDTO(Presupuesto presupuesto) {
-        PresupuestoDTO dto = new PresupuestoDTO();
-        dto.setId(presupuesto.getId());
-        /*dto.setFechaInicio(presupuesto.getFechaInicio());
-        dto.setDuracion(presupuesto.getDuracion());*/
-        dto.setMonto(presupuesto.getMonto());
-        dto.setCategoriaId(presupuesto.getCategoria().getId());
-        dto.setUsuarioId(presupuesto.getUsuario().getId());
-        return dto;
+       return new PresupuestoDTO(presupuesto.getId(),
+                                 presupuesto.getMonto(),
+                                 presupuesto.getUsuario().getId(),
+                                 presupuesto.getCategoria().getId());
     }
 
     private List<PresupuestoDTO> listarPresupuestoDTO(List<Presupuesto> presupuestos){

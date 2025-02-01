@@ -2,7 +2,6 @@ package org.project.app.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.project.app.dto.operacion.*;
 import org.project.app.dto.operacion.gasto.*;
 import org.project.app.dto.operacion.ingreso.*;
 import org.project.app.model.Categoria;
@@ -11,7 +10,6 @@ import org.project.app.service.OperacionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,23 +30,7 @@ public class OperacionController {
         this.categoriaRepository = categoriaRepository;
         this.operacionService = operacionService;
     }
-/*
-    @Operation(
-            summary     = "Obtener las TODAS las operaciones del usuario",
-            description = "Devuelve las operaciones creadas por el usuario, " +
-                    "Contendrá una lista vacía si no existen las operaciones."
-    )
-    @GetMapping("/lista/{usuarioId}")
-    public ResponseEntity<List<OperacionDTO>> getOperacionesDeUsuario(@PathVariable Long usuarioId) {
-        return userRepository.findById(usuarioId).map(usuario -> {
-            List<OperacionDTO> operacionesDeUsuario = operacionService.getOperacionesDeUsuario(usuario);
-            return ResponseEntity.ok(operacionesDeUsuario);
-        }).orElseGet(() -> {
-            List<OperacionDTO> emptyList = new ArrayList<>();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(emptyList);
-        });
-    }
-*/
+
 //:::::::::::::::::::::::::::::::::::::::::GASTOS::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
     @Operation(

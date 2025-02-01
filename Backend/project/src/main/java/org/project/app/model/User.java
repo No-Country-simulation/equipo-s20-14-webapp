@@ -37,7 +37,6 @@ public class User implements UserDetails {
     @Column(name = "is_active")
     private Boolean isActive;
     private String resetToken;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority((role.name())));

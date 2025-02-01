@@ -1,14 +1,14 @@
-package org.project.app.dto.operacion;
+package org.project.app.dto.operacion.gasto;
 
 import lombok.Data;
-
 import java.time.LocalDate;
 
 @Data
-public class OperacionIngresoExtraDTO {
+public class OperacionGastoExtraDTO {
     private String descripcion;
     private LocalDate fechaEfectuada;
     private double monto;
+    private Long categoriaId;
     private Long usuarioId;
 }
 

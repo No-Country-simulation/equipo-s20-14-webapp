@@ -6,6 +6,7 @@ import org.project.app.model.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -24,7 +25,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-//                .cors(cors -> cors.configure(http)) // Habilitar CORS en Spring Security
+                .cors(cors -> cors.configure(http))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
@@ -42,12 +43,24 @@ public class SecurityConfiguration {
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(ex -> ex
-                        .authenticationEntryPoint((request, response, authException) ->
-                                response.sendError(HttpStatus.UNAUTHORIZED.value(), "No autorizado")
-                        )
-                        .accessDeniedHandler((request, response, accessDeniedException) ->
-                                response.sendError(HttpStatus.FORBIDDEN.value(), "Acceso denegado")
-                        )
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            String jsonResponse = String.format(
+                                    "{\"status\": 401, \"error\": \"Unauthorized\", \"message\": \"%s\"}",
+                                    "No autorizado: Token JWT requerido"
+                            );
+                            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                            response.getWriter().write(jsonResponse);
+                        })
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            String jsonResponse = String.format(
+                                    "{\"status\": 403, \"error\": \"Forbidden\", \"message\": \"%s\"}",
+                                    "Acceso denegado: No tienes permisos suficientes"
+                            );
+                            response.setStatus(HttpStatus.FORBIDDEN.value());
+                            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                            response.getWriter().write(jsonResponse);
+                        })
                 )
                 .build();
     }

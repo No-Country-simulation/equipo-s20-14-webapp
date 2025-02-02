@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 
 export const SidebarGastos = ({ categorias }) => {
+  
   const location = useLocation();  
 
   const isSectionActive = (path) => {
@@ -14,7 +15,8 @@ export const SidebarGastos = ({ categorias }) => {
         {categorias.map((categoria) => (
           <li key={categoria.id}>
             <h3
-              className={`font-semibold px-3 py-2 rounded-md hover:bg-gray-200 ${isSectionActive(
+              className={`block font-semibold px-3 py-2 rounded-md hover:bg-gray-200 ${isSectionActive(
+                categoria.path
               )}`}
             >
               {categoria.nombre}

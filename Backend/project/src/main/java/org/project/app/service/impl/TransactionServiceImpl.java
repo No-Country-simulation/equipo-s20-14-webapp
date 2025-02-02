@@ -5,6 +5,7 @@ import org.project.app.dto.BaseResponse;
 import org.project.app.dto.ExtendedBaseResponse;
 import org.project.app.dto.transaction.RequestTransactionDto;
 import org.project.app.dto.transaction.TransactionDto;
+import org.project.app.exception.userExc.UserNotFoundException;
 import org.project.app.mapper.TransactionMapper;
 import org.project.app.model.Category;
 import org.project.app.model.Transaction;
@@ -49,7 +50,9 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional(readOnly = true)
     public ExtendedBaseResponse<List<TransactionDto>> getTransactionsByUser(Long userId) {
-        List<Transaction> transactions = transactionRepository.findByUserId(userId);
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new UserNotFoundException("Usuario no encontrado"));
+        List<Transaction> transactions = transactionRepository.findByUserId(user.getId());
         List<TransactionDto> transactionDtos = transactionMapper.entityListToDtoList(transactions);
         return ExtendedBaseResponse.of(BaseResponse.ok("Transacciones obtenidas exitosamente"), transactionDtos);
     }

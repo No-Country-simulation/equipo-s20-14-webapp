@@ -15,7 +15,8 @@ public class Presupuesto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private double monto; @ManyToOne
+    private double monto; 
+    @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     private User usuario;
     @ManyToOne

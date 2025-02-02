@@ -25,12 +25,6 @@ public class OperacionService {
         this.operacionRepository = operacionRepository;
         this.categoriaRepository = categoriaRepository;
     }
- /*   public List<OperacionDTO> getOperacionesDeUsuario(User usuario)
-    {
-        List<Operacion> operacionesDeUsuario = operacionRepository.findByUsuario(usuario);
-        return listarOperacionDTO(operacionesDeUsuario);
-
-    }*/
     public List<DetalleIngresoUsuarioDTO> getOperacionesDeIngreso(User usuario)
     {
         List<Operacion> ingresosDeUsuario = operacionRepository.findByUsuarioAndTipo(usuario,
@@ -248,23 +242,5 @@ public class OperacionService {
                 operacion.getEstado().name(),
                 operacion.getFechaProgramada());
     }
-/*
-    private List<OperacionDTO> listarOperacionDTO(List<Operacion> operaciones){
-        return operaciones.stream().map(this::armarOperacionDTO).
-                collect(Collectors.toList());
-    }
-    private OperacionDTO armarOperacionDTO(Operacion operacion) {
-        return new OperacionDTO(operacion.getId(),
-                operacion.getTipo().name(),
-                operacion.getEsFijo(),
-                operacion.getCicloDias(),
-                operacion.getMonto(),
-                operacion.getDescripcion(),
-                operacion.getFechaEfectuada(),
-                operacion.getEstado().name(),
-                operacion.getFechaProgramada(),
-                operacion.getCategoria().getId());
-    }
-*/
 }
 

@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { FinanzasApp } from "./pages/FinanzasApp";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { Ingresos } from "./pages/Dashboard/Ingresos";
+import { Gastos } from "./pages/Dashboard/Gastos";
 import { ToastContainer } from "react-toastify";
 import { LoginPage } from "./pages/auth/LoginPage";
 import { RegisterPage } from "./pages/auth/Register";
@@ -11,6 +12,8 @@ import ReporteGastos from "./pages/Dashboard/Reporte/ReporteGastos";
 import { useAuthStore } from "./store/auth";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { PublicRoute } from "./components/PublicRoute";
+import VistaGeneral from "./pages/Dashboard/Reporte/ReporteGeneral";
+import VistaServicios from "./components/Vistas/VistaServicios";
 
 export default function App() {
   const isAuth = useAuthStore((state) => state.isAuth);
@@ -26,9 +29,11 @@ export default function App() {
         <Route element={<ProtectedRoute isAllowed={isAuth} />}>
           <Route path="/dashboard" element={<Dashboard />}>
             <Route path="ingresos/:tipo" element={<Ingresos />} />
+            <Route path ="gastos/:categoria/:id" element={<Gastos />}/>
             <Route path="reporte-general" element={<ReporteGeneral />} />
             <Route path="reporte-ingresos" element={<ReporteIngresos />} />
             <Route path="reporte-gastos" element={<ReporteGastos />} />
+            <Route path="servicios" element={<VistaServicios />} />
           </Route>
         </Route>
       </Routes>

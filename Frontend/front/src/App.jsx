@@ -29,7 +29,7 @@ export default function App() {
         <Route element={<ProtectedRoute isAllowed={isAuth} />}>
           <Route path="/dashboard" element={<Dashboard />}>
             <Route path="ingresos/:tipo" element={<Ingresos />} />
-            <Route path ="gastos/:categoria" element={<Gastos />}/>
+            <Route path ="gastos/:categoria/:id" element={<Gastos />}/>
             <Route path="reporte-general" element={<ReporteGeneral />} />
             <Route path="reporte-ingresos" element={<ReporteIngresos />} />
             <Route path="reporte-gastos" element={<ReporteGastos />} />

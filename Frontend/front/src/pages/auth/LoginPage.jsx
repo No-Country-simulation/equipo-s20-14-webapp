@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { useAuthStore } from "../../store/auth";
 import { loginRequest } from "../../api/auth";
 import { useCategoryStore } from "../../store/category";
-import { loadCategories } from "../../actions/categories";
+import { loadCategories } from "../../actions/categoriesActions";
 import { prepareGastosPath } from "../../helpers/prepareGastosPath";
 
 export const LoginPage = () => {

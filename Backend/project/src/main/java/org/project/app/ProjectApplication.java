@@ -9,8 +9,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@SecurityScheme(type = SecuritySchemeType.APIKEY, name = "Authorization", in = SecuritySchemeIn.HEADER)
-@OpenAPIDefinition(security = { @SecurityRequirement(name = "Authorization") })
 public class ProjectApplication {
 
 	public static void main(String[] args) {

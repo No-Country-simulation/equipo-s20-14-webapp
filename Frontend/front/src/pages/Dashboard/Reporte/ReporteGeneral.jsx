@@ -11,7 +11,7 @@ import {
 } from "chart.js";
 import { useEffect, useState } from "react";
 import { getGastosRequest, getIngresosRequest } from "../../../api/financialApi";
-
+import { getPresupuestoTotalRequest } from "../../../api/financialApi";
 
 ChartJS.register(
   ArcElement,
@@ -86,7 +86,19 @@ const ReporteGeneral = () => {
     
   },[]);
 
-  
+  const [presupuestoTotal, setPresupuestoTotal] = useState(0);
+
+useEffect(() => {
+  const usuarioId = '123'; // Asegúrate de obtenerlo dinámicamente
+  const categoriaId = '1'; // Cambia esto según la categoría deseada
+
+  getPresupuestoTotalRequest(usuarioId, categoriaId)
+    .then((total) => {
+      setPresupuestoTotal(total);
+    })
+    .catch((error) => console.error(error));
+}, []);
+
 
   return (
     <div className="flex min-h-screen">
@@ -102,6 +114,13 @@ const ReporteGeneral = () => {
               <p className="text-2xl font-bold">${ingresos.length > 0 ? ingresos.reduce((acc, ingreso) =>  acc + ingreso.monto, 0) : 0}</p>
             </CardContent>
           </Card>
+          <Card className="bg-yellow-100">
+          <CardContent>
+            <h3 className="text-lg font-semibold">Presupuesto Total</h3>
+            <p className="text-2xl font-bold">${presupuestoTotal}</p>
+          </CardContent>
+          </Card>
+
           <Card className="bg-red-100">
             <CardContent>
               <h3 className="text-lg font-semibold">Gastos Totales</h3>

@@ -3,7 +3,7 @@ import axios from '../libs/axios'
 // Función para obtener los gastos
 export const getGastosRequest = async () => {
   try {
-    const response = await axios.get('/api/gastos'); // Ajusta la ruta según tu backend
+    const response = await axios.get('/operaciones/total/gastos/{usuarioId}'); // Ajusta la ruta según tu backend
     return response.data;
   } catch (error) {
     console.error('Error obteniendo los gastos:', error);
@@ -14,7 +14,7 @@ export const getGastosRequest = async () => {
 // Función para obtener los ingresos
 export const getIngresosRequest = async () => {
   try {
-    const response = await axios.get('/api/ingresos'); // Ajusta la ruta según tu backend
+    const response = await axios.get('/operaciones/total/ingresos/{usuarioId}'); // Ajusta la ruta según tu backend
     return response.data;
   } catch (error) {
     console.error('Error obteniendo los ingresos:', error);
@@ -43,3 +43,14 @@ export const addIngresoRequest = async (ingresoData) => {
     throw error;
   }
 }
+
+
+export const getPresupuestoTotalRequest = async (usuarioId, categoriaId) => {
+  try {
+    const response = await axios.get(`/presupuestos/total/${usuarioId}/${categoriaId}`);
+    return response.data; // Suponiendo que el backend devuelve el total directamente
+  } catch (error) {
+    console.error("Error obteniendo el presupuesto total:", error);
+    throw error;
+  }
+};

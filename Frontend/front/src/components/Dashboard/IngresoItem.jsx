@@ -1,23 +1,38 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import { addIncome } from "../../actions/incomeActions";
+import { addIncome, addIncomeExtra } from "../../actions/incomeActions";
 import { useAuthStore } from "../../store/auth";
-import { createExtraIncome } from "../../api/income";
 
 const IngresoItem = ({ tipo }) => {
   const [monto, setMonto] = useState("");
+  const [cicloDias, setCicloDias] = useState("");
   const [ingresoGuardado, setIngresoGuardado] = useState(null);
   const profile = useAuthStore((state) => state.profile);
+  const location = useLocation();
+  const isExtraIncome = location.pathname.includes("extra");
 
   const handleAddIngreso = () => {
     const montoNumber = parseFloat(monto);
+    const cicloNumber = parseInt(cicloDias, 10);
+
     if (isNaN(montoNumber) || montoNumber <= 0) {
       toast.error("Ingrese un monto válido.");
       return;
     }
 
-    setIngresoGuardado(montoNumber.toFixed(2));
+    if (isExtraIncome && (isNaN(cicloNumber) || cicloNumber < 0)) {
+      toast.error("Ingrese un ciclo de días válido.");
+      return;
+    }
+
+    setIngresoGuardado({
+      monto: montoNumber.toFixed(2),
+      cicloDias: isExtraIncome ? cicloNumber : null,
+    });
+
     setMonto("");
+    setCicloDias("");
   };
 
   const handleDeleteIngreso = () => {
@@ -36,16 +51,29 @@ const IngresoItem = ({ tipo }) => {
       return;
     }
 
-    const ingresoData = {
+    const baseIngresoData = {
       descripcion: `Ingreso ${tipo}`,
       fechaEfectuada: new Date().toISOString().split("T")[0],
-      monto: parseFloat(ingresoGuardado),
+      monto: parseFloat(ingresoGuardado.monto),
       usuarioId: profile.id,
     };
 
-    const data = await createExtraIncome(ingresoData);
+    let ingresoData;
+    if (isExtraIncome) {
+      ingresoData = {
+        ...baseIngresoData,
+        fechaProgramada: baseIngresoData.fechaEfectuada,
+        cicloDias: ingresoGuardado.cicloDias,
+      };
+      await addIncomeExtra(ingresoData);
+    } else {
+      ingresoData = baseIngresoData;
+      await addIncome(ingresoData);
+    }
 
-    console.log(data);
+    setIngresoGuardado(null);
+    setMonto("");
+    setCicloDias("");
   };
 
   return (
@@ -57,6 +85,17 @@ const IngresoItem = ({ tipo }) => {
         onChange={(e) => setMonto(e.target.value)}
         className="px-4 py-2 border rounded-md"
       />
+
+      {isExtraIncome && (
+        <input
+          type="number"
+          placeholder="Ciclo de días"
+          value={cicloDias}
+          onChange={(e) => setCicloDias(e.target.value)}
+          className="ml-2 px-4 py-2 border rounded-md"
+        />
+      )}
+
       <button
         onClick={handleAddIngreso}
         className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md"
@@ -70,13 +109,21 @@ const IngresoItem = ({ tipo }) => {
             <tr>
               <th className="border-b py-2 px-4 text-left">Tipo</th>
               <th className="border-b py-2 px-4 text-left">Monto</th>
+              {isExtraIncome && (
+                <th className="border-b py-2 px-4 text-left">Ciclo de Días</th>
+              )}
               <th className="border-b py-2 px-4 text-left">Acciones</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td className="border-b py-2 px-4 capitalize">{tipo}</td>
-              <td className="border-b py-2 px-4">${ingresoGuardado}</td>
+              <td className="border-b py-2 px-4">${ingresoGuardado.monto}</td>
+              {isExtraIncome && (
+                <td className="border-b py-2 px-4">
+                  {ingresoGuardado.cicloDias}
+                </td>
+              )}
               <td className="border-b py-2 px-4">
                 <button
                   onClick={handleDeleteIngreso}

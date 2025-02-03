@@ -3,6 +3,7 @@ import logo from '../assets/WebappFinanzas/logo.png';
 import { useState, useEffect } from "react";
 import { useAuthStore } from '../store/auth';
 import { useNavigate } from 'react-router-dom';
+import { useCategoryStore } from '../store/category';
 
 const Header = () => {
 
@@ -11,6 +12,7 @@ const Header = () => {
 
     const isAuth = useAuthStore(state => state.isAuth)
     const logout = useAuthStore(state => state.logOut)
+    const cleanCategorias = useCategoryStore(state => state.cleanCategorias)
     const navigate = useNavigate();
 
     // Detecta el scroll del usuario
@@ -45,6 +47,7 @@ const Header = () => {
             <button className='login-button'
                 onClick={() => {
                     logout()
+                    cleanCategorias()
                     navigate('/login')
                 }}
             >{(isAuth) ? 'Cerrar sesión' : 'Iniciar sesión'}</button>

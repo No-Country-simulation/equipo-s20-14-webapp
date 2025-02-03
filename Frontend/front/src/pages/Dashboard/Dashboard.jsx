@@ -1,9 +1,6 @@
-<<<<<<< HEAD
-=======
+
 import React from "react";
->>>>>>> bbbee403974db65f783a4c7f3ccff64c2cbd8425
 import { Outlet } from "react-router-dom";
-import { useEffect } from "react";
 import { SidebarMenu } from "../../components/Dashboard/SidebarMenu";
 import Header from "../../components/Header";
 import { useCategoryStore } from "../../store/category";

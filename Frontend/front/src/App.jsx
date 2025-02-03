@@ -1,16 +1,18 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { FinanzasApp } from "./pages/FinanzasApp";
-import { Dashboard } from "./pages/Dashboard/Dashboard";
-import { Ingresos } from "./pages/Dashboard/Ingresos";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { LoginPage } from "./pages/auth/LoginPage";
-import { RegisterPage } from "./pages/auth/Register";
-import ReporteGeneral from "./pages/Dashboard/Reporte/ReporteGeneral";
-import ReporteIngresos from "./pages/Dashboard/Reporte/ReporteIngresos";
-import ReporteGastos from "./pages/Dashboard/Reporte/ReporteGastos";
-import { useAuthStore } from "./store/auth";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { PublicRoute } from "./components/PublicRoute";
+import VistaServicios from "./components/Vistas/VistaServicios";
+import { LoginPage } from "./pages/auth/LoginPage";
+import { RegisterPage } from "./pages/auth/Register";
+import { Dashboard } from "./pages/Dashboard/Dashboard";
+import { Gastos } from "./pages/Dashboard/Gastos";
+import { Ingresos } from "./pages/Dashboard/Ingresos";
+import ReporteGastos from "./pages/Dashboard/Reporte/ReporteGastos";
+import ReporteGeneral from "./pages/Dashboard/Reporte/ReporteGeneral";
+import ReporteIngresos from "./pages/Dashboard/Reporte/ReporteIngresos";
+import { FinanzasApp } from "./pages/FinanzasApp";
+import { useAuthStore } from "./store/auth";
 
 export default function App() {
   const isAuth = useAuthStore((state) => state.isAuth);
@@ -26,9 +28,11 @@ export default function App() {
         <Route element={<ProtectedRoute isAllowed={isAuth} />}>
           <Route path="/dashboard" element={<Dashboard />}>
             <Route path="ingresos/:tipo" element={<Ingresos />} />
+            <Route path="gastos/:categoria/:id" element={<Gastos />} />
             <Route path="reporte-general" element={<ReporteGeneral />} />
             <Route path="reporte-ingresos" element={<ReporteIngresos />} />
             <Route path="reporte-gastos" element={<ReporteGastos />} />
+            <Route path="servicios" element={<VistaServicios />} />
           </Route>
         </Route>
       </Routes>

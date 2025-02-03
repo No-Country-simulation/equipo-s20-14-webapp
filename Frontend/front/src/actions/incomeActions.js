@@ -4,8 +4,6 @@ import { createIncome, fetchIncomes } from "../api/income";
 export const getIncomes = async (usuarioId) => {
   try {
     const { data } = await fetchIncomes(usuarioId);
-    // console.log(data);
-
     return data;
   } catch (error) {
     console.error("Error al obtener ingresos:", error);
@@ -15,6 +13,18 @@ export const getIncomes = async (usuarioId) => {
 };
 
 export const addIncome = async (incomeData) => {
+  try {
+    const { data } = await createIncome(incomeData);
+    toast.success("Ingreso agregado correctamente.");
+    return data;
+  } catch (error) {
+    console.error("Error al crear ingreso:", error);
+    toast.error("No se pudo agregar el ingreso.");
+    return null;
+  }
+};
+
+export const addIncomeExtra = async (incomeData) => {
   try {
     const { data } = await createIncome(incomeData);
     toast.success("Ingreso agregado correctamente.");

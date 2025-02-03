@@ -5,7 +5,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
 
 
-const VistaServicios = () =>{
+const VistaServicios = ({categoria}) =>{  
   
   //Definimos el estado para los campos del formulario
   const [formulario, setFormulario] = useState({ descripcion: "", fecha: "", monto: "" });
@@ -103,7 +103,7 @@ const VistaServicios = () =>{
         <Paper elevation={3} style={{ padding: "20px", marginTop: "20px" }}>
 
           <Typography variant="h5" gutterBottom>
-            {editIndex !== null ? "Editar Servicio" : "Registrar Servicio"}
+            {editIndex !== null ? <span className="capitalize">{`Editar ${categoria}`}</span> : <span className="capitalize">{`Registrar ${categoria}`}</span>}
           </Typography>
 
 

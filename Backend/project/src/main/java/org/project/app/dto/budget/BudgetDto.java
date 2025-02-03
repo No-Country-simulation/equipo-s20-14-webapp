@@ -7,6 +7,7 @@ import java.io.Serializable;
 public record BudgetDto(
         Long id,
         Double budgetamount,
-        CategoryDto categoryDto
+        CategoryDto categoryDto,
+        Long userId
 ) implements Serializable {
 }

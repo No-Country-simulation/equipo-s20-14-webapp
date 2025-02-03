@@ -12,7 +12,7 @@ public interface BudgetService {
 
     ExtendedBaseResponse<BudgetDto> createBudget(RequestBudgetDto requestBudgetDto);
 
-    ExtendedBaseResponse<BudgetDto> getBudgetById(Long id);
+    ExtendedBaseResponse<BudgetDto> getBudgetByUserIdAndCategoryId(Long userId, Long categoryId);
 
     ExtendedBaseResponse<List<BudgetDto>> getListBudget();
 

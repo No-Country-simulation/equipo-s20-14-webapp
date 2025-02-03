@@ -52,7 +52,7 @@ public class BudgetController {
         return ResponseEntity.status(201).body(response);
     }
 
-    @Operation(summary = "Obtener un presupuesto por ID", description = "Devuelve un presupuesto específico por su ID.")
+    @Operation(summary = "Obtener un presupuesto por ID de usuario y ID de categoría", description = "Devuelve un presupuesto específico por el ID de usuario y el ID de categoría.")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
@@ -70,9 +70,12 @@ public class BudgetController {
                     content = @Content(mediaType = "application/json")
             )
     })
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ExtendedBaseResponse<BudgetDto>> getBudgetById(@PathVariable Long id) {
-        ExtendedBaseResponse<BudgetDto> response = budgetService.getBudgetById(id);
+    @GetMapping(path = "/user/{userId}/category/{categoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ExtendedBaseResponse<BudgetDto>> getBudgetByUserIdAndCategoryId(
+            @PathVariable Long userId,
+            @PathVariable Long categoryId
+    ) {
+        ExtendedBaseResponse<BudgetDto> response = budgetService.getBudgetByUserIdAndCategoryId(userId, categoryId);
         return ResponseEntity.ok(response);
     }
 

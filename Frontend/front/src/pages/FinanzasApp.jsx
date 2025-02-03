@@ -1,12 +1,16 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import CarouselPage from "../components/Inicio/CarouselPage";
+
+
+import VistaTransporte from "../components/Vistas/VistaTransporte";
 
 export const FinanzasApp = () => {
   return (
     <div>
       <Header />
-      <CarouselPage />
+      
+      <VistaTransporte />
+      
       <Footer />
     </div>
   );

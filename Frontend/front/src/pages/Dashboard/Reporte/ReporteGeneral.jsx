@@ -9,7 +9,6 @@ import {
   LinearScale,
   BarElement,
 } from "chart.js";
-import { Dashboard } from "../Dashboard";
 import { useEffect, useState } from "react";
 import { getGastosRequest, getIngresosRequest } from "../../../api/financialApi";
 
@@ -23,7 +22,7 @@ ChartJS.register(
   BarElement
 );
 
-const VistaGeneral = () => {
+const ReporteGeneral = () => {
   const [gastos, setGastos] = useState([]);
   const [ingresos, setIngresos] = useState([]);
 
@@ -91,9 +90,7 @@ const VistaGeneral = () => {
 
   return (
     <div className="flex min-h-screen">
-      <div>
-      <Dashboard className="w-1/5 bg-gray-800" />
-      </div>
+  
       <div className=" p-6 space-y-8 bg-white rounded-lg shadow-md flex-grow">
         <h2 className="text-xl font-semibold mb-4">Resumen Financiero</h2>
 
@@ -161,4 +158,4 @@ const VistaGeneral = () => {
   );
 };
 
-export default VistaGeneral;
+export default ReporteGeneral;

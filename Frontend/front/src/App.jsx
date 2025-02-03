@@ -11,6 +11,8 @@ import ReporteGastos from "./pages/Dashboard/Reporte/ReporteGastos";
 import { useAuthStore } from "./store/auth";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { PublicRoute } from "./components/PublicRoute";
+import VistaServicios from "./components/Vistas/VistaServicios";
+import VistaTransporte from './components/Vistas/VistaTransporte';
 
 export default function App() {
   const isAuth = useAuthStore((state) => state.isAuth);
@@ -29,8 +31,11 @@ export default function App() {
             <Route path="reporte-general" element={<ReporteGeneral />} />
             <Route path="reporte-ingresos" element={<ReporteIngresos />} />
             <Route path="reporte-gastos" element={<ReporteGastos />} />
+            <Route path="vista-servicios" element={<VistaServicios />}/>
+            <Route path="vista-transporte" element={<VistaTransporte />}/>
           </Route>
         </Route>
+        
       </Routes>
       <ToastContainer position="bottom-right" autoClose={2000} />
     </Router>

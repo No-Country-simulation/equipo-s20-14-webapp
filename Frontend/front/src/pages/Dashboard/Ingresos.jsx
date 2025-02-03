@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import IngresoItem from "../../components/Dashboard/IngresoItem";
-import IncomeList from "../../components/Dashboard/IncomeList";
 
 export const Ingresos = () => {
   const { tipo } = useParams();

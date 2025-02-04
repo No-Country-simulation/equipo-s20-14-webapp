@@ -1,6 +1,7 @@
 package org.project.app.exception;
 
 import org.project.app.dto.BaseResponse;
+import org.project.app.exception.BudgetExc.BudgetNotFoundException;
 import org.project.app.exception.userExc.EmailNotFoundException;
 import org.project.app.exception.userExc.UserNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -45,6 +46,14 @@ public class GlobalExceptionHandler {
     // Maneja UserNotFoundException (errores específicos de negocio)
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<BaseResponse> handleUserNotFound(UserNotFoundException ex) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND) // Código 404
+                .body(BaseResponse.error(HttpStatus.NOT_FOUND, ex.getMessage()));
+    }
+
+    // Maneja BudgetNotFoundException (errores específicos de negocio)
+    @ExceptionHandler(BudgetNotFoundException.class)
+    public ResponseEntity<BaseResponse> handleBudgetNotFoundException(BudgetNotFoundException ex) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND) // Código 404
                 .body(BaseResponse.error(HttpStatus.NOT_FOUND, ex.getMessage()));

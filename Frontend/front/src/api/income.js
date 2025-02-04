@@ -5,9 +5,9 @@ export const fetchIncomes = async (usuarioId) => {
 };
 
 export const createIncome = async (incomeData) => {
-  return await claraApi.post(`/operaciones/crear/ingreso`, incomeData);
+  return await claraApi.post(`/operaciones/crear/ingresofijo`, incomeData);
 };
 
 export const createExtraIncome = async (incomeData) => {
-  return await claraApi.post(`/operaciones/crear/ingresofijo`, incomeData);
+  return await claraApi.post(`/operaciones/crear/ingreso`, incomeData);
 };

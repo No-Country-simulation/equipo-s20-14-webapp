@@ -13,6 +13,9 @@ public record RequestBudgetDto(
         Double budgetamount,
         @Schema(description = "Id de la Categoria", example = "3")
         @NotNull(message = "El ID de la categoria no puede ser nulo.")
-        Long idCategory
+        Long idCategory,
+        @Schema(description = "Id del Usuario", example = "1")
+        @NotNull(message = "El ID del usuario no puede ser nulo.")
+        Long idUser
 ) implements Serializable {
 }

@@ -1,99 +1,139 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import { addIncome } from "../../actions/incomeActions";
+import {
+  addIncome,
+  addIncomeExtra,
+  getIncomes,
+} from "../../actions/incomeActions";
 import { useAuthStore } from "../../store/auth";
-import { createExtraIncome } from "../../api/income";
+import TotalIncome from "./TotalIncome";
+import IncomeList from "./ListIncome";
 
 const IngresoItem = ({ tipo }) => {
   const [monto, setMonto] = useState("");
-  const [ingresoGuardado, setIngresoGuardado] = useState(null);
-  const profile = useAuthStore((state) => state.profile);
+  const [descripcion, setDescripcion] = useState("");
+  const [cicloDias, setCicloDias] = useState("");
+  const [incomes, setIncomes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleAddIngreso = () => {
+  const profile = useAuthStore((state) => state.profile);
+  const location = useLocation();
+  const isExtraIncome = location.pathname.includes("extra");
+
+  // Función para agregar un ingreso
+  const handleAddIngreso = async () => {
     const montoNumber = parseFloat(monto);
+    const cicloNumber = parseInt(cicloDias, 10);
+
     if (isNaN(montoNumber) || montoNumber <= 0) {
       toast.error("Ingrese un monto válido.");
       return;
     }
 
-    setIngresoGuardado(montoNumber.toFixed(2));
-    setMonto("");
-  };
-
-  const handleDeleteIngreso = () => {
-    setIngresoGuardado(null);
-    toast.warn("Ingreso eliminado.");
-  };
-
-  const handleSaveIngreso = async () => {
-    if (!profile || !profile.id) {
-      toast.error("Error: Usuario no identificado.");
+    if (!isExtraIncome && (isNaN(cicloNumber) || cicloNumber <= 0)) {
+      toast.error("Ingrese un ciclo de días válido.");
       return;
     }
 
-    if (!ingresoGuardado) {
-      toast.error("No hay monto para guardar.");
+    if (!descripcion.trim()) {
+      toast.error("La descripción no puede estar vacía.");
       return;
     }
 
-    const ingresoData = {
-      descripcion: `Ingreso ${tipo}`,
-      fechaEfectuada: new Date().toISOString().split("T")[0],
-      monto: parseFloat(ingresoGuardado),
+    const fechaActual = new Date().toISOString().split("T")[0];
+
+    const data = {
+      descripcion: isExtraIncome
+        ? `Extra - ${descripcion}`
+        : `Mensual - ${descripcion}`,
+      monto: montoNumber,
       usuarioId: profile.id,
+      ...(isExtraIncome
+        ? { fechaEfectuada: fechaActual }
+        : { fechaProgramada: fechaActual, cicloDias: cicloNumber }),
     };
 
-    const data = await createExtraIncome(ingresoData);
+    setIsSubmitting(true);
+    if (isExtraIncome) {
+      await addIncomeExtra(data);
+    } else {
+      await addIncome(data);
+    }
+    setMonto("");
+    setCicloDias("");
+    setDescripcion("");
+    loadIncomes();
 
-    console.log(data);
+    setIsSubmitting(false);
   };
 
-  return (
-    <div>
-      <input
-        type="number"
-        placeholder="Monto"
-        value={monto}
-        onChange={(e) => setMonto(e.target.value)}
-        className="px-4 py-2 border rounded-md"
-      />
-      <button
-        onClick={handleAddIngreso}
-        className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md"
-      >
-        Agregar Ingreso
-      </button>
+  // Función para cargar los ingresos
+  const loadIncomes = async () => {
+    if (!profile?.id) return;
 
-      {ingresoGuardado && (
-        <table className="min-w-full my-6 border-collapse">
-          <thead>
-            <tr>
-              <th className="border-b py-2 px-4 text-left">Tipo</th>
-              <th className="border-b py-2 px-4 text-left">Monto</th>
-              <th className="border-b py-2 px-4 text-left">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border-b py-2 px-4 capitalize">{tipo}</td>
-              <td className="border-b py-2 px-4">${ingresoGuardado}</td>
-              <td className="border-b py-2 px-4">
-                <button
-                  onClick={handleDeleteIngreso}
-                  className="mr-2 px-4 py-2 bg-red-500 text-white rounded-md"
-                >
-                  Eliminar
-                </button>
-                <button
-                  onClick={handleSaveIngreso}
-                  className="px-4 py-2 bg-green-500 text-white rounded-md"
-                >
-                  Guardar
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+    setLoading(true);
+    const data = await getIncomes(profile.id);
+    if (data) setIncomes(data);
+    setLoading(false);
+  };
+
+  // Cargar los ingresos al montar el componente
+  useEffect(() => {
+    loadIncomes();
+  }, []);
+
+  return (
+    <div className="w-full h-screen">
+      <TotalIncome />
+      <div className="pt-4 flex gap-6">
+        <input
+          type="text"
+          placeholder="Descripción"
+          value={descripcion}
+          onChange={(e) => setDescripcion(e.target.value)}
+          className="px-4 py-2 border rounded-md"
+        />
+        <input
+          type="number"
+          placeholder="Monto"
+          value={monto}
+          onChange={(e) => setMonto(e.target.value)}
+          className="px-4 py-2 border rounded-md"
+        />
+
+        {!isExtraIncome && (
+          <input
+            type="number"
+            placeholder="Ciclo de días"
+            value={cicloDias}
+            onChange={(e) => setCicloDias(e.target.value)}
+            className="px-4 py-2 border rounded-md"
+          />
+        )}
+
+        <button
+          onClick={handleAddIngreso}
+          disabled={isSubmitting}
+          className={`ml-2 px-4 py-2 rounded-md ${
+            isSubmitting
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-blue-500 text-white"
+          }`}
+        >
+          {isSubmitting ? "Cargando..." : "Agregar Ingreso"}{" "}
+        </button>
+      </div>
+
+      {loading ? (
+        <p className="text-center text-gray-500 mt-4">Cargando ingresos...</p>
+      ) : incomes.length === 0 ? (
+        <p className="text-center text-gray-500 mt-4">
+          No hay ingresos registrados.
+        </p>
+      ) : (
+        <IncomeList incomes={incomes} isExtraIncome={isExtraIncome} />
       )}
     </div>
   );

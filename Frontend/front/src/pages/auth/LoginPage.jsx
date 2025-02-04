@@ -33,7 +33,7 @@ export const LoginPage = () => {
   const onSubmit = async (values) => {
     try {
       const { data } = await loginRequest(values.email, values.password);
-      
+
       setToken(data.data.token);
       setProfile(data.data);
       const idUsuario = useAuthStore.getState().profile.id;
@@ -41,12 +41,12 @@ export const LoginPage = () => {
       setCategorias(cat);
       setPathCategorias(prepareGastosPath(cat));
     } catch (error) {
-
       setError("root", {
         message: `${error.response.data.message}`,
       });
     }
   };
+
   return (
     <div className="min-w-screen min-h-screen flex items-center justify-center">
       <div className="md:flex grid place-content-center h-screen w-screen">

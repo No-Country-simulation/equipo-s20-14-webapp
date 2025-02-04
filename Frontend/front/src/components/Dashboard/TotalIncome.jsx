@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { getIncomes } from "../../actions/incomeActions";
 import { useAuthStore } from "../../store/auth";
 
-const IncomeList = () => {
+const TotalIncome = () => {
   const [incomes, setIncomes] = useState([]);
   const [loading, setLoading] = useState(true);
   const usuarioId = useAuthStore((state) => state.profile.id);
@@ -32,30 +32,14 @@ const IncomeList = () => {
 
   return (
     <div>
-      <h2>
-        {isExtraIncome
-          ? "Lista de Ingresos Extras"
-          : "Lista de Ingresos Mensuales"}
-      </h2>
-
-      <div>
-        <p>
-          <strong>
-            Total {isExtraIncome ? "Ingresos Extras" : "Ingresos Mensuales"}:
-          </strong>{" "}
-          ${totalAmount}
-        </p>
-      </div>
-      {/* 
-      <ul>
-        {filteredIncomes.map((income) => (
-          <li key={income.operacionId}>
-            {income.descripcion} - ${income.monto}
-          </li>
-        ))}
-      </ul> */}
+      <p>
+        <strong>
+          Total {isExtraIncome ? "Ingresos Extras" : "Ingresos Mensuales"}:
+        </strong>{" "}
+        ${totalAmount}
+      </p>
     </div>
   );
 };
 
-export default IncomeList;
+export default TotalIncome;

@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { addIncome, addIncomeExtra } from "../../actions/incomeActions";
 import { useAuthStore } from "../../store/auth";
+import IncomeList from "./IncomeList";
 
 const IngresoItem = ({ tipo }) => {
   const [monto, setMonto] = useState("");
@@ -79,6 +80,7 @@ const IngresoItem = ({ tipo }) => {
 
   return (
     <div>
+      <IncomeList />
       <input
         type="number"
         placeholder="Monto"

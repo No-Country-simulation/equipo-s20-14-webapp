@@ -2,14 +2,16 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 
-import VistaTransporte from "../components/Vistas/VistaTransporte";
+import CarouselPage from "../components/Inicio/CarouselPage";
+
+import { Dashboard } from "@mui/icons-material";
 
 export const FinanzasApp = () => {
   return (
     <div>
       <Header />
-      
-      <VistaTransporte />
+      <CarouselPage />
+      <Dashboard />
       
       <Footer />
     </div>

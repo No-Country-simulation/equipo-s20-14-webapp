@@ -5,6 +5,7 @@ import { SidebarMenu } from "../../components/Dashboard/SidebarMenu";
 import Header from "../../components/Header";
 import { useCategoryStore } from "../../store/category";
 
+
 const sections = [
   {
     title: "Ingresos",
@@ -15,7 +16,9 @@ const sections = [
   },
   {
     title: "Gastos",
-    subItems: [],
+    subItems: [
+      { label: "Servicios", path: "/dashboard/gasto"},
+    ],
   },
   {
     title: "Reporte",
@@ -36,6 +39,7 @@ export const Dashboard = () => {
       <Header />
       <div className="flex ">
         <SidebarMenu sections={sections} categorias={pathCategorias} />
+        
         <Outlet />
       </div>
     </div>

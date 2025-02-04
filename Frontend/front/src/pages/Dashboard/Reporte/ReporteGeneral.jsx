@@ -9,7 +9,7 @@ import {
   LinearScale,
   BarElement,
 } from "chart.js";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useAuthStore } from "react";
 import { getGastosRequest, getIngresosRequest } from "../../../api/financialApi";
 import { getPresupuestoTotalRequest } from "../../../api/financialApi";
 
@@ -23,8 +23,12 @@ ChartJS.register(
 );
 
 const ReporteGeneral = () => {
+  const usuarioId = useAuthStore.getState().profile.id;
+  const categoriaId = 0;
+
   const [gastos, setGastos] = useState([]);
   const [ingresos, setIngresos] = useState([]);
+  const [presupuestoTotal, setPresupuestoTotal] = useState(0);
 
   // Datos para el gráfico de torta (gastos por categoría)
   const pieData = {
@@ -32,7 +36,7 @@ const ReporteGeneral = () => {
     datasets: [
       {
         label: "Gastos",
-        data: gastos.map(item => item.categoria), // Reemplazar con datos dinámicos del backend
+        data: gastos.map(item => item.monto), // Reemplazar con datos dinámicos del backend
         backgroundColor: ["#f87171", "#60a5fa", "#facc15", "#4ade80"],
         borderColor: ["#ffffff"],
         borderWidth: 2,
@@ -58,9 +62,7 @@ const ReporteGeneral = () => {
   };
 
   useEffect(() => {
-    
     //Obtener los gastos
-    const usuarioId = '123';
     getGastosRequest(usuarioId)//Para cada gasto una petición, mapeo de todos los gastos
     .then((gastosData) => {
       if (Array.isArray(gastosData)) {
@@ -68,10 +70,12 @@ const ReporteGeneral = () => {
       } else {
         console.error("Datos de gastos no son un array");
       }
+      console.log("Gastos recibidos:", gastosData);
+
       
     })//asumiendo que el backend devuelve un array de objetos con datos de ingresos
     .catch((error) => console.error(error));
-
+    
     // Obtener los ingresos
     
     getIngresosRequest(usuarioId)
@@ -84,20 +88,20 @@ const ReporteGeneral = () => {
     })  // Asumiendo que el backend devuelve un array de objetos con datos de ingresos
       .catch((error) => console.error(error))
     
+      getPresupuestoTotalRequest(usuarioId, categoriaId)
+      .then((total) => {
+        setPresupuestoTotal(total);
+      })
+      .catch((error) => console.error(error));  
+      
   },[]);
 
-  const [presupuestoTotal, setPresupuestoTotal] = useState(0);
+  
 
-useEffect(() => {
-  const usuarioId = '123'; // Asegúrate de obtenerlo dinámicamente
-  const categoriaId = '1'; // Cambia esto según la categoría deseada
+  
 
-  getPresupuestoTotalRequest(usuarioId, categoriaId)
-    .then((total) => {
-      setPresupuestoTotal(total);
-    })
-    .catch((error) => console.error(error));
-}, []);
+  
+
 
 
   return (

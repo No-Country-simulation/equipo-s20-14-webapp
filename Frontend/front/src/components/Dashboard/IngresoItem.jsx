@@ -21,14 +21,14 @@ const IngresoItem = ({ tipo }) => {
       return;
     }
 
-    if (isExtraIncome && (isNaN(cicloNumber) || cicloNumber < 0)) {
+    if (!isExtraIncome && (isNaN(cicloNumber) || cicloNumber <= 0)) {
       toast.error("Ingrese un ciclo de días válido.");
       return;
     }
 
     setIngresoGuardado({
       monto: montoNumber.toFixed(2),
-      cicloDias: isExtraIncome ? cicloNumber : null,
+      cicloDias: !isExtraIncome ? cicloNumber : null,
     });
 
     setMonto("");
@@ -51,24 +51,25 @@ const IngresoItem = ({ tipo }) => {
       return;
     }
 
-    const baseIngresoData = {
-      descripcion: `Ingreso ${tipo}`,
-      fechaEfectuada: new Date().toISOString().split("T")[0],
-      monto: parseFloat(ingresoGuardado.monto),
-      usuarioId: profile.id,
-    };
+    const fechaActual = new Date().toISOString().split("T")[0];
 
-    let ingresoData;
     if (isExtraIncome) {
-      ingresoData = {
-        ...baseIngresoData,
-        fechaProgramada: baseIngresoData.fechaEfectuada,
-        cicloDias: ingresoGuardado.cicloDias,
+      const extraIncomeData = {
+        descripcion: `Ingreso Extra ${tipo}`,
+        fechaEfectuada: fechaActual,
+        monto: parseFloat(ingresoGuardado.monto),
+        usuarioId: profile.id,
       };
-      await addIncomeExtra(ingresoData);
+      await addIncomeExtra(extraIncomeData);
     } else {
-      ingresoData = baseIngresoData;
-      await addIncome(ingresoData);
+      const fixedIncomeData = {
+        descripcion: `Ingreso Fijo ${tipo}`,
+        fechaProgramada: fechaActual,
+        cicloDias: ingresoGuardado.cicloDias,
+        monto: parseFloat(ingresoGuardado.monto),
+        usuarioId: profile.id,
+      };
+      await addIncome(fixedIncomeData);
     }
 
     setIngresoGuardado(null);
@@ -86,7 +87,7 @@ const IngresoItem = ({ tipo }) => {
         className="px-4 py-2 border rounded-md"
       />
 
-      {isExtraIncome && (
+      {!isExtraIncome && (
         <input
           type="number"
           placeholder="Ciclo de días"
@@ -109,7 +110,7 @@ const IngresoItem = ({ tipo }) => {
             <tr>
               <th className="border-b py-2 px-4 text-left">Tipo</th>
               <th className="border-b py-2 px-4 text-left">Monto</th>
-              {isExtraIncome && (
+              {!isExtraIncome && (
                 <th className="border-b py-2 px-4 text-left">Ciclo de Días</th>
               )}
               <th className="border-b py-2 px-4 text-left">Acciones</th>
@@ -119,7 +120,7 @@ const IngresoItem = ({ tipo }) => {
             <tr>
               <td className="border-b py-2 px-4 capitalize">{tipo}</td>
               <td className="border-b py-2 px-4">${ingresoGuardado.monto}</td>
-              {isExtraIncome && (
+              {!isExtraIncome && (
                 <td className="border-b py-2 px-4">
                   {ingresoGuardado.cicloDias}
                 </td>

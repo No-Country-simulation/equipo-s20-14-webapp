@@ -3,7 +3,10 @@ import { toast } from "react-toastify";
 
 export const loadBudgetTotalByUserCategory = async (idusuario, idCategoria) => {
   try {
+        
     const { data } = await budgetTotalByUserCategoryRequest(idusuario, idCategoria);
+    console.log(data);
+    
     return data;
         
   } catch (error) {

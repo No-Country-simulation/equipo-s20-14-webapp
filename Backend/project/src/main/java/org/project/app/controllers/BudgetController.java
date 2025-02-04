@@ -79,7 +79,7 @@ public class BudgetController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "Obtener todos los presupuestos", description = "Devuelve una lista de todos los presupuestos.")
+    @Operation(summary = "Obtener presupuestos por ID de usuario", description = "Devuelve una lista de presupuestos para un usuario específico.")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
@@ -87,14 +87,19 @@ public class BudgetController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExtendedBaseResponse.class))
             ),
             @ApiResponse(
+                    responseCode = "404",
+                    description = "No se encontraron presupuestos para el usuario especificado.",
+                    content = @Content(mediaType = "application/json")
+            ),
+            @ApiResponse(
                     responseCode = "500",
                     description = "Error al obtener los presupuestos.",
                     content = @Content(mediaType = "application/json")
             )
     })
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ExtendedBaseResponse<List<BudgetDto>>> getAllBudgets() {
-        ExtendedBaseResponse<List<BudgetDto>> response = budgetService.getListBudget();
+    @GetMapping(path = "/user/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ExtendedBaseResponse<List<BudgetDto>>> getListBudgetByUserId(@PathVariable Long userId) {
+        ExtendedBaseResponse<List<BudgetDto>> response = budgetService.getListBudgetByUserId(userId);
         return ResponseEntity.ok(response);
     }
 

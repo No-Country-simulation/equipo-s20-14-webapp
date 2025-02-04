@@ -14,7 +14,7 @@ public interface BudgetService {
 
     ExtendedBaseResponse<BudgetDto> getBudgetByUserIdAndCategoryId(Long userId, Long categoryId);
 
-    ExtendedBaseResponse<List<BudgetDto>> getListBudget();
+    ExtendedBaseResponse<List<BudgetDto>> getListBudgetByUserId(Long userId);
 
     ExtendedBaseResponse<BudgetDto> upDate(UpdateBudget updateBudget);
 

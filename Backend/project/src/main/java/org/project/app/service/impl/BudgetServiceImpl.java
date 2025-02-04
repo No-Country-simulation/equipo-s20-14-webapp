@@ -6,6 +6,7 @@ import org.project.app.dto.ExtendedBaseResponse;
 import org.project.app.dto.budget.BudgetDto;
 import org.project.app.dto.budget.RequestBudgetDto;
 import org.project.app.dto.budget.UpdateBudget;
+import org.project.app.exception.BudgetExc.BudgetNotFoundException;
 import org.project.app.mapper.BudgetMapper;
 import org.project.app.model.Budget;
 import org.project.app.model.Category;
@@ -49,17 +50,20 @@ public class BudgetServiceImpl implements BudgetService {
     @Transactional(readOnly = true)
     public ExtendedBaseResponse<BudgetDto> getBudgetByUserIdAndCategoryId(Long userId, Long categoryId) {
         Budget budget = budgetRepository.findByUserIdAndCategoryId(userId, categoryId)
-                .orElseThrow(() -> new RuntimeException("Presupuesto no encontrado para el usuario y categoría especificados"));
+                .orElseThrow(() -> new BudgetNotFoundException("No se encontró un presupuesto para el usuario y categoría especificados"));
         BudgetDto budgetDto = budgetMapper.toDto(budget);
         return ExtendedBaseResponse.of(BaseResponse.ok("Presupuesto encontrado exitosamente"), budgetDto);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ExtendedBaseResponse<List<BudgetDto>> getListBudget() {
-        List<Budget> budgetList = budgetRepository.findAll();
+    public ExtendedBaseResponse<List<BudgetDto>> getListBudgetByUserId(Long userId) {
+        List<Budget> budgetList = budgetRepository.findByUserId(userId);
+        if (budgetList.isEmpty()) {
+            throw new BudgetNotFoundException("No se encontraron presupuestos para el usuario especificado");
+        }
         List<BudgetDto> budgetDtoList = budgetMapper.entityListToDtoList(budgetList);
-        return ExtendedBaseResponse.of(BaseResponse.ok("Lista de Presupuesto obtenidas exitosamente"), budgetDtoList);
+        return ExtendedBaseResponse.of(BaseResponse.ok("Lista de presupuestos obtenida exitosamente"), budgetDtoList);
     }
 
     @Override

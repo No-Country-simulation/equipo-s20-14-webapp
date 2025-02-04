@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { createIncome, fetchIncomes } from "../api/income";
+import { createExtraIncome, createIncome, fetchIncomes } from "../api/income";
 
 export const getIncomes = async (usuarioId) => {
   try {
@@ -26,7 +26,7 @@ export const addIncome = async (incomeData) => {
 
 export const addIncomeExtra = async (incomeData) => {
   try {
-    const { data } = await createIncome(incomeData);
+    const { data } = await createExtraIncome(incomeData);
     toast.success("Ingreso agregado correctamente.");
     return data;
   } catch (error) {

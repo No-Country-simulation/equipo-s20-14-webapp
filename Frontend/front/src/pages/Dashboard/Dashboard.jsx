@@ -16,9 +16,7 @@ const sections = [
   },
   {
     title: "Gastos",
-    subItems: [
-      { label: "Servicios", path: "/dashboard/gasto"},
-    ],
+    subItems: [],
   },
   {
     title: "Reporte",

@@ -19,7 +19,7 @@ export const getGastosRequest = async (usuarioId) => {
 // Función para obtener los ingresos
 export const getIngresosRequest = async (usuarioId) => {
   try {
-    const response = await axios.get(`/operaciones/total/ingresos/${usuarioId}`); // Ajusta la ruta según tu backend
+    const response = await axios.get(`'https://equipo-s20-14-webapp.onrender.com/operaciones/total/ingresos/${usuarioId}`); // Ajusta la ruta según tu backend
     return response.data;
   } catch (error) {
     console.error('Error obteniendo los ingresos:', error);

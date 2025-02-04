@@ -3,6 +3,11 @@ import '../../../style/ReporteIngreso.css';
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 ChartJS.register(ArcElement, Tooltip, Legend);
+import { useAuthStore } from '../../../store/auth';
+import { useState, useEffect } from 'react';
+
+import { getIngresosRequest } from '../../../api/financialApi';
+
 
 
 const coloresPie = [
@@ -15,17 +20,37 @@ const coloresPie = [
     'rgba(199, 199, 199, 0.6)', // Gris
 ];
 
-// Datos de ejemplo para los ingresos y gastos
-const ingresos = [
-  {categoria: "Mensual", monto: 100 },
-  {categoria: "Quincenal", monto: 90 },
-  {categoria: "Extra", monto: 40 }
-];
 
 const ReporteIngresos= () =>{
 
+    const profile = useAuthStore((state) => state.profile);
+    const [ingresos, setIngresos] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchIngresos = async () => {
+            if (profile?.id) {
+                const data= await getIngresosRequest(profile.id);
+                setIngresos(Array.isArray(data) ? data : []);
+                
+            }
+            setLoading(false);
+        };
+
+        fetchIngresos();
+    }, [profile?.id]);
+
+    if (loading) {
+        return <p className="text-center text-gray-500 mt-4">Cargando reporte...</p>;
+    }
+
+    if (ingresos.length === 0) {
+        return <p className="text-center text-gray-500 mt-4">No hay ingresos registrados.</p>;
+    }
+
     const totalIngresos = ingresos.reduce((sum, item) => sum + item.monto, 0);
-  
+
+
 
     const data = {
         labels: ingresos.map((ingreso) => ingreso.categoria),

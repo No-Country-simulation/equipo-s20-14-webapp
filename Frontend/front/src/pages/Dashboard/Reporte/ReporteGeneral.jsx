@@ -225,9 +225,7 @@ const ReporteGeneral = () => {
                       {fecha} {hora}
                     </p>
                   </div>
-                  <span
-                    className={`text-${gasto.isSpent ? "red" : "green"}-500`}
-                  >
+                  <span className={`text-red-500`}>
                     {gasto.isSpent ? "- " : "+ "}${gasto.amount}
                   </span>
                 </li>

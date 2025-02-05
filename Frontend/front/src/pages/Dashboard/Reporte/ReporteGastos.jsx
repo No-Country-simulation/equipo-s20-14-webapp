@@ -82,7 +82,6 @@ const ReporteGastos = () => {
     },
   };
 
-  console.log("Gasto por categoria", gastosPorCategoria);
   return (
     <div className="w-6/12 mx-auto h-screen">
       <h2 className="titulo">Reporte Total de Gastos</h2>

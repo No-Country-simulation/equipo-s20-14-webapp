@@ -57,7 +57,7 @@ const ReporteGastos = () => {
 
   // Configuración del gráfico de torta
   const data = {
-    labels: categorias.map((categoria) => categoria.nombre),
+    labels: categorias.map((categoria) => categoria.name),
     datasets: [
       {
         data: gastosPorCategoria.map((gasto) => gasto.total),

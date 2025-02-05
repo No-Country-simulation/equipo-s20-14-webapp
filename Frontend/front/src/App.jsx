@@ -2,7 +2,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { PublicRoute } from "./components/PublicRoute";
-import VistaServicios from "./components/Vistas/VistaServicios";
+import VistaGastos from "./components/Vistas/VistaGastos";
 import { LoginPage } from "./pages/auth/LoginPage";
 import { RegisterPage } from "./pages/auth/Register";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
@@ -29,12 +29,14 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard />}>
             <Route path="ingresos/:tipo" element={<Ingresos />} />
             <Route path="gastos/:categoria/:id" element={<Gastos />} />
+            <Route path="gastos" element={<VistaGastos />} />
             <Route path="reporte-general" element={<ReporteGeneral />} />
             <Route path="reporte-ingresos" element={<ReporteIngresos />} />
             <Route path="reporte-gastos" element={<ReporteGastos />} />
-            <Route path="servicios" element={<VistaServicios />} />
+            
           </Route>
         </Route>
+        
       </Routes>
       <ToastContainer position="bottom-right" autoClose={2000} />
     </Router>

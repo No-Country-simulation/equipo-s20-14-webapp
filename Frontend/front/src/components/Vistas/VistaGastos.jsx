@@ -17,7 +17,6 @@ import { addExpense, getExpensesByUser } from "../../actions/expensesActions";
 import { useAuthStore } from "../../store/auth";
 import { removeExpense } from "../../api/expenses";
 import { useBudgetStore } from "../../store/budget";
-import { useExpenseStore } from "../../store/expenses";
 
 const VistaGastos = ({ categoria, idCategoria }) => {
   //Definimos el estado para los campos del formulario
@@ -32,16 +31,10 @@ const VistaGastos = ({ categoria, idCategoria }) => {
   const [loading, setLoading] = useState(true);
   const [show, setShow] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const montoTotal = useBudgetStore((state) => state.presupuestoTotal);
-  const setExpensesTotal = useExpenseStore((state) => state.setExpensesTotal);
-
-  // useEffect(() => {
-  //   setShow(false);
-  //   loadBudgets();
-  // }, [montoTotal])
+  const [gastosTotal, setGastosTotal] = useState(0);
+  const presupuestoTotal = useBudgetStore((state) => state.presupuestoTotal);
 
   useEffect(() => {
-    setExpensesTotal(0);
     setShow(false);
     loadBudgets();
     setFormulario({
@@ -52,7 +45,7 @@ const VistaGastos = ({ categoria, idCategoria }) => {
     setServicios([]);
     setLoading(true);
     loadExpenses();
-  }, [categoria, montoTotal]);
+  }, [categoria, presupuestoTotal]);
 
   const loadExpenses = async () => {
     const { data } = await getExpensesByUser(profile.id);
@@ -64,12 +57,12 @@ const VistaGastos = ({ categoria, idCategoria }) => {
       0
     );
     setServicios(filtrados);
+    setGastosTotal(sumaMontos);
     setLoading(false);
-    setExpensesTotal(sumaMontos);
   };
 
   const loadBudgets = async () => {
-    if (montoTotal !== 0) {
+    if (presupuestoTotal !== 0) {
       setShow(true);
     } else {
       setShow(false);
@@ -86,46 +79,52 @@ const VistaGastos = ({ categoria, idCategoria }) => {
   const handleSubmit = async (e) => {
     setIsSubmitting(true);
     e.preventDefault(); //Evita que la página se recargue
-
+    
+    const actual = presupuestoTotal-gastosTotal;
     const { description, amount } = formulario;
-    if (!description || !amount) {
-      toast.error("Todos los campos son obligatorios");
-      return;
-    }
-
-    if (amount <= 0) {
-      toast.error("El amount debe ser mayor a 0");
-      return;
-    }
-    //Creamos un nuevo servicio con los datos ingresados
-    const nuevoServicio = {
-      amount: parseFloat(amount) || 0,
-      description,
-      isSpent: true,
-      isFixed: true,
-      cycleDays: 30,
-      categoryId: parseInt(idCategoria),
-      userId: profile.id,
-    };
-
-    // const response = await axios.post("/operaciones/crar/gastos", nuevoServicio);
-    const response = await addExpense(nuevoServicio);
-
-    const gastoGuardado = response.data;
-
-    if (editIndex !== null) {
-      // Si estamos editando, actualizamos en lugar de agregar
-      const serviciosActualizados = [...servicios];
-      serviciosActualizados[editIndex] = gastoGuardado;
-      setServicios(serviciosActualizados);
-      setEditIndex(null); //resetear modo edición
+    if (amount < actual) {
+      if (!description || !amount) {
+        toast.error("Todos los campos son obligatorios");
+        return;
+      }
+  
+      if (amount <= 0) {
+        toast.error("El monto debe ser mayor a 0");
+        return;
+      }
+      //Creamos un nuevo servicio con los datos ingresados
+      const nuevoServicio = {
+        amount: parseFloat(amount) || 0,
+        description,
+        isSpent: true,
+        isFixed: true,
+        cycleDays: 30,
+        categoryId: parseInt(idCategoria),
+        userId: profile.id,
+      };
+  
+      // const response = await axios.post("/operaciones/crar/gastos", nuevoServicio);
+      const response = await addExpense(nuevoServicio);
+  
+      const gastoGuardado = response.data;
+  
+      if (editIndex !== null) {
+        // Si estamos editando, actualizamos en lugar de agregar
+        const serviciosActualizados = [...servicios];
+        serviciosActualizados[editIndex] = gastoGuardado;
+        setServicios(serviciosActualizados);
+        setEditIndex(null); //resetear modo edición
+      } else {
+        //Actualizamos la lista de servicios con el nuevo
+        setServicios([gastoGuardado, ...servicios]);
+      }
+  
+      //Limpiamos los campos después de agregar el servicio
+      setFormulario({ description: "", amount: "" });
     } else {
-      //Actualizamos la lista de servicios con el nuevo
-      setServicios([gastoGuardado, ...servicios]);
+      toast.error("No tiene suficiente presupuesto, total: " + actual);
+      setFormulario({ description: "", amount: "" });
     }
-
-    //Limpiamos los campos después de agregar el servicio
-    setFormulario({ description: "", amount: "" });
   };
 
   // Eliminar servicio
@@ -143,6 +142,7 @@ const VistaGastos = ({ categoria, idCategoria }) => {
   return (
     show && (
       <Container maxWidth="sm">
+        {!loading && <h1 className="text-xl">Presupuesto actual: ${presupuestoTotal-gastosTotal}</h1>}
         <Paper elevation={3} style={{ padding: "20px", marginTop: "20px" }}>
           <Typography variant="h5" gutterBottom>
             {editIndex !== null ? (
@@ -193,7 +193,7 @@ const VistaGastos = ({ categoria, idCategoria }) => {
         </Paper>
 
         <Typography variant="h6" style={{ marginTop: "20px" }}>
-          Gastos de <span className="capitalize">{categoria}</span> registrados
+          Gastos de <span className="capitalize">{categoria}</span> registrados, total: ${gastosTotal}
         </Typography>
         <List>
           {loading ? (

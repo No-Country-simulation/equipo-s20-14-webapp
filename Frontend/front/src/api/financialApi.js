@@ -1,7 +1,7 @@
 import axios from '../libs/axios'
 import { getEnvVariables } from '../helpers/getEnvVariables';
 import { useAuthStore } from '../store/auth';
-
+import claraApi from "../libs/claraApi";
 
 console.log("VITE_API_URL:", getEnvVariables());
 
@@ -19,9 +19,28 @@ export const getGastosRequest = async (usuarioId) => {
 // Función para obtener los ingresos
 export const getIngresosRequest = async (usuarioId) => {
   try {
-    const response = await axios.get(`'https://equipo-s20-14-webapp.onrender.com/operaciones/total/ingresos/${usuarioId}`); // Ajusta la ruta según tu backend
+    const response = await claraApi.get(`/operaciones/total/ingresos/${usuarioId}`); // Ajusta la ruta según tu backend
     return response.data;
   } catch (error) {
+    console.error('Error obteniendo los ingresos:', error);
+    throw error;
+  }
+}
+//Funcion para obtener una lista de todos los ingresos
+export const getIngresoList = async (usuarioId) => {
+  try {
+    const response = await claraApi.get(`/operaciones/lista/ingresos/${usuarioId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
+    });
+
+    if (response.data){
+      return response.data;
+    } else {
+      throw new Error('No se encontraron ingresos');
+    }   
+  }catch (error){
     console.error('Error obteniendo los ingresos:', error);
     throw error;
   }

@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 
 import CarouselPage from "../components/Inicio/CarouselPage";
 
-import { Dashboard } from "@mui/icons-material";
+import Dashboard from "../pages/Dashboard/Reporte/ReporteGeneral";
 
 export const FinanzasApp = () => {
   return (

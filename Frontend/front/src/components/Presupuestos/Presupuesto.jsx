@@ -10,17 +10,19 @@ import { useAuthStore } from "../../store/auth";
 import { useBudgetStore } from "../../store/budget";
 import { fetchTotalIncomes } from "../../api/income";
 import { toast } from "react-toastify";
+import { useExpenseStore } from "../../store/expenses";
 
 export const Presupuesto = ({ categoria, idCategoria }) => {
   const idUsuario = useAuthStore((state) => state.profile).id;
   const setPresupuesto = useBudgetStore((state) => state.setPresupuesto);
+  const setPresupuestoInicial = useBudgetStore((state) => state.setPresupuestoInicial);
   const setIdPresupuesto = useBudgetStore((state) => state.setIdPresupuesto);
   const montoTotal = useBudgetStore((state) => state.presupuestoTotal);
-  const idPresupuesto = useBudgetStore((state) => state.idPresupuesto);
+  const presupuestoInicial = useBudgetStore((state) => state.presupuestoInicial);
+  const idPresupuesto = useBudgetStore((state) => state.idPresupuesto);  
+  const expensesTotal = useExpenseStore((state) => state.expensesTotal);
   const [loading, setLoading] = useState(true);
-
   const [monto, setMonto] = useState("");
-
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -29,8 +31,10 @@ export const Presupuesto = ({ categoria, idCategoria }) => {
       const data = await loadBudgetTotalByUserCategory(idUsuario, idCategoria);
 
       if (data !== 0) {
-        setPresupuesto(data.data.budgetamount);
-        setIdPresupuesto(data.data.categoryDto.id);
+        const resta = data.data.budgetamount-expensesTotal
+        setIdPresupuesto(data.data.id);
+        setPresupuestoInicial(data.data.budgetamount)
+        setPresupuesto(resta);
       } else {
         setPresupuesto(data);
         setIdPresupuesto(null);
@@ -85,10 +89,24 @@ export const Presupuesto = ({ categoria, idCategoria }) => {
         {loading ? (
           <p>Cargando presupuesto...</p>
         ) : (
-          <p>
-            Presupuesto <span className="capitalize">{categoria}</span>, total:{" "}
-            {montoTotal}
-          </p>
+          // <p>
+          //   Presupuesto <span className="capitalize">{categoria}</span>, total:{" "}
+          //   {montoTotal}
+          // </p>
+          montoTotal && montoTotal > 0 ? (
+            <>
+            <p>
+              Presupuesto Inicial:{" "}
+              {presupuestoInicial}
+            </p>
+            <p className="text-xl">
+              Presupuesto Actual:{" "}
+              {montoTotal}
+            </p>
+            </>
+          ) : (
+            <span className="text-gray-500">Aún no definiste presupuesto</span>
+          )
         )}
       </div>
       <input

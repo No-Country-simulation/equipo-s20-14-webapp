@@ -17,5 +17,5 @@ export const createBudgetByCategory = async (presupuesto) => {
 };
 
 export const updateBudgetByCategory = async (presupuesto) => {
-  return await claraApi.post("/budget/update", presupuesto);
+  return await claraApi.put("/budget/update", presupuesto);
 };

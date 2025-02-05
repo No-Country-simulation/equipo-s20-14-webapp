@@ -30,11 +30,13 @@ export const createBudget = async (presupuesto) => {
 
 export const updateBudget = async (presupuesto) => {
   try {
+    console.log(presupuesto);
     await updateBudgetByCategory(presupuesto);    
+    
     toast.success("Presupuesto modificado correctamente.");
     
   } catch (error) {
-    console.error("Error al modificar presupuesto:", error);
+    console.error("Error al modificar presupuesto:", error.message);
     toast.error("No se pudo modificar el presupuesto.");
     return null;
   }

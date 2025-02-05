@@ -43,7 +43,9 @@ const ReporteIngresos = () => {
 
   if (loading) {
     return (
-      <p className="text-center text-gray-500 mt-4">Cargando reporte...</p>
+      <div className="w-full h-screen flex items-center justify-center">
+        <p className="text-center text-gray-500 mt-4">Cargando reporte...</p>
+      </div>
     );
   }
 

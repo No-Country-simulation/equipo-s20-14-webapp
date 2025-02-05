@@ -9,11 +9,11 @@ export const getGastosRequest = async (usuarioId) => {
 };
 
 // Función para obtener los ingresos
-export const getIngresosRequest = async (usuarioId) => {
+export const getIngresosTotal = async (usuarioId) => {
   try {
     const response = await claraApi.get(
       `/operaciones/total/ingresos/${usuarioId}`
-    ); // Ajusta la ruta según tu backend
+    );
     return response.data;
   } catch (error) {
     console.error("Error obteniendo los ingresos:", error);
@@ -24,19 +24,10 @@ export const getIngresosRequest = async (usuarioId) => {
 export const getIngresoList = async (usuarioId) => {
   try {
     const response = await claraApi.get(
-      `/operaciones/lista/ingresos/${usuarioId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
+      `/operaciones/lista/ingresos/${usuarioId}`
     );
 
-    if (response.data) {
-      return response.data;
-    } else {
-      throw new Error("No se encontraron ingresos");
-    }
+    return response.data;
   } catch (error) {
     console.error("Error obteniendo los ingresos:", error);
     throw error;

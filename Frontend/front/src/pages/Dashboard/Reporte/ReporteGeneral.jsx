@@ -193,7 +193,7 @@ const ReporteGeneral = () => {
           </ul>
         </div>
         <div>
-          <h3 className="text-lg font-semibold mb-4">Ultimos gatos</h3>
+          <h3 className="text-lg font-semibold mb-4">Ultimos gastos</h3>
           <ul className="space-y-2">
             {ultimosGastos.slice(0, 4).map((gasto) => {
               const fecha = new Date(gasto.dateCreation).toLocaleDateString(

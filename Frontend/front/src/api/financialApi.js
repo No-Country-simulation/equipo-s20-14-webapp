@@ -66,7 +66,7 @@ export const getPresupuestoTotalRequest = async (userId, categoriaId) => {
     const responses = await Promise.all(
       categoriaId.map(async (categoryId) => {
         const response = await axios.get(
-          `//budget/user/${userId}/category/${categoryId}`
+          `/budget/user/${userId}/category/${categoryId}`
         );
         return response.data; // Suponiendo que el backend devuelve el total directamente
       })

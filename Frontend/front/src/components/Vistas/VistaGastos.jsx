@@ -79,15 +79,15 @@ const VistaGastos = ({ categoria, idCategoria }) => {
   const handleSubmit = async (e) => {
     setIsSubmitting(true);
     e.preventDefault(); //Evita que la página se recargue
-    
-    const actual = presupuestoTotal-gastosTotal;
+
+    const actual = presupuestoTotal - gastosTotal;
     const { description, amount } = formulario;
     if (amount < actual) {
       if (!description || !amount) {
         toast.error("Todos los campos son obligatorios");
         return;
       }
-  
+
       if (amount <= 0) {
         toast.error("El monto debe ser mayor a 0");
         return;
@@ -102,12 +102,12 @@ const VistaGastos = ({ categoria, idCategoria }) => {
         categoryId: parseInt(idCategoria),
         userId: profile.id,
       };
-  
+
       // const response = await axios.post("/operaciones/crar/gastos", nuevoServicio);
       const response = await addExpense(nuevoServicio);
-  
+
       const gastoGuardado = response.data;
-  
+
       if (editIndex !== null) {
         // Si estamos editando, actualizamos en lugar de agregar
         const serviciosActualizados = [...servicios];
@@ -118,13 +118,16 @@ const VistaGastos = ({ categoria, idCategoria }) => {
         //Actualizamos la lista de servicios con el nuevo
         setServicios([gastoGuardado, ...servicios]);
       }
-  
+
       //Limpiamos los campos después de agregar el servicio
       setFormulario({ description: "", amount: "" });
+
+      loadExpenses();
     } else {
       toast.error("No tiene suficiente presupuesto, total: " + actual);
       setFormulario({ description: "", amount: "" });
     }
+    setIsSubmitting(false);
   };
 
   // Eliminar servicio
@@ -142,7 +145,11 @@ const VistaGastos = ({ categoria, idCategoria }) => {
   return (
     show && (
       <Container maxWidth="sm">
-        {!loading && <h1 className="text-xl">Presupuesto actual: ${presupuestoTotal-gastosTotal}</h1>}
+        {!loading && (
+          <h1 className="text-xl">
+            Presupuesto actual: ${presupuestoTotal - gastosTotal}
+          </h1>
+        )}
         <Paper elevation={3} style={{ padding: "20px", marginTop: "20px" }}>
           <Typography variant="h5" gutterBottom>
             {editIndex !== null ? (
@@ -186,14 +193,21 @@ const VistaGastos = ({ categoria, idCategoria }) => {
               onChange={handleChange}
               required
             />
-            <Button type="submit" variant="contained" color="primary" fullWidth>
+            <Button
+              disabled={isSubmitting}
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+            >
               {editIndex !== null ? "Actualizar" : "Guardar"}
             </Button>
           </form>
         </Paper>
 
         <Typography variant="h6" style={{ marginTop: "20px" }}>
-          Gastos de <span className="capitalize">{categoria}</span> registrados, total: ${gastosTotal}
+          Gastos de <span className="capitalize">{categoria}</span> registrados,
+          total: ${gastosTotal}
         </Typography>
         <List>
           {loading ? (

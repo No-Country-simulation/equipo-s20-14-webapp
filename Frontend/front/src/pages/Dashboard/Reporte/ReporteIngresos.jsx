@@ -98,7 +98,7 @@ const ReporteIngresos = () => {
 
       {/* Resumen del Balance */}
       <div className="w-9/12 mx-auto py-10 flex justify-between ">
-        <div className="w-3/12">
+        <div className="w-full">
           <h3 className="font-bold text-4xl">Ingresos</h3>
           <div className="py-4">
             {ingresos.map((ingreso, index) => (

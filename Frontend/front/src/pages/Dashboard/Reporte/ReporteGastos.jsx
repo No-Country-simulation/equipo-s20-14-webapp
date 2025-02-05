@@ -82,6 +82,7 @@ const ReporteGastos = () => {
     },
   };
 
+  console.log("Gasto por categoria", gastosPorCategoria);
   return (
     <div className="w-6/12 mx-auto h-screen">
       <h2 className="titulo">Reporte Total de Gastos</h2>
@@ -95,7 +96,7 @@ const ReporteGastos = () => {
           {gastosPorCategoria.map((gasto, index) => (
             <div key={index} className="categoria-item">
               <p>
-                <strong>{gasto.categoria.nombre}:</strong> ${gasto.total}
+                <strong>{gasto.categoria.name}:</strong> ${gasto.total}
               </p>
             </div>
           ))}

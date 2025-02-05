@@ -82,7 +82,7 @@ const VistaGastos = ({ categoria, idCategoria }) => {
 
     const actual = presupuestoTotal - gastosTotal;
     const { description, amount } = formulario;
-    if (amount < actual) {
+    if (amount <= actual) {
       if (!description || !amount) {
         toast.error("Todos los campos son obligatorios");
         return;

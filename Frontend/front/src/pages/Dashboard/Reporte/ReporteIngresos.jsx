@@ -19,7 +19,6 @@ const coloresPie = [
 
 const ReporteIngresos = () => {
   const profile = useAuthStore((state) => state.profile);
-  console.log("Profile en useAuthStore:", profile);
 
   const [ingresos, setIngresos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -29,7 +28,6 @@ const ReporteIngresos = () => {
       try {
         if (profile?.id && profile?.token) {
           const data = await getIngresoList(profile.id);
-          console.log("Ingresos cargados:", data);
           setIngresos(data);
         }
       } catch (error) {

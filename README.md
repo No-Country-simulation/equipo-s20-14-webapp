@@ -30,10 +30,11 @@ Esta aplicación permite a los usuarios:
 
 ## QA
 
-|                                                                 **Juan Pablo Hernández Montero**                                                                  |                                                                            **Juan Pablo Nonis**                                                                            |
-| :---------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-|            <img src="https://github.com/No-Country-simulation/equipo-s20-14-webapp/blob/main/Frontend/fotos-equipo/jpablo.jpeg?raw=true" width="100">             |               <img src="https://github.com/No-Country-simulation/equipo-s20-14-webapp/blob/develop/Frontend/fotos-equipo/jnonis.jpeg?raw=true" width="100">                |
-| <a href="https://www.linkedin.com/in/juanpablohm/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> | <a href="https://www.linkedin.com/in/juan-nonis-b3737a241/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> |
+| **Juan Pablo Hernández Montero** |
+| :------------------------------: |
+
+<img src="https://github.com/No-Country-simulation/equipo-s20-14-webapp/blob/main/Frontend/fotos-equipo/jpablo.jpeg?raw=true" width="100"> 
+| <a href="https://www.linkedin.com/in/juanpablohm/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a>
 
 ![Jira](https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=Jira&logoColor=fff)
 ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
@@ -43,11 +44,10 @@ Esta aplicación permite a los usuarios:
 
 ## Backend
 
-| **Luciano Elías Molina** |
-| :----------------------: |
-
-<img src="https://github.com/No-Country-simulation/equipo-s20-14-webapp/blob/main/Frontend/fotos-equipo/luciano.jpeg?raw=true" width="100">
-| <a href="https://www.linkedin.com/in/luciano-molina-/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a>
+|                                                                       **Luciano Elías Molina**                                                                        |                                                                 **David Alejandro Lugo Gámez**                                                                 |
+| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|              <img src="https://github.com/No-Country-simulation/equipo-s20-14-webapp/blob/main/Frontend/fotos-equipo/luciano.jpeg?raw=true" width="100">              |           <img src="https://github.com/No-Country-simulation/equipo-s20-14-webapp/blob/main/Frontend/fotos-equipo/david.jpeg?raw=true" width="100">            |
+| <a href="https://www.linkedin.com/in/luciano-molina-/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> | <a href="https://www.linkedin.com/in/davlgven/"> <img src="https://img.shields.io/badge/-LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white"></a> |
 
 ![Java](https://img.shields.io/badge/Java-437291?style=for-the-badge&logo=OpenJDK&logoColor=white)
 ![Spring](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white)

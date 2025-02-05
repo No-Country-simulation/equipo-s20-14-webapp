@@ -1,25 +1,19 @@
 import axios from "../libs/axios";
-import { getEnvVariables } from "../helpers/getEnvVariables";
-import { useAuthStore } from "../store/auth";
 import claraApi from "../libs/claraApi";
+import { useAuthStore } from "../store/auth";
 
-// Función para obtener los gastos
 export const getGastosRequest = async (usuarioId) => {
-  try {
-    const response = await axios.get(`/operaciones/total/gastos/${usuarioId}`); // Ajusta la ruta según tu backend
-    return response.data;
-  } catch (error) {
-    console.error("Error obteniendo los gastos:", error);
-    throw error;
-  }
+  return await claraApi.get(`/transaction/user`, {
+    params: { userId: usuarioId },
+  });
 };
 
 // Función para obtener los ingresos
-export const getIngresosRequest = async (usuarioId) => {
+export const getIngresosTotal = async (usuarioId) => {
   try {
     const response = await claraApi.get(
       `/operaciones/total/ingresos/${usuarioId}`
-    ); // Ajusta la ruta según tu backend
+    );
     return response.data;
   } catch (error) {
     console.error("Error obteniendo los ingresos:", error);
@@ -30,19 +24,10 @@ export const getIngresosRequest = async (usuarioId) => {
 export const getIngresoList = async (usuarioId) => {
   try {
     const response = await claraApi.get(
-      `/operaciones/lista/ingresos/${usuarioId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
+      `/operaciones/lista/ingresos/${usuarioId}`
     );
 
-    if (response.data) {
-      return response.data;
-    } else {
-      throw new Error("No se encontraron ingresos");
-    }
+    return response.data;
   } catch (error) {
     console.error("Error obteniendo los ingresos:", error);
     throw error;
@@ -81,7 +66,7 @@ export const getPresupuestoTotalRequest = async (userId, categoriaId) => {
     const responses = await Promise.all(
       categoriaId.map(async (categoryId) => {
         const response = await axios.get(
-          `//budget/user/${userId}/category/${categoryId}`
+          `/budget/user/${userId}/category/${categoryId}`
         );
         return response.data; // Suponiendo que el backend devuelve el total directamente
       })

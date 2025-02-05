@@ -1,10 +1,8 @@
-
 import React from "react";
 import { Outlet } from "react-router-dom";
 import { SidebarMenu } from "../../components/Dashboard/SidebarMenu";
 import Header from "../../components/Header";
 import { useCategoryStore } from "../../store/category";
-
 
 const sections = [
   {
@@ -29,15 +27,14 @@ const sections = [
 ];
 
 export const Dashboard = () => {
-
-  const pathCategorias = useCategoryStore(state => state.pathCategorias);
+  const pathCategorias = useCategoryStore((state) => state.pathCategorias);
 
   return (
     <div>
       <Header />
       <div className="flex ">
         <SidebarMenu sections={sections} categorias={pathCategorias} />
-        
+
         <Outlet />
       </div>
     </div>

@@ -33,10 +33,8 @@ export default function App() {
             <Route path="reporte-general" element={<ReporteGeneral />} />
             <Route path="reporte-ingresos" element={<ReporteIngresos />} />
             <Route path="reporte-gastos" element={<ReporteGastos />} />
-            
           </Route>
         </Route>
-        
       </Routes>
       <ToastContainer position="bottom-right" autoClose={2000} />
     </Router>

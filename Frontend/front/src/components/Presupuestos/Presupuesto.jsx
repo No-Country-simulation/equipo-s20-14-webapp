@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import {
   createBudget,
   loadBudgetTotalByUserCategory,
@@ -11,6 +12,7 @@ import { fetchTotalIncomes } from "../../api/income";
 import { toast } from "react-toastify";
 
 export const Presupuesto = ({ categoria, idCategoria }) => {
+
   const idUsuario = useAuthStore((state) => state.profile).id;
   const setPresupuesto = useBudgetStore((state) => state.setPresupuesto);
   const setIdPresupuesto = useBudgetStore((state) => state.setIdPresupuesto);
@@ -115,3 +117,9 @@ export const Presupuesto = ({ categoria, idCategoria }) => {
     </div>
   );
 };
+
+// Agregar validación de PropTypes
+Presupuesto.propTypes = {
+  categoria: PropTypes.string.isRequired,
+  idCategoria: PropTypes.number.isRequired,
+}

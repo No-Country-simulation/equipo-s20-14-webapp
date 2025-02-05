@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import VistaServicios from "../../components/Vistas/VistaServicios";
+import VistaGastos from "../../components/Vistas/VistaGastos";
 import { Presupuesto } from "../../components/Presupuestos/Presupuesto";
 
 export const Gastos = () => {
@@ -10,8 +10,8 @@ export const Gastos = () => {
       <h1 className="text-2xl pb-2">
         Gastos - <span className="capitalize">{categoria}</span>
       </h1>
-        <Presupuesto categoria={categoria} idCategoria={id}/>
-        <VistaServicios categoria={categoria} idCategoria={id} />
+        <Presupuesto categoria={categoria} idCategoria={parseInt(id)}/>
+        <VistaGastos categoria={categoria} idCategoria={parseInt(id)} />
     </div>
   );
 };

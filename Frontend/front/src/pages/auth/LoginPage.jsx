@@ -34,6 +34,7 @@ export const LoginPage = () => {
     try {
       const { data } = await loginRequest(values.email, values.password);
       
+
       setToken(data.data.token);
       setProfile(data.data);
       const idUsuario = useAuthStore.getState().profile.id;

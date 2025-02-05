@@ -11,10 +11,14 @@ const claraApi = axios.create({
 
 claraApi.interceptors.request.use((config) => {
   const token = useAuthStore.getState().token;
+  console.log("Token actual:", token);
+
+  if (token){
   config.headers = {
-    Accept: "*/*",
+    ...config.headers,
     Authorization: `Bearer ${token}`,
   };
+}
 
   return config;
 });

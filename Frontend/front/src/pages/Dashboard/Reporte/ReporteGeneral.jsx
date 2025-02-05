@@ -1,5 +1,5 @@
 import { Card, CardContent } from "../../../components/ui/card";
-import { Pie, Bar } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -9,10 +9,9 @@ import {
   LinearScale,
   BarElement,
 } from "chart.js";
-import { Dashboard } from "../Dashboard";
-import { useEffect, useState } from "react";
+import { useEffect, useState,} from "react";
 import { getGastosRequest, getIngresosRequest } from "../../../api/financialApi";
-
+import { useAuthStore } from "../../../store/auth"
 
 ChartJS.register(
   ArcElement,
@@ -23,92 +22,122 @@ ChartJS.register(
   BarElement
 );
 
-const VistaGeneral = () => {
+const ReporteGeneral = () => {
+  const profile = useAuthStore((state) => state.profile);
+  console.log(useAuthStore);
+  
   const [gastos, setGastos] = useState([]);
   const [ingresos, setIngresos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
 
-  // Datos para el gráfico de torta (gastos por categoría)
-  const pieData = {
-    labels: ["Servicios", "Movilidad", "Tarjetas de crédito", "Otros"],
-    datasets: [
-      {
-        label: "Gastos",
-        data: gastos.map(item => item.categoria), // Reemplazar con datos dinámicos del backend
-        backgroundColor: ["#f87171", "#60a5fa", "#facc15", "#4ade80"],
-        borderColor: ["#ffffff"],
-        borderWidth: 2,
-      },
-    ],
-  };
+  useEffect(() => {
+          const fetchGastos = async () => {
+              try {
+                  if (profile?.id && profile?.token) {
+                      const data= await getGastosRequest(profile.id);
+                      console.log("Gastos cargados:", data);
+                      setGastos(data);
+                  };
+          
+              } catch (error) {
+              console.log("Error al cargar los gastos: ", error);
+              } finally { 
+                  setLoading(false);
+              }
+          }
+          fetchGastos();
+
+          // Función para obtener los ingresos
+          const fetchIngresos = async() => {
+            try {
+              if (profile?.id && profile?.token) {
+                const data= await getIngresosRequest(profile.id);
+                console.log("Ingresos cargados:", data);
+                setIngresos(data);
+              };
+            }catch (error) {
+              console.log("Error al cargar los ingresos: ", error);
+              } finally { 
+                  setLoading(false);
+              }
+          }
+          fetchIngresos();
+      },[profile?.id]);  
+      
+  
+      if (loading) {
+          return <p className="text-center text-gray-500 mt-4">Cargando reporte...</p>;
+      }
+  
+      if (ingresos.length === 0) {
+          return <p className="text-center text-gray-500 mt-4">No hay ingresos registrados.</p>;
+      }
+      
+
+  
+      // Calcular totalIngresos
+    const totalIngresos = ingresos;
+
+    // Calcular totalGastos
+    const totalGastos = gastos;
+
+    // Calcular el balance final (ingresos - gastos)
+    const totalBalance = totalIngresos - totalGastos;
+
+
 
   // Datos para el gráfico de barras (ingresos y gastos mensuales)
   const barData = {
-    labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo"],
+    labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio"],
     datasets: [
       {
         label: "Ingresos",
-        data: ingresos.map(item => item.monto),
+        data: [totalIngresos, 0, 0, 0, 0],
         backgroundColor: "#4ade80",
       },
       {
         label: "Gastos",
-        data: gastos.map(item => item.monto),
+        data: [totalGastos, 0, 0, 0 ,0],
         backgroundColor: "#f87171",
       },
     ],
   };
-
-  useEffect(() => {
-    
-    //Obtener los gastos
-    const usuarioId = '123';
-    getGastosRequest(usuarioId)//Para cada gasto una petición, mapeo de todos los gastos
-    .then((gastosData) => {
-      if (Array.isArray(gastosData)) {
-        setGastos(gastosData);
-      } else {
-        console.error("Datos de gastos no son un array");
-      }
-      
-    })//asumiendo que el backend devuelve un array de objetos con datos de ingresos
-    .catch((error) => console.error(error));
-
-    // Obtener los ingresos
-    
-    getIngresosRequest(usuarioId)
-      .then((ingresosData) => {
-        if (Array.isArray(ingresosData)) {
-          setIngresos(ingresosData);
-        } else {
-          console.error("Datos de ingresos no son un array");
-        }
-    })  // Asumiendo que el backend devuelve un array de objetos con datos de ingresos
-      .catch((error) => console.error(error))
-    
-  },[]);
-
+  const barOptions = {
+    responsive: true,
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (tooltipItem) {
+            return `$${tooltipItem.raw.toLocaleString()}`;
+          },
+        },
+      },
+    },
+  };
   
 
+  
   return (
     <div className="flex min-h-screen">
-      <div>
-      <Dashboard className="w-1/5 bg-gray-800" />
-      </div>
+  
       <div className=" p-6 space-y-8 bg-white rounded-lg shadow-md flex-grow">
-        <h2 className="text-xl font-semibold mb-4">Resumen Financiero</h2>
+        <h2 className="text-xl font-semibold mb-4">Reporte General Semestral</h2>
 
         {/* Resumen Financiero */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-auto max-h-[400px] overflow-auto w-3/4 ">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-auto max-h-[500px]  w-3/4 ">
           <Card className="bg-green-100">
             <CardContent>
               <h3 className="text-lg font-semibold">Ingresos Totales</h3>
-              <p className="text-2xl font-bold">${ingresos.length > 0 ? ingresos.reduce((acc, ingreso) =>  acc + ingreso.monto, 0) : 0}</p>
+              <p className="text-2xl font-bold">${totalIngresos}</p>
             </CardContent>
           </Card>
+          
+
           <Card className="bg-red-100">
             <CardContent>
               <h3 className="text-lg font-semibold">Gastos Totales</h3>
-              <p className="text-2xl font-bold">${gastos.length > 0 ? gastos.reduce((acc, gasto) => acc + gasto.monto, 0) : 0}</p>
+              <p className="text-2xl font-bold">${totalGastos}</p>
             </CardContent>
           </Card>
           
@@ -117,24 +146,19 @@ const VistaGeneral = () => {
             <CardContent>
               <h3 className="text-lg font-semibold">Saldo</h3>
               <p className="text-2xl font-bold">
-                ${ingresos.length > 0 || gastos.length > 0 ? ingresos.reduce((acc, ingreso) => acc + ingreso.monto, 0) - gastos.reduce((acc, gasto) => acc + gasto.monto, 0) : 0}
+                ${totalBalance}
               </p>
             </CardContent>
           </Card>
         </div>
 
-        {/* Gráfico de Tortas */}
-        <div className="bg-white p-6 rounded-2xl shadow-md w-3/4 mx-auto">
-          <h3 className="text-lg font-semibold mb-4">Distribución de Gastos</h3>
-          <Pie data={pieData} />
-        </div>
 
         {/* Gráfico de Barras */}
         <div className="bg-white p-6 rounded-2xl shadow-md w-3/4 mx-auto">
           <h3 className="text-lg font-semibold mb-4">
             Ingresos vs Gastos Mensuales
           </h3>
-          <Bar data={barData} />
+          <Bar data={barData} options={barOptions}/>
         </div>
 
         {/* Últimas Operaciones */}
@@ -161,4 +185,4 @@ const VistaGeneral = () => {
   );
 };
 
-export default VistaGeneral;
+export default ReporteGeneral;

@@ -45,7 +45,15 @@
     font-size: 1rem;
     margin: 0.5rem 0;
 }
-
+.ingresos-scroll {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 10px;
+}
+.ingresos-scroll p{
+    margin: 5px 0;
+    font-size: 14px;
+}
 .pie {
     overflow: hidden;
     margin: 0 auto;
@@ -59,8 +67,8 @@
     box-shadow: 0px 4px 6px rgba(0, 0,0, 0.1);
 }
 .pie canvas {
-    width: 60% !important; /* Ajusta al ancho del contenedor */
-    height: 260px !important; /* Establece un alto fijo para evitar que sea muy grande */
+    width: 80% !important; /* Ajusta al ancho del contenedor */
+    height: 330px !important; /* Establece un alto fijo para evitar que sea muy grande */
 }
 
 .distribucion {

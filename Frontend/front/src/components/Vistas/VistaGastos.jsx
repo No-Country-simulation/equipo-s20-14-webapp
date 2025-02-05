@@ -17,7 +17,7 @@ import { addExpense, getExpensesByUser } from "../../actions/expensesActions";
 import { useAuthStore } from "../../store/auth";
 import { removeExpense } from "../../api/expenses";
 
-const VistaServicios = ({ categoria, idCategoria }) => {
+const VistaGastos = ({ categoria, idCategoria }) => {
   //Definimos el estado para los campos del formulario
   const profile = useAuthStore((state) => state.profile);
   const [formulario, setFormulario] = useState({
@@ -212,4 +212,4 @@ const VistaServicios = ({ categoria, idCategoria }) => {
   );
 };
 
-export default VistaServicios;
+export default VistaGastos;

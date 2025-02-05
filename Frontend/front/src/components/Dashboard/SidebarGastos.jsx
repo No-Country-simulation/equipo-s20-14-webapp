@@ -20,7 +20,7 @@ export const SidebarGastos = ({ categorias }) => {
               categoria.path
             )}`}
           >
-            {categoria.nombre}
+            {categoria.name}
           </Link>
         </li>
       ))}

@@ -1,48 +1,95 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import {
+  createBudget,
+  loadBudgetTotalByUserCategory,
+  updateBudget,
+} from "../../actions/budgetActions";
+import { useEffect } from "react";
 import { useAuthStore } from "../../store/auth";
 import { useBudgetStore } from "../../store/budget";
-import { addBudget } from "../../api/financialApi";
+import { fetchTotalIncomes } from "../../api/income";
+import { toast } from "react-toastify";
 
 export const Presupuesto = ({ categoria, idCategoria }) => {
   const idUsuario = useAuthStore((state) => state.profile).id;
   const setPresupuesto = useBudgetStore((state) => state.setPresupuesto);
+  const setIdPresupuesto = useBudgetStore((state) => state.setIdPresupuesto);
   const montoTotal = useBudgetStore((state) => state.presupuestoTotal);
-  const [budgetamount, setMonto] = useState("");
+  const idPresupuesto = useBudgetStore((state) => state.idPresupuesto);
+  const [loading, setLoading] = useState(true);
+  const [monto, setMonto] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    const loadBudgets = async () => {
+      const data = await loadBudgetTotalByUserCategory(idUsuario, idCategoria);
+      if (data !== 0) {
+        setIdPresupuesto(data.data.id);
+        setPresupuesto(data.data.budgetamount);
+      } else {
+        setPresupuesto(data);
+        setIdPresupuesto(null);
+      }
+      setLoading(false);
+    };
+    loadBudgets();
+  }, [categoria]);
 
   const handleAddPresupuesto = async () => {
-    if (!budgetamount || isNaN(budgetamount) || parseFloat(budgetamount) <= 0) {
-      alert("Ingrese un monto valido");
+    setIsSubmitting(true);
+    const montoNumber = parseFloat(monto);
+
+    if (isNaN(montoNumber) || montoNumber <= 0) {
+      toast.error("Ingrese un monto válido.");
       return;
     }
+    const { data } = await fetchTotalIncomes(idUsuario);
 
-    try {
-      const nuevoPresupuesto = await addBudget(
-        idUsuario,
-        idCategoria,
-        budgetamount
-      );
+    if (data > montoNumber) {
+      const presupuesto = {
+        budgetamount: montoNumber,
+        idCategory: idCategoria,
+        idUser: idUsuario,
+      };
 
-      if (nuevoPresupuesto) {
-        alert("Presupuesto agregado exitosamente");
-        setPresupuesto(nuevoPresupuesto);
+      if (!idPresupuesto) {
+        const { data } = await createBudget(presupuesto);
+        setIdPresupuesto(data.id);
+        setPresupuesto(montoNumber);
         setMonto("");
       } else {
-        alert("Hubo un error al agregar el presupuesto");
+        const editPresupuesto = {
+          idPresupuesto: idPresupuesto,
+          budgetamount: montoNumber,
+        };
+        console.log(editPresupuesto);
+        await updateBudget(editPresupuesto);
+        setPresupuesto(montoNumber);
+        setMonto("");
       }
-    } catch (error) {
-      console.error("Error al agregar presupuesto:", error);
+    } else {
+      toast.error("No tiene suficientes ingresos, total: " + data);
+      setMonto("");
     }
+    setIsSubmitting(false);
   };
 
   return (
     <div className="pb-8">
-      <div className="py-6">
-        {montoTotal && montoTotal > 0 ? (
-          <span>
-            Presupuesto <span className="capitalize">{categoria}</span>, total:{" "}
-            {montoTotal}
-          </span>
+      <div className="py-4">
+        {loading ? (
+          <p>Cargando presupuesto...</p>
+        ) : // <p>
+        //   Presupuesto <span className="capitalize">{categoria}</span>, total:{" "}
+        //   {montoTotal}
+        // </p>
+        montoTotal && montoTotal > 0 ? (
+          <p>
+            Presupuesto Inicial:{" "}
+            ${montoTotal}
+          </p>
         ) : (
           <span className="text-gray-500">Aún no definiste presupuesto</span>
         )}
@@ -50,15 +97,24 @@ export const Presupuesto = ({ categoria, idCategoria }) => {
       <input
         type="number"
         placeholder="Monto"
-        value={budgetamount}
+        value={monto}
         onChange={(e) => setMonto(e.target.value)}
         className="px-4 py-2 border rounded-md"
       />
       <button
         onClick={handleAddPresupuesto}
-        className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md"
+        disabled={isSubmitting}
+        className={`ml-2 px-4 py-2 rounded-md ${
+          isSubmitting
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-blue-500 text-white"
+        }`}
       >
-        Agregar Presupuesto
+        {isSubmitting
+          ? "Cargando..."
+          : montoTotal === 0
+          ? "Agregar Presupuesto"
+          : "Editar Presupuesto"}
       </button>
     </div>
   );

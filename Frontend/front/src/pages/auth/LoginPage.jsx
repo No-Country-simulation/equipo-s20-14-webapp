@@ -38,7 +38,7 @@ export const LoginPage = () => {
       setToken(data.data.token);
       setProfile(data.data);
       const idUsuario = useAuthStore.getState().profile.id;
-      const cat = await loadCategories(idUsuario);
+      const cat = await loadCategories(idUsuario);      
       setCategorias(cat);
       setPathCategorias(prepareGastosPath(cat));
     } catch (error) {
@@ -47,7 +47,7 @@ export const LoginPage = () => {
       });
     }
   };
-
+  
   return (
     <div className="min-w-screen min-h-screen flex items-center justify-center">
       <div className="md:flex grid place-content-center h-screen w-screen">

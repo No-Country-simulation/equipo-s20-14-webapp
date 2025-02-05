@@ -1,8 +1,11 @@
 import claraApi from "../libs/claraApi";
 
 export const createExpense = async (gastos) => {
-  return await claraApi.post(`/operaciones/crear/gasto`, gastos);
+  return await claraApi.post("/transaction/create", gastos);
 };
-export const getExpensesByUserCategory = async (usuarioId,categoriaId ) => {
-  return await claraApi.get(`/operaciones/lista/gastos/${usuarioId}/categoria/${categoriaId}`);
+export const fetchExpensesByUser = async (usuarioId ) => {
+  return await claraApi.get(`/transaction/user?userId=${usuarioId}`);
+};
+export const removeExpense = async (idExpense ) => {
+  return await claraApi.delete(`/transaction/${idExpense}`);
 };

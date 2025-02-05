@@ -1,19 +1,17 @@
-import { Card, CardContent } from "../../../components/ui/card";
-import { Bar } from "react-chartjs-2";
 import {
-  Chart as ChartJS,
   ArcElement,
-  Tooltip,
-  Legend,
-  CategoryScale,
-  LinearScale,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  Tooltip,
 } from "chart.js";
 import { useEffect, useState } from "react";
-import {
-  getGastosRequest,
-  getIngresosRequest,
-} from "../../../api/financialApi";
+import { Bar } from "react-chartjs-2";
+import { getGastos } from "../../../actions/reportesAction";
+import { getIngresosRequest } from "../../../api/financialApi";
+import { Card, CardContent } from "../../../components/ui/card";
 import { useAuthStore } from "../../../store/auth";
 
 ChartJS.register(
@@ -36,9 +34,8 @@ const ReporteGeneral = () => {
     const fetchGastos = async () => {
       try {
         if (profile?.id && profile?.token) {
-          const data = await getGastosRequest(profile.id);
-          console.log("Gastos cargados:", data);
-          setGastos(data);
+          const data = await getGastos(profile.id);
+          setGastos(data.data);
         }
       } catch (error) {
         console.log("Error al cargar los gastos: ", error);
@@ -53,7 +50,6 @@ const ReporteGeneral = () => {
       try {
         if (profile?.id && profile?.token) {
           const data = await getIngresosRequest(profile.id);
-          console.log("Ingresos cargados:", data);
           setIngresos(data);
         }
       } catch (error) {
@@ -82,8 +78,8 @@ const ReporteGeneral = () => {
   // Calcular totalIngresos
   const totalIngresos = ingresos;
 
-  // Calcular totalGastos
-  const totalGastos = gastos;
+  // Calcular totalGastos sumando todos los "amount" de los gastos
+  const totalGastos = gastos.reduce((total, gasto) => total + gasto.amount, 0);
 
   // Calcular el balance final (ingresos - gastos)
   const totalBalance = totalIngresos - totalGastos;
@@ -104,6 +100,7 @@ const ReporteGeneral = () => {
       },
     ],
   };
+
   const barOptions = {
     responsive: true,
     plugins: {
@@ -116,6 +113,8 @@ const ReporteGeneral = () => {
       },
     },
   };
+
+  const ultimosGastos = [...gastos].reverse();
 
   return (
     <div className="flex min-h-screen">
@@ -148,7 +147,6 @@ const ReporteGeneral = () => {
             </CardContent>
           </Card>
         </div>
-
         {/* Gráfico de Barras */}
         <div className="bg-white p-6 rounded-2xl shadow-md w-3/4 mx-auto">
           <h3 className="text-lg font-semibold mb-4">
@@ -161,18 +159,14 @@ const ReporteGeneral = () => {
         <div className="bg-white p-6 rounded-2xl shadow-md">
           <h3 className="text-lg font-semibold mb-4">Últimas Operaciones</h3>
           <ul className="space-y-2">
-            <li className="flex justify-between border-b pb-2">
-              <span className="font-medium">Compra en supermercado</span>
-              <span className="text-red-500">- $100</span>
-            </li>
-            <li className="flex justify-between border-b pb-2">
-              <span className="font-medium">Pago de sueldo</span>
-              <span className="text-green-500">+ $500</span>
-            </li>
-            <li className="flex justify-between border-b pb-2">
-              <span className="font-medium">Carga de combustible</span>
-              <span className="text-red-500">- $50</span>
-            </li>
+            {ultimosGastos.slice(0, 3).map((gasto) => (
+              <li key={gasto.id} className="flex justify-between border-b pb-2">
+                <span className="font-medium">{gasto.description}</span>
+                <span className={`text-${gasto.isSpent ? "red" : "green"}-500`}>
+                  {gasto.isSpent ? "- " : "+ "}${gasto.amount}
+                </span>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

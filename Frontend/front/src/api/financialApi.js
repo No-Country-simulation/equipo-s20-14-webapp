@@ -1,17 +1,11 @@
 import axios from "../libs/axios";
-import { getEnvVariables } from "../helpers/getEnvVariables";
-import { useAuthStore } from "../store/auth";
 import claraApi from "../libs/claraApi";
+import { useAuthStore } from "../store/auth";
 
-// Función para obtener los gastos
 export const getGastosRequest = async (usuarioId) => {
-  try {
-    const response = await axios.get(`/operaciones/total/gastos/${usuarioId}`); // Ajusta la ruta según tu backend
-    return response.data;
-  } catch (error) {
-    console.error("Error obteniendo los gastos:", error);
-    throw error;
-  }
+  return await claraApi.get(`/transaction/user`, {
+    params: { userId: usuarioId },
+  });
 };
 
 // Función para obtener los ingresos

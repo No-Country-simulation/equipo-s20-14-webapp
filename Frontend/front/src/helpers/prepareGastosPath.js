@@ -4,7 +4,7 @@ export const prepareGastosPath = (items = []) => {
         (item) => ({
             ...item,
             id: item.id,
-            path: `/dashboard/gastos/${item.nombre.toLowerCase()}/${item.id}`
+            path: `/dashboard/gastos/${item.name.toLowerCase()}/${item.id}`
         })
     );
 }

@@ -31,8 +31,7 @@ export const userSchema = z
       }),
     confirmPassword: z.string(),
     monto: z
-      .number("El precio debe ser un número entero")
-      .positive("El precio debe ser un número positivo"),
+      .number("El precio debe ser un número entero"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Las contraseñas no coinciden",

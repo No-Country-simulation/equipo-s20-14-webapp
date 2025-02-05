@@ -14,6 +14,7 @@ import { registerRequest } from "../../api/auth";
 import { useAuthStore } from "../../store/auth";
 import { loadCategories } from "../../actions/categoriesActions";
 import { prepareGastosPath } from "../../helpers/prepareGastosPath";
+import { useCategoryStore } from "../../store/category";
 
 export const RegisterPage = () => {
   const {
@@ -38,6 +39,7 @@ export const RegisterPage = () => {
   const setPathCategorias = useCategoryStore.getState().setPathCategorias;
 
   const onSubmit = async (values) => {
+    
     try {
       const { data } = await registerRequest(
         values.email,
@@ -45,6 +47,7 @@ export const RegisterPage = () => {
         values.username,
         values.contact
       );
+      
       setToken(data.data.token);
       setProfile(data.data);
       const idUsuario = useAuthStore.getState().profile.id;
@@ -142,7 +145,9 @@ export const RegisterPage = () => {
                 </div>
                 <div className="flex">
                   <div className="w-full px-3 mb-3">
-                    <Button btnText={"REGISTRARSE"} />
+                    <Button
+                      btnText={"REGISTRARSE"}
+                    />
                   </div>
                 </div>
                 {errors.root && (

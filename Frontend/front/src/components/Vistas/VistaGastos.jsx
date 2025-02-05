@@ -11,7 +11,6 @@ import {
   IconButton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import { toast } from "react-toastify";
 import { addExpense, getExpensesByUser } from "../../actions/expensesActions";
 import { useAuthStore } from "../../store/auth";

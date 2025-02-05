@@ -81,10 +81,7 @@ export const Presupuesto = ({ categoria, idCategoria }) => {
       <div className="py-4">
         {loading ? (
           <p>Cargando presupuesto...</p>
-        ) : // <p>
-        //   Presupuesto <span className="capitalize">{categoria}</span>, total:{" "}
-        //   {montoTotal}
-        // </p>
+        ) : 
         montoTotal && montoTotal > 0 ? (
           <p>
             Presupuesto Inicial:{" "}

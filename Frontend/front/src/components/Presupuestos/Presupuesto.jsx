@@ -12,7 +12,6 @@ import { fetchTotalIncomes } from "../../api/income";
 import { toast } from "react-toastify";
 
 export const Presupuesto = ({ categoria, idCategoria }) => {
-
   const idUsuario = useAuthStore((state) => state.profile).id;
   const setPresupuesto = useBudgetStore((state) => state.setPresupuesto);
   const setIdPresupuesto = useBudgetStore((state) => state.setIdPresupuesto);
@@ -122,4 +121,4 @@ export const Presupuesto = ({ categoria, idCategoria }) => {
 Presupuesto.propTypes = {
   categoria: PropTypes.string.isRequired,
   idCategoria: PropTypes.number.isRequired,
-}
+};

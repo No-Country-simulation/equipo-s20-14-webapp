@@ -10,7 +10,7 @@ Clara es una aplicación web que te asiste en la gestión de tus finanzas person
 
 ## Enlace
 
-https://app.clara.com/
+clara-webapp.vercel.app
 
 ## Caracteristicas
 

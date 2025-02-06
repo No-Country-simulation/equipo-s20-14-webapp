@@ -12,8 +12,8 @@ export const Gastos = () => {
       <h1 className="text-2xl pb-2">
         Gastos - <span className="capitalize">{categoria}</span>
       </h1>
-        <Presupuesto categoria={categoria} idCategoria={idCategoria}/>
-        <VistaGastos categoria={categoria} idCategoria={idCategoria} />
+      <Presupuesto categoria={categoria} idCategoria={idCategoria} />
+      <VistaGastos categoria={categoria} idCategoria={idCategoria} />
     </div>
   );
 };

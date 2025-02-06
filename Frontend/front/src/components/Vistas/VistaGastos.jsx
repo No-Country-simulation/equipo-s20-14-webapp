@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
-  TextField,
   Button,
   Container,
-  Typography,
-  Paper,
+  IconButton,
   List,
   ListItem,
   ListItemText,
-  IconButton,
+  Paper,
+  TextField,
+  Typography,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { addExpense, getExpensesByUser } from "../../actions/expensesActions";
-import { useAuthStore } from "../../store/auth";
 import { removeExpense } from "../../api/expenses";
+import { useAuthStore } from "../../store/auth";
 import { useBudgetStore } from "../../store/budget";
 
 const VistaGastos = ({ categoria, idCategoria }) => {
@@ -81,7 +81,7 @@ const VistaGastos = ({ categoria, idCategoria }) => {
 
     const actual = presupuestoTotal - gastosTotal;
     const { description, amount } = formulario;
-    if (amount < actual) {
+    if (amount <= actual) {
       if (!description || !amount) {
         toast.error("Todos los campos son obligatorios");
         return;

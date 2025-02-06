@@ -1,92 +1,24 @@
-import React, { useState } from "react";
 import PropTypes from "prop-types";
-import {
-  createBudget,
-  loadBudgetTotalByUserCategory,
-  updateBudget,
-} from "../../actions/budgetActions";
-import { useEffect } from "react";
-import { useAuthStore } from "../../store/auth";
-import { useBudgetStore } from "../../store/budget";
-import { fetchTotalIncomes } from "../../api/income";
-import { toast } from "react-toastify";
+import React from "react";
+import useBudget from "../../hooks/useBudget";
 
 export const Presupuesto = ({ categoria, idCategoria }) => {
-  const idUsuario = useAuthStore((state) => state.profile).id;
-  const setPresupuesto = useBudgetStore((state) => state.setPresupuesto);
-  const setIdPresupuesto = useBudgetStore((state) => state.setIdPresupuesto);
-  const montoTotal = useBudgetStore((state) => state.presupuestoTotal);
-  const idPresupuesto = useBudgetStore((state) => state.idPresupuesto);
-  const [loading, setLoading] = useState(true);
-  const [monto, setMonto] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    const loadBudgets = async () => {
-      const data = await loadBudgetTotalByUserCategory(idUsuario, idCategoria);
-      if (data !== 0) {
-        setIdPresupuesto(data.data.id);
-        setPresupuesto(data.data.budgetamount);
-      } else {
-        setPresupuesto(data);
-        setIdPresupuesto(null);
-      }
-      setLoading(false);
-    };
-    loadBudgets();
-  }, [categoria]);
-
-  const handleAddPresupuesto = async () => {
-    setIsSubmitting(true);
-    const montoNumber = parseFloat(monto);
-
-    if (isNaN(montoNumber) || montoNumber <= 0) {
-      toast.error("Ingrese un monto válido.");
-      return;
-    }
-    const { data } = await fetchTotalIncomes(idUsuario);
-
-    if (data > montoNumber) {
-      const presupuesto = {
-        budgetamount: montoNumber,
-        idCategory: idCategoria,
-        idUser: idUsuario,
-      };
-
-      if (!idPresupuesto) {
-        const { data } = await createBudget(presupuesto);
-        setIdPresupuesto(data.id);
-        setPresupuesto(montoNumber);
-        setMonto("");
-      } else {
-        const editPresupuesto = {
-          idPresupuesto: idPresupuesto,
-          budgetamount: montoNumber,
-        };
-        console.log(editPresupuesto);
-        await updateBudget(editPresupuesto);
-        setPresupuesto(montoNumber);
-        setMonto("");
-      }
-    } else {
-      toast.error("No tiene suficientes ingresos, total: " + data);
-      setMonto("");
-    }
-    setIsSubmitting(false);
-  };
+  const {
+    monto,
+    setMonto,
+    loading,
+    isSubmitting,
+    montoTotal,
+    handleAddPresupuesto,
+  } = useBudget(idCategoria);
 
   return (
     <div className="pb-8">
       <div className="py-4">
         {loading ? (
           <p>Cargando presupuesto...</p>
-        ) : 
-        montoTotal && montoTotal > 0 ? (
-          <p>
-            Presupuesto Inicial:{" "}
-            ${montoTotal}
-          </p>
+        ) : montoTotal && montoTotal > 0 ? (
+          <p>Presupuesto Inicial: ${montoTotal}</p>
         ) : (
           <span className="text-gray-500">Aún no definiste presupuesto</span>
         )}
@@ -117,7 +49,6 @@ export const Presupuesto = ({ categoria, idCategoria }) => {
   );
 };
 
-// Agregar validación de PropTypes
 Presupuesto.propTypes = {
   categoria: PropTypes.string.isRequired,
   idCategoria: PropTypes.number.isRequired,

@@ -19,7 +19,6 @@ const coloresPie = [
 
 const ReporteIngresos = () => {
   const profile = useAuthStore((state) => state.profile);
-  console.log("Profile en useAuthStore:", profile);
 
   const [ingresos, setIngresos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -29,7 +28,6 @@ const ReporteIngresos = () => {
       try {
         if (profile?.id && profile?.token) {
           const data = await getIngresoList(profile.id);
-          console.log("Ingresos cargados:", data);
           setIngresos(data);
         }
       } catch (error) {
@@ -100,7 +98,7 @@ const ReporteIngresos = () => {
 
       {/* Resumen del Balance */}
       <div className="w-9/12 mx-auto py-10 flex justify-between ">
-        <div className="w-3/12">
+        <div className="w-full">
           <h3 className="font-bold text-4xl">Ingresos</h3>
           <div className="py-4">
             {ingresos.map((ingreso, index) => (

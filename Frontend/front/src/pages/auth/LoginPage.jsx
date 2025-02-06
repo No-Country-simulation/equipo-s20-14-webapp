@@ -1,53 +1,15 @@
 import React from "react";
 import logo from "../../assets/WebappFinanzas/logo.png";
-import { useForm } from "react-hook-form";
 import { FaUser } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { Input } from "../../components/Form/Input";
 import { Button } from "../../components/Form/Button";
 import { Link } from "react-router-dom";
-import { useAuthStore } from "../../store/auth";
-import { loginRequest } from "../../api/auth";
-import { useCategoryStore } from "../../store/category";
-import { loadCategories } from "../../actions/categoriesActions";
-import { prepareGastosPath } from "../../helpers/prepareGastosPath";
+import { useLogin } from "../../hooks/useLogin";
 
 export const LoginPage = () => {
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors, isSubmitting },
-  } = useForm({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
+  const { register, handleSubmit, onSubmit, errors, isSubmitting } = useLogin();
 
-  const setToken = useAuthStore((state) => state.setToken);
-  const setProfile = useAuthStore((state) => state.setProfile);
-  const setCategorias = useCategoryStore((state) => state.setCategorias);
-  const setPathCategorias = useCategoryStore.getState().setPathCategorias;
-
-  const onSubmit = async (values) => {
-    try {
-      const { data } = await loginRequest(values.email, values.password);
-      
-
-      setToken(data.data.token);
-      setProfile(data.data);
-      const idUsuario = useAuthStore.getState().profile.id;
-      const cat = await loadCategories(idUsuario);      
-      setCategorias(cat);
-      setPathCategorias(prepareGastosPath(cat));
-    } catch (error) {
-      setError("root", {
-        message: `${error.response.data.message}`,
-      });
-    }
-  };
-  
   return (
     <div className="min-w-screen min-h-screen flex items-center justify-center">
       <div className="md:flex grid place-content-center h-screen w-screen">

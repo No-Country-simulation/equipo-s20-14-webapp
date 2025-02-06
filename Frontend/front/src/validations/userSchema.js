@@ -30,8 +30,6 @@ export const userSchema = z
           "La contraseña debe tener al menos un caracter especial [@#$%^&+=]",
       }),
     confirmPassword: z.string(),
-    monto: z
-      .number("El precio debe ser un número entero"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Las contraseñas no coinciden",

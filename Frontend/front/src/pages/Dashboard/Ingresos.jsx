@@ -9,7 +9,7 @@ export const Ingresos = () => {
       <h1 className="pb-2">
         Ingresos - <span className="capitalize">{tipo}</span>
       </h1>
-      <IngresoItem tipo={tipo} />
+      <IngresoItem />
       {/*   <IncomeList /> */}
     </div>
   );
